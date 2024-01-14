@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public class Sala {
 
     private String codice;
@@ -7,6 +9,7 @@ public class Sala {
     public Sala(String codice, Reparto reparto) {
         this.codice = codice;
         this.reparto = reparto;
+
     }
 
     public String getCodice() {

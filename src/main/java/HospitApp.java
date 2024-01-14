@@ -7,12 +7,15 @@ public class HospitApp {
 
     private static HospitApp hospitapp;
     private Presidio presidioCorrente;
+    private Sala salaCorrente;
     private Map<String, Presidio> elencoPresidi;
+    private Map<String, Sala> elencoSale ;
 
     private Map<String, Reparto> reparti;
 
     private HospitApp() {
         this.elencoPresidi = new HashMap<>();
+        this.elencoSale = new HashMap<>();
         this.reparti = new HashMap<>(); // Inizializza la mappa reparti
         loadReparti();
     }
@@ -38,6 +41,7 @@ public class HospitApp {
         if(presidioCorrente!=null){
             Reparto r = reparti.get(codiceReparto);
             if(r!=null){
+                this.salaCorrente=new Sala(codiceSala,r);
                 this.presidioCorrente.inserisciSale(codiceSala, r);//inserisco nella sala il suo codice e il reparto di appartenenza
                 System.out.println("Sala inserita");
             }else
@@ -54,10 +58,24 @@ public class HospitApp {
 
     }
 
+    public void confermaInserimentoSala() {
+        if (salaCorrente != null) {
+            this.elencoSale.put(salaCorrente.getCodice(), salaCorrente);
+            System.out.println("Operazione Inserimento Sala Conclusa");
+        }
+
+    }
+
     public List<Presidio> getElencoPresidi() {
         List<Presidio> listPresidi = new ArrayList<>();
         listPresidi.addAll(elencoPresidi.values());
         return listPresidi;
+    }
+
+    public List<Sala> getElencoSale() {
+        List<Sala> listSale = new ArrayList<>();
+        listSale.addAll(elencoSale.values());
+        return listSale;
     }
 
     public void loadReparti(){
