@@ -1,4 +1,4 @@
-import java.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,16 +9,18 @@ public class Presidio {
 
     private String nome;
     private String indirizzo;
-    private LocalTime orario;
+    private String orario;
 
     private Map<String, Sala> elencoSale;
 
-    public Presidio(String nome, String indirizzo, LocalTime orario) {
+    public Presidio(String nome, String indirizzo, String orario) {
         this.nome = nome;
         this.indirizzo = indirizzo;
         this.orario = orario;
         this.elencoSale = new HashMap<>();
     }
+
+
 
     public String getNome() {
         return nome;
@@ -36,11 +38,11 @@ public class Presidio {
         this.indirizzo = indirizzo;
     }
 
-    public LocalTime getOrario() {
+    public String getOrario() {
         return orario;
     }
 
-    public void setOrario(LocalTime orario) {
+    public void setOrario(String orario) {
         this.orario = orario;
     }
 
@@ -63,6 +65,7 @@ public class Presidio {
         elencoSale.put(codiceSala, s);
 
     }
+
 
     public List<Sala> getElencoSale(){
         List<Sala> listSale=new ArrayList<>();
