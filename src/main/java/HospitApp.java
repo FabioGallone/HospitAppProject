@@ -54,7 +54,6 @@ public class HospitApp {
     public void confermaInserimento() {
         if (presidioCorrente != null) {
             this.elencoPresidi.put(presidioCorrente.getNome(), presidioCorrente);
-            Utils.writeOnFileObject("Presidio.txt", presidioCorrente);
             System.out.println("Operazione Inserimento Presidio Conclusa");
         }
 

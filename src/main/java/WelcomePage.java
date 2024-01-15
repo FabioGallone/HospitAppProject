@@ -20,8 +20,9 @@ public class WelcomePage implements ActionListener {
     private JButton quitButton;
     private JButton addButton;
     private String email;
-
     private List<Presidio> ListaPresidi;
+
+
 
 
 
@@ -43,6 +44,27 @@ public class WelcomePage implements ActionListener {
         email=null;
     }
 
+    private List<Presidio> leggiPresidiDaFile(String filePath) {
+        List<Presidio> presidi = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Supponendo che ogni riga contenga i dati separati da virgole
+                String[] data = line.split(",");
+                if (data.length == 3) {
+                    Presidio presidio = new Presidio(data[0].trim(), data[1].trim(), data[2].trim());
+                    presidi.add(presidio);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return presidi;
+    }
+
+
 
     private void initializeUI() {
         welcomeLabel.setBounds(0, 0, 400, 200);
@@ -52,17 +74,28 @@ public class WelcomePage implements ActionListener {
         if (utente.isAdministrator(email)) {
             welcomeLabel.setText("Ciao amministratore " + email);
             HospitApp hospitapp = HospitApp.getInstance();
-            //ListaPresidi = hospitapp.getElencoPresidi();
+            ListaPresidi = leggiPresidiDaFile("presidio.txt");
+
+            int buttonYPosition = 250; // Imposta la posizione iniziale dei pulsanti
+
+            for (Presidio presidio : ListaPresidi) {
+                // Creare un pulsante per ogni nome diverso nella lista
+                JButton presidioButton = new JButton(presidio.getNome());
+                presidioButton.setBounds(100, buttonYPosition, 150, 25);
+                presidioButton.setFocusable(false);
+                presidioButton.addActionListener(this);
+                frame.add(presidioButton);
+
+                buttonYPosition += 30; // Aumenta la posizione Y per il prossimo pulsante
+            }
+
+
+
 
             addButton.setBounds(100, 200, 150, 25);
             addButton.setFocusable(false);
             addButton.addActionListener(this);
             frame.add(addButton);
-            List<Presidio> ListaPresidi = Utils.readFromFile("Presidio.txt");
-
-            for (Presidio presidio : ListaPresidi) {
-                System.out.println(presidio.getNome()); // Stampa ciascun presidio
-            }
 
         } else {
             welcomeLabel.setText("Ciao " + email);

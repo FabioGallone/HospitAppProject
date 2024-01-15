@@ -90,7 +90,7 @@ public class PresidioGUI implements ActionListener {
                 addMessageLabel.setText("Compila tutti i campi!");
             } else {
                 String hospital = nome + "," + indirizzo + "," + orario;
-                //utils.writeOnFile("Presidio.txt", hospital);
+                Utils.writeOnFile("Presidio.txt", hospital);
                 HospitApp hospitapp= HospitApp.getInstance();
                 hospitapp.InserisciNuovoPresidio(nome, indirizzo, orario);
                 hospitapp.confermaInserimento();
