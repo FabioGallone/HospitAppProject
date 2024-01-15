@@ -1,3 +1,7 @@
 Claudio,D'Errico,cdvdbsn1223,c@m.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,true
 sad,dadsa,dsadadassdada,a@f.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,true
 sdadsad,ada,dasdsasda,adsas@m.com,72176c07d6ff917cbd338270343566672b2d263c4acb0dfdd3f5d62fa90f78a6,true
+claudio,derrico,123caq,m@c.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false
+aascaca,cascas,cacac,cacacaca@adasd.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false
+cc,cc,cc,c@mm.com,d48ff4b2f68a10fd7c86f185a6ccede0dc0f2c48538d697cb33b6ada3f1e85db,false
+cc,cc,cc,f@m.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false

@@ -16,12 +16,14 @@ public class LoginGUI implements ActionListener {
     private JButton loginButton, registerButton, backToLoginButton, signUpButton;
 
        private Utente utente;
-//    private FileManager fileManager;
+       private Utils utils;
+
+
 
     public LoginGUI() {
         initialize();
           utente= new Utente();
-//        fileManager = new FileManager();
+          utils = new Utils();
     }
 
     private void initialize() {
@@ -63,10 +65,10 @@ public class LoginGUI implements ActionListener {
         loginButton.setFocusable(false);
         loginButton.addActionListener(this);
 
-//        registerButton = new JButton("Registrati");
-//        registerButton.setBounds(225, 150, 100, 25);
-//        registerButton.setFocusable(false);
-//        registerButton.addActionListener(this);
+        registerButton = new JButton("Registrati");
+        registerButton.setBounds(225, 150, 100, 25);
+        registerButton.setFocusable(false);
+        registerButton.addActionListener(this);
 
         loginPanel.add(emailLabel);
 
@@ -74,31 +76,136 @@ public class LoginGUI implements ActionListener {
         loginPanel.add(userPasswordLabel);
         loginPanel.add(userPasswordField);
         loginPanel.add(loginButton);
-//        loginPanel.add(registerButton);
+        loginPanel.add(registerButton);
         frame.add(loginPanel);
+
+       //Registrazione
+        registerPanel = new JPanel();
+        registerPanel.setLayout(null);
+        registerPanel.setBounds(0, 60, 420, 280);
+        registerPanel.setVisible(false);
+
+        registerMessageLabel = new JLabel();
+        registerMessageLabel.setBounds(160, 250, 200, 35);
+        registerMessageLabel.setFont(new Font(null, Font.ITALIC, 15));
+        registerPanel.add(registerMessageLabel);
+
+        // Componenti per la registrazione
+        nameLabel = new JLabel("Nome:");
+        nameLabel.setBounds(50, 20, 75, 25);
+        nameField = new JTextField();
+        nameField.setBounds(125, 20, 200, 25);
+
+        // Altri campi per la registrazione
+        surnameLabel = new JLabel("Cognome:");
+        surnameLabel.setBounds(50, 60, 75, 25);
+        surnameField = new JTextField();
+        surnameField.setBounds(125, 60, 200, 25);
+
+        fiscalCodeLabel = new JLabel("CF:");
+        fiscalCodeLabel.setBounds(50, 100, 100, 25);
+        fiscalCodeField = new JTextField();
+        fiscalCodeField.setBounds(125, 100, 200, 25);
+
+        regEmailLabel = new JLabel("Email:");
+        regEmailLabel.setBounds(50, 140, 75, 25);
+        regEmailField = new JTextField();
+        regEmailField.setBounds(125, 140, 200, 25);
+
+        regPasswordLabel = new JLabel("Password:");
+        regPasswordLabel.setBounds(50, 180, 75, 25);
+        regPasswordField = new JPasswordField();
+        regPasswordField.setBounds(125, 180, 200, 25);
+
+        signUpButton = new JButton("Registrati");
+        signUpButton.setBounds(125, 220, 100, 25);
+        signUpButton.setFocusable(false);
+        signUpButton.addActionListener(this);
+
+        backToLoginButton = new JButton("Indietro");
+        backToLoginButton.setBounds(225, 220, 100, 25); // Modifica della posizione del pulsante
+        backToLoginButton.setFocusable(false);
+        backToLoginButton.addActionListener(this);
+        registerPanel.add(backToLoginButton);
+
+        registerPanel.add(nameLabel);
+        registerPanel.add(nameField);
+        registerPanel.add(surnameLabel);
+        registerPanel.add(surnameField);
+        registerPanel.add(fiscalCodeLabel);
+        registerPanel.add(fiscalCodeField);
+        registerPanel.add(regEmailLabel);
+        registerPanel.add(regEmailField);
+        registerPanel.add(regPasswordLabel);
+        registerPanel.add(regPasswordField);
+        registerPanel.add(signUpButton);
+        registerPanel.add(backToLoginButton);
+        frame.add(registerPanel);
+
+        frame.setVisible(true);
 
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-          if (e.getSource() == loginButton) {
+        if (e.getSource() == registerButton) {
+            registerPanel.setVisible(true);
+            loginPanel.setVisible(false);
+            registerMessageLabel.setText(""); // Reset del messaggio di errore
+
+        } else if (e.getSource() == backToLoginButton) {
+            loginPanel.setVisible(true);
+            registerPanel.setVisible(false);
+            registerMessageLabel.setText(""); // Reset del messaggio di errore
+
+        } else if (e.getSource() == loginButton) {
             // Esegui la logica per il login
             String email = emailField.getText();
             String password = String.valueOf(userPasswordField.getPassword());
 
-                if (utente.findUser(email, Utils.hashPassword(password))) {
-
+            if (utente.findUser(email, Utils.hashPassword(password))) {
                 loginMessageLabel.setForeground(Color.GREEN);
                 loginMessageLabel.setText("Login avvenuto con successo!");
 
                 frame.dispose();
-
+                WelcomePage welcomePage = new WelcomePage(email);
             } else {
                 loginMessageLabel.setForeground(Color.RED);
                 loginMessageLabel.setText("Password o email non corrispondono");
             }
 
+        } else if (e.getSource() == signUpButton) {
+            // Esegui la logica per la registrazione
+            String name = nameField.getText();
+            String surname = surnameField.getText();
+            String fiscalCode = fiscalCodeField.getText();
+            String email = regEmailField.getText();
+            String password = String.valueOf(regPasswordField.getPassword());
+            Boolean isAdministrator = false;
+
+            if (name.isEmpty() || surname.isEmpty() || fiscalCode.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                registerMessageLabel.setForeground(Color.RED);
+                registerMessageLabel.setText("Compila tutti i campi!");
+            } else {
+                String hashedPassword = Utils.hashPassword(password);
+
+                String user = name + "," + surname + "," + fiscalCode + "," + email + "," + hashedPassword + "," + isAdministrator;
+
+                if (!utente.isEmailAlreadyUsed(email) && Utils.isValidEmail(email)) {
+                    utils.writeOnFile("Users.txt", user);
+                    registerMessageLabel.setForeground(Color.GREEN);
+                    registerMessageLabel.setText("Utente registrato con successo!");
+                    frame.dispose();
+                    WelcomePage welcomePage = new WelcomePage(email);
+                } else if (utils.isEmailAlreadyUsed(email)) {
+                    registerMessageLabel.setForeground(Color.RED);
+                    registerMessageLabel.setText("Email giÃ  in uso");
+                } else if (!Utils.isValidEmail(email)) {
+                    registerMessageLabel.setForeground(Color.RED);
+                    registerMessageLabel.setText("Email nel formato non corretto");
+                }
+            }
         }
     }
 

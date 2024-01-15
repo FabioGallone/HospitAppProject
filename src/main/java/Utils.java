@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -29,6 +27,30 @@ public class Utils {
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    public static void writeOnFile(String fileName, String content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            writer.write(content);
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Errore durante la scrittura su file: " + e.getMessage());
+        }
+    }
+
+    public boolean isEmailAlreadyUsed(String email) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(",");
+                if (userDetails.length > 3 && userDetails[3].equals(email)) {
+                    return true; // Email trovata nel file
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false; // Email non trovata nel file
     }
 
 
