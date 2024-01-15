@@ -10,12 +10,13 @@ public class PresidioGUI implements ActionListener {
     private JTextField nomeField, indirizzoField, orarioField;
     private JButton addButton, backToWelcomePage;
     private Utils utils;
-    private final WelcomePage welcomePage;
+
+    private String email;
+//    private Presidio presidio;
 
 
-
-    public PresidioGUI(WelcomePage welcomePage) {
-        this.welcomePage= welcomePage;
+    public PresidioGUI(String email) {
+        this.email=email;
         initialize();
     }
 
@@ -81,23 +82,26 @@ public class PresidioGUI implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addButton) {
-            String name = nomeField.getText();
-            String surname = indirizzoField.getText();
+            String nome = nomeField.getText();
+            String indirizzo = indirizzoField.getText();
             String orario = orarioField.getText();
 
-            if (name.isEmpty() || surname.isEmpty() || orario.isEmpty()) {
+            if (nome.isEmpty() || indirizzo.isEmpty() || orario.isEmpty()) {
                 addMessageLabel.setForeground(Color.RED);
                 addMessageLabel.setText("Compila tutti i campi!");
             } else {
-                String hospital = name + "," + surname + "," + orario;
-                utils.writeOnFile("Presidio.txt", hospital);
+                String hospital = nome + "," + indirizzo + "," + orario;
+//                utils.writeOnFile("Presidio.txt", hospital);
+                HospitApp hospitapp= HospitApp.getInstance();
+                hospitapp.InserisciNuovoPresidio(nome, indirizzo, orario);
+                hospitapp.confermaInserimento();
                 addMessageLabel.setForeground(Color.GREEN);
                 addMessageLabel.setText("Presidio registrato con successo!");
 
             }
         } else if (e.getSource() == backToWelcomePage) {
             frame.dispose();
-            WelcomePage welcome = new WelcomePage();
+            WelcomePage welcome = new WelcomePage(email);
             welcome.frame.setVisible(true);
         }
 

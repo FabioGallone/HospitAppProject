@@ -79,8 +79,8 @@ public class WelcomePage implements ActionListener {
             login.frame.setVisible(true);
         } else if (e.getSource()==addButton) {
             frame.dispose();
-            LoginGUI Hospital = new LoginGUI();
-            Hospital.frame.setVisible(true);
+            PresidioGUI presidioGUI = new PresidioGUI(this.email);
+            presidioGUI.frame.setVisible(true);
         }
     }
 
