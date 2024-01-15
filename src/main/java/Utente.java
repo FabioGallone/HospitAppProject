@@ -50,6 +50,8 @@ public class Utente {
         return email;
     }
 
+
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -96,6 +98,31 @@ public class Utente {
         }
         return false;
     }
+
+    public Utente getUserFromEmail(String email) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(",");
+                if (userDetails.length > 4 && userDetails[3].equals(email)) {
+                    Utente utente = new Utente();
+                    utente.setNome(userDetails[0]);
+                    utente.setCognome(userDetails[1]);
+                    utente.setCodiceFiscale(userDetails[2]);
+                    utente.setEmail(userDetails[3]);
+                    utente.setHashedPassword(userDetails[4]);
+                    utente.setAdministrator(Boolean.parseBoolean(userDetails[5]));
+                    return utente;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null; // Restituisci null se l'utente non è stato trovato
+    }
+
+
+
 
     public boolean isEmailAlreadyUsed(String email) {
         try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {

@@ -19,17 +19,24 @@ public class WelcomePage implements ActionListener {
     private JLabel welcomeLabel;
     private JButton quitButton;
     private JButton addButton;
+    private String nome;
+    private String cognome;
+    private String fiscalCode;
     private String email;
+    private boolean isAdministrator;
     private List<Presidio> ListaPresidi;
 
 
 
 
+    public WelcomePage(Utente utente) {
+        this.utente=utente;
+        this.nome=utente.getNome();
+        this.email = utente.getEmail();
+        this.cognome=utente.getCognome();
+        this.fiscalCode=utente.getCodiceFiscale();
+        this.isAdministrator =utente.isAdministrator(email);
 
-
-    public WelcomePage(String email) {
-        this.email = email;
-        utente = new Utente();
         frame = new JFrame();
         welcomeLabel = new JLabel();
         quitButton = new JButton("LogOut");
@@ -71,25 +78,28 @@ public class WelcomePage implements ActionListener {
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
 
 
-        if (utente.isAdministrator(email)) {
+        if (this.isAdministrator) {
             welcomeLabel.setText("Ciao amministratore " + email);
             HospitApp hospitapp = HospitApp.getInstance();
             ListaPresidi = leggiPresidiDaFile("presidio.txt");
 
             int buttonYPosition = 250; // Imposta la posizione iniziale dei pulsanti
 
+            Set<String> nomiUnici = new HashSet<>();
+
             for (Presidio presidio : ListaPresidi) {
-                // Creare un pulsante per ogni nome diverso nella lista
-                JButton presidioButton = new JButton(presidio.getNome());
-                presidioButton.setBounds(100, buttonYPosition, 150, 25);
-                presidioButton.setFocusable(false);
-                presidioButton.addActionListener(this);
-                frame.add(presidioButton);
+                String nomeStruttura = presidio.getNome();
+                if (nomiUnici.add(nomeStruttura)) {
+                    // Creare un pulsante per ogni nome diverso nella lista
+                    JButton presidioButton = new JButton(presidio.getNome());
+                    presidioButton.setBounds(100, buttonYPosition, 150, 25);
+                    presidioButton.setFocusable(false);
+                    presidioButton.addActionListener(this);
+                    frame.add(presidioButton);
 
-                buttonYPosition += 30; // Aumenta la posizione Y per il prossimo pulsante
+                    buttonYPosition += 30; // Aumenta la posizione Y per il prossimo pulsante
+                }
             }
-
-
 
 
             addButton.setBounds(100, 200, 150, 25);
@@ -124,7 +134,7 @@ public class WelcomePage implements ActionListener {
             login.frame.setVisible(true);
         } else if (e.getSource()==addButton) {
             frame.dispose();
-            PresidioGUI presidioGUI = new PresidioGUI(this.email);
+            PresidioGUI presidioGUI = new PresidioGUI(utente);
             presidioGUI.frame.setVisible(true);
         }
     }

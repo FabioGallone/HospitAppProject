@@ -7,8 +7,10 @@ public class HospitApp {
 
     private static HospitApp hospitapp;
     private Presidio presidioCorrente;
+    private Utente utente;
     private Sala salaCorrente;
     private Map<String, Presidio> elencoPresidi;
+
     private Map<String, Sala> elencoSale ;
 
 
@@ -49,6 +51,8 @@ public class HospitApp {
                 System.out.println("Sala esistente");
         }
     }
+
+
 
 
     public void confermaInserimento() {

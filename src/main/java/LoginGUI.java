@@ -169,7 +169,7 @@ public class LoginGUI implements ActionListener {
                 loginMessageLabel.setText("Login avvenuto con successo!");
 
                 frame.dispose();
-                WelcomePage welcomePage = new WelcomePage(email);
+                WelcomePage welcomePage = new WelcomePage(  utente.getUserFromEmail(email));
             } else {
                 loginMessageLabel.setForeground(Color.RED);
                 loginMessageLabel.setText("Password o email non corrispondono");
@@ -192,12 +192,14 @@ public class LoginGUI implements ActionListener {
 
                 String user = name + "," + surname + "," + fiscalCode + "," + email + "," + hashedPassword + "," + isAdministrator;
 
+                Utente utente=new Utente(name, surname, fiscalCode, email, hashedPassword, isAdministrator);
+
                 if (!utente.isEmailAlreadyUsed(email) && Utils.isValidEmail(email)) {
                     utils.writeOnFile("Users.txt", user);
                     registerMessageLabel.setForeground(Color.GREEN);
                     registerMessageLabel.setText("Utente registrato con successo!");
                     frame.dispose();
-                    WelcomePage welcomePage = new WelcomePage(email);
+                    WelcomePage welcomePage = new WelcomePage(utente);
                 } else if (utils.isEmailAlreadyUsed(email)) {
                     registerMessageLabel.setForeground(Color.RED);
                     registerMessageLabel.setText("Email giÃ  in uso");

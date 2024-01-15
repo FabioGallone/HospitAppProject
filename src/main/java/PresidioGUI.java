@@ -5,17 +5,27 @@ import java.awt.event.ActionListener;
 
 public class PresidioGUI implements ActionListener {
     protected JFrame frame;
+    private Utente utente;
     private JPanel addPanel;
     private JLabel nomeLabel, indirizzoLabel, orarioLabel, title, addMessageLabel;
     private JTextField nomeField, indirizzoField, orarioField;
     private JButton addButton, backToWelcomePage;
     private String email;
+    private final String nome;
+    private final String cognome;
+    private final String fiscalCode;
+    private boolean isAdministrator;
 
 //    private Presidio presidio;
 
 
-    public PresidioGUI(String email) {
-        this.email=email;
+    public PresidioGUI(Utente utente) {
+        this.utente=utente;
+        this.nome=utente.getNome();
+        this.email = utente.getEmail();
+        this.cognome=utente.getCognome();
+        this.fiscalCode=utente.getCodiceFiscale();
+        this.isAdministrator =utente.isAdministrator(email);
         initialize();
     }
 
@@ -101,7 +111,8 @@ public class PresidioGUI implements ActionListener {
             }
         } else if (e.getSource() == backToWelcomePage) {
             frame.dispose();
-            WelcomePage welcome = new WelcomePage(email);
+
+            WelcomePage welcome = new WelcomePage(utente);
             welcome.frame.setVisible(true);
         }
 
