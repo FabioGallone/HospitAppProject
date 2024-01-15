@@ -11,6 +11,7 @@ public class HospitApp {
     private Map<String, Presidio> elencoPresidi;
     private Map<String, Sala> elencoSale ;
 
+
     private Map<String, Reparto> reparti;
 
     private HospitApp() {
@@ -53,6 +54,7 @@ public class HospitApp {
     public void confermaInserimento() {
         if (presidioCorrente != null) {
             this.elencoPresidi.put(presidioCorrente.getNome(), presidioCorrente);
+            Utils.writeOnFileObject("Presidio.txt", presidioCorrente);
             System.out.println("Operazione Inserimento Presidio Conclusa");
         }
 

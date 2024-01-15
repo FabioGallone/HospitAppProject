@@ -9,9 +9,8 @@ public class PresidioGUI implements ActionListener {
     private JLabel nomeLabel, indirizzoLabel, orarioLabel, title, addMessageLabel;
     private JTextField nomeField, indirizzoField, orarioField;
     private JButton addButton, backToWelcomePage;
-    private Utils utils;
-
     private String email;
+
 //    private Presidio presidio;
 
 
@@ -91,12 +90,13 @@ public class PresidioGUI implements ActionListener {
                 addMessageLabel.setText("Compila tutti i campi!");
             } else {
                 String hospital = nome + "," + indirizzo + "," + orario;
-//                utils.writeOnFile("Presidio.txt", hospital);
+                //utils.writeOnFile("Presidio.txt", hospital);
                 HospitApp hospitapp= HospitApp.getInstance();
                 hospitapp.InserisciNuovoPresidio(nome, indirizzo, orario);
                 hospitapp.confermaInserimento();
                 addMessageLabel.setForeground(Color.GREEN);
                 addMessageLabel.setText("Presidio registrato con successo!");
+                System.out.println(hospitapp.getElencoPresidi());
 
             }
         } else if (e.getSource() == backToWelcomePage) {

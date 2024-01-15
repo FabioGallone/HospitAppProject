@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class WelcomePage implements ActionListener {
     private Utente utente;
@@ -19,6 +20,8 @@ public class WelcomePage implements ActionListener {
     private JButton quitButton;
     private JButton addButton;
     private String email;
+
+    private List<Presidio> ListaPresidi;
 
 
 
@@ -46,12 +49,21 @@ public class WelcomePage implements ActionListener {
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
 
 
-        if (utente.isAdministrator(email)){
+        if (utente.isAdministrator(email)) {
             welcomeLabel.setText("Ciao amministratore " + email);
+            HospitApp hospitapp = HospitApp.getInstance();
+            //ListaPresidi = hospitapp.getElencoPresidi();
+
             addButton.setBounds(100, 200, 150, 25);
             addButton.setFocusable(false);
             addButton.addActionListener(this);
             frame.add(addButton);
+            List<Presidio> ListaPresidi = Utils.readFromFile("Presidio.txt");
+
+            for (Presidio presidio : ListaPresidi) {
+                System.out.println(presidio.getNome()); // Stampa ciascun presidio
+            }
+
         } else {
             welcomeLabel.setText("Ciao " + email);
         }
