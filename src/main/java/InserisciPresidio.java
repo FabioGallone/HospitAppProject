@@ -1,19 +1,14 @@
 import java.awt.*;
-import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class WelcomePage implements ActionListener {
+public class InserisciPresidio implements ActionListener {
     private Utente utente;
     JFrame frame;
     private JLabel welcomeLabel;
@@ -29,7 +24,7 @@ public class WelcomePage implements ActionListener {
 
 
 
-    public WelcomePage(Utente utente) {
+    public InserisciPresidio(Utente utente) {
         this.utente=utente;
         this.nome=utente.getNome();
         this.email = utente.getEmail();
@@ -51,8 +46,7 @@ public class WelcomePage implements ActionListener {
         email=null;
     }
 
-    private List<Presidio> leggiPresidiDaFile(String filePath) {
-        List<Presidio> presidi = new ArrayList<>();
+    private void leggiPresidiDaFile(String filePath) {
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -60,15 +54,17 @@ public class WelcomePage implements ActionListener {
                 // Supponendo che ogni riga contenga i dati separati da virgole
                 String[] data = line.split(",");
                 if (data.length == 3) {
-                    Presidio presidio = new Presidio(data[0].trim(), data[1].trim(), data[2].trim());
-                    presidi.add(presidio);
+                    //Presidio presidio = new Presidio(data[0].trim(), data[1].trim(), data[2].trim());
+                    HospitApp hospitapp= HospitApp.getInstance();
+                    hospitapp.InserisciNuovoPresidio(data[0].trim(), data[1].trim(), data[2].trim());
+                    hospitapp.confermaInserimento();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return presidi;
+
     }
 
 
@@ -79,9 +75,9 @@ public class WelcomePage implements ActionListener {
 
 
         if (this.isAdministrator) {
-            welcomeLabel.setText("Ciao amministratore " + email);
-            HospitApp hospitapp = HospitApp.getInstance();
-            ListaPresidi = leggiPresidiDaFile("presidio.txt");
+            welcomeLabel.setText("Ciao amministratore " + nome);
+            leggiPresidiDaFile("presidio.txt");
+            ListaPresidi= HospitApp.getInstance().getElencoPresidi();
 
             int buttonYPosition = 250; // Imposta la posizione iniziale dei pulsanti
 
@@ -111,7 +107,7 @@ public class WelcomePage implements ActionListener {
             welcomeLabel.setText("Ciao " + email);
         }
 
-        quitButton.setBounds(125, 250, 100, 25);
+        quitButton.setBounds(125, 165, 100, 25);
         quitButton.setFocusable(false);
         quitButton.addActionListener(this);
 

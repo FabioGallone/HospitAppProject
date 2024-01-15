@@ -33,7 +33,7 @@ public class LoginGUI implements ActionListener {
         frame.setLayout(null);
 
         title = new JLabel("HospitApp");
-        title.setBounds(160, 30, 200, 35);
+        title.setBounds(150, 30, 200, 35);
         title.setFont(new Font(null, Font.ITALIC, 25));
         frame.add(title);
 
@@ -169,7 +169,7 @@ public class LoginGUI implements ActionListener {
                 loginMessageLabel.setText("Login avvenuto con successo!");
 
                 frame.dispose();
-                WelcomePage welcomePage = new WelcomePage(  utente.getUserFromEmail(email));
+                InserisciPresidio inseriscipresidio = new InserisciPresidio(utente.getUserFromEmail(email));
             } else {
                 loginMessageLabel.setForeground(Color.RED);
                 loginMessageLabel.setText("Password o email non corrispondono");
@@ -199,7 +199,7 @@ public class LoginGUI implements ActionListener {
                     registerMessageLabel.setForeground(Color.GREEN);
                     registerMessageLabel.setText("Utente registrato con successo!");
                     frame.dispose();
-                    WelcomePage welcomePage = new WelcomePage(utente);
+                    InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
                 } else if (utils.isEmailAlreadyUsed(email)) {
                     registerMessageLabel.setForeground(Color.RED);
                     registerMessageLabel.setText("Email giÃ  in uso");

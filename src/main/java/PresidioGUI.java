@@ -30,13 +30,13 @@ public class PresidioGUI implements ActionListener {
     }
 
     private void initialize() {
-        frame = new JFrame("Hospital");
+        frame = new JFrame("Aggiungi Presidio");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(420, 420);
         frame.setLayout(null);
 
-        title = new JLabel("Hospital");
-        title.setBounds(160, 30, 200, 35);
+        title = new JLabel("Aggiungi Presidio");
+        title.setBounds(124, 30, 200, 35);
         title.setFont(new Font(null, Font.ITALIC, 25));
         frame.add(title);
 
@@ -72,7 +72,7 @@ public class PresidioGUI implements ActionListener {
 
 
         backToWelcomePage = new JButton("Indietro");
-        backToWelcomePage.setBounds(225, 220, 100, 25); // Modifica della posizione del pulsante
+        backToWelcomePage.setBounds(225, 200, 100, 25); // Modifica della posizione del pulsante
         backToWelcomePage.setFocusable(false);
         backToWelcomePage.addActionListener(this);
         addPanel.add(backToWelcomePage);
@@ -112,8 +112,8 @@ public class PresidioGUI implements ActionListener {
         } else if (e.getSource() == backToWelcomePage) {
             frame.dispose();
 
-            WelcomePage welcome = new WelcomePage(utente);
-            welcome.frame.setVisible(true);
+            InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
+            inseriscipresidio.frame.setVisible(true);
         }
 
 
