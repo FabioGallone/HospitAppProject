@@ -2,12 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLOutput;
 
 public class PresidioGUI implements ActionListener {
     protected JFrame frame;
     private Utente utente;
     private JPanel addPanel;
-    private JLabel nomeLabel, indirizzoLabel, orarioLabel, title, addMessageLabel;
+    private JLabel nomeLabel, indirizzoLabel, orarioLabel, title, addMessageLabel, repartiLabel;
     private JTextField nomeField, indirizzoField, orarioField;
     private JButton addButton, backToWelcomePage;
     private String email;
@@ -15,6 +16,7 @@ public class PresidioGUI implements ActionListener {
     private final String cognome;
     private final String fiscalCode;
     private boolean isAdministrator;
+    private JCheckBox[] repartoCheckBoxes;
 
 //    private Presidio presidio;
 
@@ -32,7 +34,7 @@ public class PresidioGUI implements ActionListener {
     private void initialize() {
         frame = new JFrame("Aggiungi Presidio");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(420, 420);
+        frame.setSize(470, 600);
         frame.setLayout(null);
 
         title = new JLabel("Aggiungi Presidio");
@@ -42,13 +44,22 @@ public class PresidioGUI implements ActionListener {
 
         addPanel = new JPanel();
         addPanel.setLayout(null);
-        addPanel.setBounds(0, 60, 420, 280);
+        addPanel.setBounds(0, 60, 470, 600);
         addPanel.setVisible(true);
 
         addMessageLabel = new JLabel();
-        addMessageLabel.setBounds(160, 250, 200, 35);
+        addMessageLabel.setBounds(160, 430, 200, 35);
         addMessageLabel.setFont(new Font(null, Font.ITALIC, 15));
         addPanel.add(addMessageLabel);
+
+        String[] nomiReparti = HospitApp.getInstance().getNomiReparti();
+        repartoCheckBoxes = new JCheckBox[nomiReparti.length];
+
+        for (int i = 0; i < nomiReparti.length; i++) {
+            repartoCheckBoxes[i] = new JCheckBox(nomiReparti[i]);
+            repartoCheckBoxes[i].setBounds(125, 140 + i * 30, 200, 25);
+            addPanel.add(repartoCheckBoxes[i]);
+        }
 
         nomeLabel = new JLabel("Nome:");
         nomeLabel.setBounds(50, 20, 75, 25);
@@ -65,14 +76,19 @@ public class PresidioGUI implements ActionListener {
         orarioField = new JTextField();
         orarioField.setBounds(125, 100, 200, 25);
 
+        repartiLabel = new JLabel("Reparti:");
+        repartiLabel.setBounds(50, 140, 100, 25);
+//        repartiField = new JTextField();
+//        repartiField.setBounds(125, 140, 200, 25);
+
         addButton = new JButton("Aggiungi");
-        addButton.setBounds(225, 150, 100, 25);
+        addButton.setBounds(170, 380, 100, 25);
         addButton.setFocusable(false);
         addButton.addActionListener(this);
 
 
         backToWelcomePage = new JButton("Indietro");
-        backToWelcomePage.setBounds(225, 200, 100, 25); // Modifica della posizione del pulsante
+        backToWelcomePage.setBounds(170, 410, 100, 25); // Modifica della posizione del pulsante
         backToWelcomePage.setFocusable(false);
         backToWelcomePage.addActionListener(this);
         addPanel.add(backToWelcomePage);
@@ -83,6 +99,8 @@ public class PresidioGUI implements ActionListener {
         addPanel.add(indirizzoLabel);
         addPanel.add(orarioLabel);
         addPanel.add(orarioField);
+        addPanel.add(repartiLabel);
+
         addPanel.add(addButton);
 
         frame.add(addPanel);
@@ -94,6 +112,8 @@ public class PresidioGUI implements ActionListener {
             String nome = nomeField.getText();
             String indirizzo = indirizzoField.getText();
             String orario = orarioField.getText();
+
+
 
             if (nome.isEmpty() || indirizzo.isEmpty() || orario.isEmpty()) {
                 addMessageLabel.setForeground(Color.RED);

@@ -54,7 +54,6 @@ public class InserisciPresidio implements ActionListener {
                 // Supponendo che ogni riga contenga i dati separati da virgole
                 String[] data = line.split(",");
                 if (data.length == 3) {
-                    //Presidio presidio = new Presidio(data[0].trim(), data[1].trim(), data[2].trim());
                     HospitApp hospitapp= HospitApp.getInstance();
                     hospitapp.InserisciNuovoPresidio(data[0].trim(), data[1].trim(), data[2].trim());
                     hospitapp.confermaInserimento();
@@ -120,6 +119,20 @@ public class InserisciPresidio implements ActionListener {
         frame.setVisible(true);
     }
 
+
+
+    private void mostraReparti(Presidio presidio) {
+
+        List<Reparto> reparti = presidio.getElencoRepartidelPresidio();
+
+        StringBuilder repartiText = new StringBuilder("Reparti del presidio " + presidio.getNome() + ":\n");
+        for (Reparto reparto : reparti) {
+            repartiText.append(reparto.getNome()).append("\n");
+        }
+
+        JOptionPane.showMessageDialog(frame, repartiText.toString(), "Reparti", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == quitButton) {
@@ -128,10 +141,19 @@ public class InserisciPresidio implements ActionListener {
 
             LoginGUI login = new LoginGUI();
             login.frame.setVisible(true);
-        } else if (e.getSource()==addButton) {
+        } else if (e.getSource() == addButton) {
             frame.dispose();
             PresidioGUI presidioGUI = new PresidioGUI(utente);
             presidioGUI.frame.setVisible(true);
+        } else {
+            // Se il pulsante cliccato è uno dei pulsanti dei presidi
+            for (Presidio presidio : ListaPresidi) {
+                if (e.getActionCommand().equals(presidio.getNome())) {
+                    // Mostra i reparti associati a questo presidio
+                    mostraReparti(presidio);
+                    break;
+                }
+            }
         }
     }
 

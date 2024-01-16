@@ -99,6 +99,19 @@ public class HospitApp {
         this.reparti.put("6", r6);
         this.reparti.put("7", r7);
         System.out.println("Caricamento Reparti Completato");
+
+
+    }
+
+    public String[] getNomiReparti() {
+        List<String> nomiReparti = new ArrayList<>();
+        for (Reparto reparto : reparti.values()) {
+            nomiReparti.add(reparto.getNome());
+        }
+        for (Reparto reparto : reparti.values()) {
+            System.out.println(reparto.getNome() + " - " + reparto.getCodice());
+        }
+        return nomiReparti.toArray(new String[0]);
     }
 
 

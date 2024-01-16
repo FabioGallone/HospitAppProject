@@ -12,12 +12,14 @@ public class Presidio {
     private String orario;
 
     private Map<String, Sala> elencoSale;
+    private Map<String, Reparto> elencoReparti;
 
     public Presidio(String nome, String indirizzo, String orario) {
         this.nome = nome;
         this.indirizzo = indirizzo;
         this.orario = orario;
         this.elencoSale = new HashMap<>();
+        this.elencoReparti=new HashMap<>();
     }
 
 
@@ -64,6 +66,15 @@ public class Presidio {
         Sala s = new Sala(codiceSala, r);
         elencoSale.put(codiceSala, s);
 
+    }
+    public void inserisciReparti(String nome, String codiceReparto, Presidio p){
+        Reparto r = new Reparto(nome, codiceReparto, p);
+        elencoReparti.put(codiceReparto, r);
+    }
+    public List<Reparto> getElencoRepartidelPresidio(){
+        List<Reparto> listReparto=new ArrayList<>();
+        listReparto.addAll(elencoReparti.values());
+        return listReparto;
     }
 
 
