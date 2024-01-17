@@ -82,8 +82,7 @@ public class PresidioGUI implements ActionListener {
 
         repartiLabel = new JLabel("Reparti:");
         repartiLabel.setBounds(50, 140, 100, 25);
-//        repartiField = new JTextField();
-//        repartiField.setBounds(125, 140, 200, 25);
+
 
         addButton = new JButton("Aggiungi");
         addButton.setBounds(170, 380, 100, 25);

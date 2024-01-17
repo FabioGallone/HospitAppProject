@@ -15,20 +15,15 @@ public class InserisciPresidio implements ActionListener {
     private JButton quitButton;
     private JButton addButton;
     private String nome;
-    private String cognome;
     HospitApp hospitapp = HospitApp.getInstance();
-    private String fiscalCode;
     private String email;
     private boolean isAdministrator;
     private List<Presidio> ListaPresidi;
-    private int i = 3;
 
     public InserisciPresidio(Utente utente) {
         this.utente = utente;
         this.nome = utente.getNome();
         this.email = utente.getEmail();
-        this.cognome = utente.getCognome();
-        this.fiscalCode = utente.getCodiceFiscale();
         this.isAdministrator = utente.isAdministrator(email);
 
         frame = new JFrame();
@@ -38,9 +33,6 @@ public class InserisciPresidio implements ActionListener {
         initializeUI();
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     public void LogOut() {
         email = null;
@@ -73,7 +65,7 @@ public class InserisciPresidio implements ActionListener {
 
 
     private void initializeUI() {
-        welcomeLabel.setBounds(0, 0, 400, 200);
+        welcomeLabel.setBounds(30, 0, 400, 200);
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
 
         if (this.isAdministrator) {
@@ -116,7 +108,7 @@ public class InserisciPresidio implements ActionListener {
         frame.add(quitButton);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(420, 420);
+        frame.setSize(420, 550);
         frame.setLayout(null);
         frame.setVisible(true);
     }

@@ -1,5 +1,3 @@
-Garibaldi,das1,dqw,Cardiologia
-cannizzaro,123,asd12,Cardiologia,Ortopedia,Ginecologia e Ostetricia
-madonnina,1234,44124,Cardiologia,Urologia
-sad,ds,dsad,Cardiologia,Ortopedia,Neurologia,Oculistica,Urologia
-21321,321321,21321,Cardiologia,Ortopedia,Ginecologia e Ostetricia
+Garibaldi,Circonvallazione,02-24,Neurologia
+Garibaldi,123,d1,Cardiologia
+Garibaldi,d1d12,d1111,Cardiologia,Ortopedia,Ginecologia e Ostetricia,Neurologia

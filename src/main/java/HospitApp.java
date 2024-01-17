@@ -7,23 +7,12 @@ public class HospitApp {
 
     private static HospitApp hospitapp;
     private Presidio presidioCorrente;
-    private Reparto repartocorrente;
-    private Utente utente;
-    private Sala salaCorrente;
+
     private Map<String, Presidio> elencoPresidi;
-    List<Reparto> listReparto = new ArrayList<>(); //lista di tutti i reparti selezionati nelle checkbox
-
-    private Map<String, Sala> elencoSale ;
-
-    private Map<String,List<Reparto>> elencoreparti; //mappa che associa ad un presidio i reparti
-
-
     private Map<String, Reparto> reparti; //tutti i reparti
 
     private HospitApp() {
         this.elencoPresidi = new HashMap<>();
-        this.elencoreparti=new HashMap<>();
-        this.elencoSale = new HashMap<>();
         this.reparti = new HashMap<>(); // Inizializza la mappa reparti
         loadReparti();
     }
@@ -45,18 +34,6 @@ public class HospitApp {
         return presidioCorrente;
     }
 
-//    public void inserisciSale(String codiceSala, String codiceReparto){
-//        if(presidioCorrente!=null){
-//            Reparto r = reparti.get(codiceReparto);
-//            if(r!=null){
-//                this.salaCorrente=new Sala(codiceSala,r);
-//                this.presidioCorrente.inserisciSale(codiceSala, r);//inserisco nella sala il suo codice e il reparto di appartenenza
-//                System.out.println("Sala inserita");
-//            }else
-//                System.out.println("Sala esistente");
-//        }
-//    }
-
 
 
     public void confermaInserimento() {
@@ -65,20 +42,7 @@ public class HospitApp {
             System.out.println("Operazione Inserimento Presidio Conclusa");
         }
 
-        elencoreparti.put(presidioCorrente.getNome(), this.getElencoReparti());
-
-
-        System.out.println(elencoreparti);
-
     }
-
-//    public void confermaInserimentoSala() {
-//        if (salaCorrente != null) {
-//            this.elencoSale.put(salaCorrente.getCodice(), salaCorrente);
-//            System.out.println("Operazione Inserimento Sala Conclusa");
-//        }
-//
-//    }
 
     public List<Presidio> getElencoPresidi() {
         List<Presidio> listPresidi = new ArrayList<>();
@@ -89,12 +53,6 @@ public class HospitApp {
         return presidio.getElencoRepartidelPresidio();
     }
 
-
-//    public List<Sala> getElencoSale() {
-//        List<Sala> listSale = new ArrayList<>();
-//        listSale.addAll(elencoSale.values());
-//        return listSale;
-//    }
 
     public void loadReparti(){
         Reparto r1 = new Reparto("Cardiologia", "1");
@@ -136,12 +94,6 @@ public class HospitApp {
         return reparto;
     }
 
-
-
-    public List<Reparto> getElencoReparti() {
-
-        return listReparto;
-    }
 
     public Reparto getRepartoByNome(String nomeReparto) {
         for (Reparto reparto : reparti.values()) {

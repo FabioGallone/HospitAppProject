@@ -10,15 +10,12 @@ public class Presidio {
     private String nome;
     private String indirizzo;
     private String orario;
-
-    private Map<String, Sala> elencoSale;
     private Map<String, Reparto> elencoReparti;
 
     public Presidio(String nome, String indirizzo, String orario) {
         this.nome = nome;
         this.indirizzo = indirizzo;
         this.orario = orario;
-        this.elencoSale = new HashMap<>();
         this.elencoReparti=new HashMap<>();
     }
 
@@ -49,10 +46,6 @@ public class Presidio {
     }
 
 
-    public void setElencoSale(Map<String, Sala> elencoSale) {
-        this.elencoSale = elencoSale;
-    }
-
     @Override
     public String toString() {
         return "Presidio{" +
@@ -62,11 +55,6 @@ public class Presidio {
                 '}';
     }
 
-    public void inserisciSale(String codiceSala, Reparto r) {
-        Sala s = new Sala(codiceSala, r);
-        elencoSale.put(codiceSala, s);
-
-    }
     public void inserisciReparti(String nome, String codiceReparto, Presidio p){
         Reparto r = new Reparto(nome, codiceReparto, p);
         elencoReparti.put(codiceReparto, r);
@@ -75,15 +63,6 @@ public class Presidio {
         return new ArrayList<>(elencoReparti.values());
     }
 
-
-    public List<Sala> getElencoSale(){
-        List<Sala> listSale=new ArrayList<>();
-        listSale.addAll(elencoSale.values());
-        return listSale;
-    }
-    public Sala getSala(String codiceSala) {
-        return elencoSale.get(elencoSale);
-    }
 
 
 
