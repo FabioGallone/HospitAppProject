@@ -47,23 +47,23 @@ public class InserisciPresidio implements ActionListener {
     }
 
     private void leggiPresidiDaFile(String filePath) {
-
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
+            List<Reparto> repartiSelezionati = new ArrayList<>();
+
             while ((line = br.readLine()) != null) {
-                // Supponendo che ogni riga contenga i dati separati da virgole
                 String[] data = line.split(",");
-                if (data.length == 3) {
-                    HospitApp hospitapp= HospitApp.getInstance();
-                    hospitapp.InserisciNuovoPresidio(data[0].trim(), data[1].trim(), data[2].trim());
+                if (data.length >= 3) {
+                    HospitApp hospitapp = HospitApp.getInstance();
+                    Presidio presidio = hospitapp.InserisciNuovoPresidio(data[0].trim(), data[1].trim(), data[2].trim());
+
+
                     hospitapp.confermaInserimento();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
 

@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PresidioGUI implements ActionListener {
     protected JFrame frame;
@@ -16,6 +19,7 @@ public class PresidioGUI implements ActionListener {
     private final String cognome;
     private final String fiscalCode;
     private boolean isAdministrator;
+    private String[] nomiReparti;
     private JCheckBox[] repartoCheckBoxes;
 
 //    private Presidio presidio;
@@ -52,7 +56,7 @@ public class PresidioGUI implements ActionListener {
         addMessageLabel.setFont(new Font(null, Font.ITALIC, 15));
         addPanel.add(addMessageLabel);
 
-        String[] nomiReparti = HospitApp.getInstance().getNomiReparti();
+        nomiReparti = HospitApp.getInstance().getNomiReparti();
         repartoCheckBoxes = new JCheckBox[nomiReparti.length];
 
         for (int i = 0; i < nomiReparti.length; i++) {
@@ -114,19 +118,36 @@ public class PresidioGUI implements ActionListener {
             String orario = orarioField.getText();
 
 
-
+            HospitApp hospitapp= HospitApp.getInstance();
             if (nome.isEmpty() || indirizzo.isEmpty() || orario.isEmpty()) {
                 addMessageLabel.setForeground(Color.RED);
                 addMessageLabel.setText("Compila tutti i campi!");
             } else {
+
                 String hospital = nome + "," + indirizzo + "," + orario;
-                Utils.writeOnFile("Presidio.txt", hospital);
-                HospitApp hospitapp= HospitApp.getInstance();
-                hospitapp.InserisciNuovoPresidio(nome, indirizzo, orario);
+                Presidio p=hospitapp.InserisciNuovoPresidio(nome, indirizzo, orario);
+
+                for (int i = 0; i < repartoCheckBoxes.length; i++) {
+                    if (repartoCheckBoxes[i].isSelected()) {
+                       Reparto r=hospitapp.getRepartoByNome(nomiReparti[i]);
+                       hospitapp.inserisciReparto(r.getNome(), r.getCodice(), p);
+
+                    }
+                }
+
                 hospitapp.confermaInserimento();
+
+                //stampo nel file gli ospedali con i propri reparti
+                String repartiData = hospitapp.getElencoReparti().stream()
+                        .map(reparto -> reparto.getNome())
+                        .collect(Collectors.joining(","));
+                String contentToWrite = hospital + "," + repartiData;
+                Utils.writeOnFile("Presidio.txt", contentToWrite);
+
+
+
                 addMessageLabel.setForeground(Color.GREEN);
                 addMessageLabel.setText("Presidio registrato con successo!");
-                System.out.println(hospitapp.getElencoPresidi());
 
             }
         } else if (e.getSource() == backToWelcomePage) {

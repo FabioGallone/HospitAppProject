@@ -1,4 +1,3 @@
-Casa di riposo Gioggio,Casa di gioggio,always on display
-c,w,1
-c,12,22
-ca,caw,caw1
+
+a,a,aa,Ortopedia,Ginecologia e Ostetricia,Neurologia,Oncologia
+a,a,aa,Ortopedia,Neurologia,Oncologia
