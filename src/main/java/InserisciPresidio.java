@@ -16,21 +16,20 @@ public class InserisciPresidio implements ActionListener {
     private JButton addButton;
     private String nome;
     private String cognome;
+    HospitApp hospitapp = HospitApp.getInstance();
     private String fiscalCode;
     private String email;
     private boolean isAdministrator;
     private List<Presidio> ListaPresidi;
-
-
-
+    private int i = 3;
 
     public InserisciPresidio(Utente utente) {
-        this.utente=utente;
-        this.nome=utente.getNome();
+        this.utente = utente;
+        this.nome = utente.getNome();
         this.email = utente.getEmail();
-        this.cognome=utente.getCognome();
-        this.fiscalCode=utente.getCodiceFiscale();
-        this.isAdministrator =utente.isAdministrator(email);
+        this.cognome = utente.getCognome();
+        this.fiscalCode = utente.getCodiceFiscale();
+        this.isAdministrator = utente.isAdministrator(email);
 
         frame = new JFrame();
         welcomeLabel = new JLabel();
@@ -42,21 +41,27 @@ public class InserisciPresidio implements ActionListener {
     public String getEmail() {
         return email;
     }
-    public void LogOut(){
-        email=null;
+
+    public void LogOut() {
+        email = null;
     }
 
     private void leggiPresidiDaFile(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
-            List<Reparto> repartiSelezionati = new ArrayList<>();
 
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 3) {
-                    HospitApp hospitapp = HospitApp.getInstance();
                     Presidio presidio = hospitapp.InserisciNuovoPresidio(data[0].trim(), data[1].trim(), data[2].trim());
 
+                    for (int j = 3; j < data.length; j++) {
+                        Reparto r = hospitapp.getRepartoByNome(data[j].trim());
+                        if (r != null) {
+                            // Associa il reparto al presidio corrente
+                            presidio.inserisciReparti(r.getNome(), r.getCodice(), presidio);
+                        }
+                    }
 
                     hospitapp.confermaInserimento();
                 }
@@ -67,16 +72,14 @@ public class InserisciPresidio implements ActionListener {
     }
 
 
-
     private void initializeUI() {
         welcomeLabel.setBounds(0, 0, 400, 200);
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
 
-
         if (this.isAdministrator) {
             welcomeLabel.setText("Ciao amministratore " + nome);
             leggiPresidiDaFile("presidio.txt");
-            ListaPresidi= HospitApp.getInstance().getElencoPresidi();
+            ListaPresidi = HospitApp.getInstance().getElencoPresidi();
 
             int buttonYPosition = 250; // Imposta la posizione iniziale dei pulsanti
 
@@ -95,7 +98,6 @@ public class InserisciPresidio implements ActionListener {
                     buttonYPosition += 30; // Aumenta la posizione Y per il prossimo pulsante
                 }
             }
-
 
             addButton.setBounds(100, 200, 150, 25);
             addButton.setFocusable(false);
@@ -119,11 +121,8 @@ public class InserisciPresidio implements ActionListener {
         frame.setVisible(true);
     }
 
-
-
     private void mostraReparti(Presidio presidio) {
-
-        List<Reparto> reparti = presidio.getElencoRepartidelPresidio();
+        List<Reparto> reparti = hospitapp.getElencoRepartiDelPresidio(presidio);
 
         StringBuilder repartiText = new StringBuilder("Reparti del presidio " + presidio.getNome() + ":\n");
         for (Reparto reparto : reparti) {
@@ -132,7 +131,6 @@ public class InserisciPresidio implements ActionListener {
 
         JOptionPane.showMessageDialog(frame, repartiText.toString(), "Reparti", JOptionPane.INFORMATION_MESSAGE);
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == quitButton) {
@@ -149,13 +147,11 @@ public class InserisciPresidio implements ActionListener {
             // Se il pulsante cliccato è uno dei pulsanti dei presidi
             for (Presidio presidio : ListaPresidi) {
                 if (e.getActionCommand().equals(presidio.getNome())) {
-                    // Mostra i reparti associati a questo presidio
+                    // Chiamare il metodo per mostrare i reparti associati
                     mostraReparti(presidio);
                     break;
                 }
             }
         }
     }
-
-
 }

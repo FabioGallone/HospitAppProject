@@ -22,7 +22,7 @@ public class PresidioGUI implements ActionListener {
     private String[] nomiReparti;
     private JCheckBox[] repartoCheckBoxes;
 
-//    private Presidio presidio;
+
 
 
     public PresidioGUI(Utente utente) {
@@ -129,8 +129,8 @@ public class PresidioGUI implements ActionListener {
 
                 for (int i = 0; i < repartoCheckBoxes.length; i++) {
                     if (repartoCheckBoxes[i].isSelected()) {
-                       Reparto r=hospitapp.getRepartoByNome(nomiReparti[i]);
-                       hospitapp.inserisciReparto(r.getNome(), r.getCodice(), p);
+                       Reparto r=hospitapp.getRepartoByNome(nomiReparti[i]); //ritorna un oggetto reparto corrispondente a quel nome
+                       hospitapp.inserisciReparto(r.getNome(), r.getCodice(), p); //lo mette dentro listReparti e crea l'oggetto
 
                     }
                 }
@@ -138,7 +138,8 @@ public class PresidioGUI implements ActionListener {
                 hospitapp.confermaInserimento();
 
                 //stampo nel file gli ospedali con i propri reparti
-                String repartiData = hospitapp.getElencoReparti().stream()
+
+                String repartiData = p.getElencoRepartidelPresidio().stream()
                         .map(reparto -> reparto.getNome())
                         .collect(Collectors.joining(","));
                 String contentToWrite = hospital + "," + repartiData;
@@ -148,6 +149,11 @@ public class PresidioGUI implements ActionListener {
 
                 addMessageLabel.setForeground(Color.GREEN);
                 addMessageLabel.setText("Presidio registrato con successo!");
+                frame.dispose();
+
+                InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
+                inseriscipresidio.frame.setVisible(true);
+
 
             }
         } else if (e.getSource() == backToWelcomePage) {

@@ -71,10 +71,8 @@ public class Presidio {
         Reparto r = new Reparto(nome, codiceReparto, p);
         elencoReparti.put(codiceReparto, r);
     }
-    public List<Reparto> getElencoRepartidelPresidio(){
-        List<Reparto> listReparto=new ArrayList<>();
-        listReparto.addAll(elencoReparti.values());
-        return listReparto;
+    public List<Reparto> getElencoRepartidelPresidio() {
+        return new ArrayList<>(elencoReparti.values());
     }
 
 

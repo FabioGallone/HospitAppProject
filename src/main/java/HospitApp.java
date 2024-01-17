@@ -11,14 +11,14 @@ public class HospitApp {
     private Utente utente;
     private Sala salaCorrente;
     private Map<String, Presidio> elencoPresidi;
-    List<Reparto> listReparto = new ArrayList<>();
+    List<Reparto> listReparto = new ArrayList<>(); //lista di tutti i reparti selezionati nelle checkbox
 
     private Map<String, Sala> elencoSale ;
 
-    private Map<String,List<Reparto>> elencoreparti;
+    private Map<String,List<Reparto>> elencoreparti; //mappa che associa ad un presidio i reparti
 
 
-    private Map<String, Reparto> reparti;
+    private Map<String, Reparto> reparti; //tutti i reparti
 
     private HospitApp() {
         this.elencoPresidi = new HashMap<>();
@@ -64,6 +64,7 @@ public class HospitApp {
             this.elencoPresidi.put(presidioCorrente.getNome(), presidioCorrente);
             System.out.println("Operazione Inserimento Presidio Conclusa");
         }
+
         elencoreparti.put(presidioCorrente.getNome(), this.getElencoReparti());
 
 
@@ -84,6 +85,10 @@ public class HospitApp {
         listPresidi.addAll(elencoPresidi.values());
         return listPresidi;
     }
+    public List<Reparto> getElencoRepartiDelPresidio(Presidio presidio) {
+        return presidio.getElencoRepartidelPresidio();
+    }
+
 
 //    public List<Sala> getElencoSale() {
 //        List<Sala> listSale = new ArrayList<>();
@@ -124,16 +129,17 @@ public class HospitApp {
 
 
     public Reparto inserisciReparto(String nome, String codice, Presidio p) {
-        this.repartocorrente=new Reparto(nome, codice, p);
+        Reparto reparto = new Reparto(nome, codice, p);
         System.out.println("Reparto inserito");
-        listReparto.add(repartocorrente);
-
-        return repartocorrente;
+        // Aggiungi il reparto all'elenco dei reparti del presidio corrente
+        p.inserisciReparti(nome, codice, p);
+        return reparto;
     }
 
 
 
     public List<Reparto> getElencoReparti() {
+
         return listReparto;
     }
 
