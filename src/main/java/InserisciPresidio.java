@@ -13,8 +13,11 @@ public class InserisciPresidio implements ActionListener {
     JFrame frame;
     private JLabel welcomeLabel;
     private JButton quitButton;
-    private JButton addButton;
+    private JButton addButton, backtoInserisciPresidio;
     private String nome;
+    private Presidio presidioSelezionato;
+
+    private String codicefiscale;
     HospitApp hospitapp = HospitApp.getInstance();
     private String email;
     private boolean isAdministrator;
@@ -24,6 +27,7 @@ public class InserisciPresidio implements ActionListener {
         this.utente = utente;
         this.nome = utente.getNome();
         this.email = utente.getEmail();
+        this.codicefiscale=utente.getCodiceFiscale();
         this.isAdministrator = utente.isAdministrator(email);
 
         frame = new JFrame();
@@ -71,7 +75,7 @@ public class InserisciPresidio implements ActionListener {
         if (this.isAdministrator) {
             welcomeLabel.setText("Ciao amministratore " + nome);
             leggiPresidiDaFile("presidio.txt");
-            ListaPresidi = HospitApp.getInstance().getElencoPresidi();
+            ListaPresidi = hospitapp.getElencoPresidi();
 
             int buttonYPosition = 250; // Imposta la posizione iniziale dei pulsanti
 
@@ -101,7 +105,7 @@ public class InserisciPresidio implements ActionListener {
 
             // Aggiungi menù a tendina basati sul file di testo Presidio.txt
             leggiPresidiDaFile("presidio.txt");
-            ListaPresidi = HospitApp.getInstance().getElencoPresidi();
+            ListaPresidi = hospitapp.getElencoPresidi();
 
             int comboBoxXPosition = 100;
             int comboBoxYPosition = 250;
@@ -171,16 +175,77 @@ public class InserisciPresidio implements ActionListener {
             frame.dispose();
             inserisciReparto inserisciReparto = new inserisciReparto(utente);
             inserisciReparto.frame.setVisible(true);
-        }  else {
+        }      else if (e.getSource() == backtoInserisciPresidio) {
+            frame.dispose();
+
+            InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
+            inseriscipresidio.frame.setVisible(true);
+        } else if (this.isAdministrator) {
+            // Se il pulsante cliccato è uno dei pulsanti dei presidi
             for (Presidio presidio : ListaPresidi) {
-                JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
-                if (comboBox.getSelectedItem() != null) {
-                    String repartoSelezionato = comboBox.getSelectedItem().toString();
-                    mostraMessaggio("Hai selezionato il reparto: " + repartoSelezionato);
+                if (e.getActionCommand().equals(presidio.getNome())) {
+                    // Chiamare il nuovo metodo per mostrare i reparti e prenotare la visita
+                    hospitapp.mostraReparti(presidio);
                     break;
                 }
             }
         }
+        else if (!this.isAdministrator) {
+            for (Presidio presidio : ListaPresidi) {
+                JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
+                if (comboBox.getSelectedItem() != null) {
+                    String codiceRepartoSelezionato =   comboBox.getSelectedItem().toString();;
+
+
+                    hospitapp.selezionaReparto(codiceRepartoSelezionato, presidio);
+
+
+                    frame.getContentPane().removeAll();
+
+
+                    JLabel riepilogoLabel = new JLabel("Riepilogo:");
+                    riepilogoLabel.setBounds(100, 150, 200, 45);
+                    frame.add(riepilogoLabel);
+
+                    // Aggiungi le informazioni dell'utente alla JLabel
+                    JLabel utenteLabel = new JLabel("Nome: " + nome + " | Email: " + email + " | CF: " + codicefiscale);
+                    utenteLabel.setBounds(100, 175, 400, 35);
+                    riepilogoLabel.setFont(new Font("Arial", Font.BOLD, 17));
+                    frame.add(utenteLabel);
+
+                    JLabel scelteLabel = new JLabel("Presidio: " + presidio.getNome() + " | Reparto: " + codiceRepartoSelezionato);
+                    scelteLabel.setBounds(100, 200, 400, 35);
+                    frame.add(scelteLabel);
+
+
+                    JButton bookVisitButton = new JButton("Prenota Visita");
+                    bookVisitButton.setBounds(100, 300, 150, 25);
+                    bookVisitButton.setFocusable(false);
+                    bookVisitButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            frame.dispose();
+
+                        }
+                    });
+                    frame.add(bookVisitButton);
+
+                    backtoInserisciPresidio = new JButton("Indietro");
+                    backtoInserisciPresidio.setBounds(170, 410, 100, 25);
+                    backtoInserisciPresidio.setFocusable(false);
+                    backtoInserisciPresidio.addActionListener(this);
+                    frame.add(backtoInserisciPresidio);
+
+                    // Rendi nuovamente visibili i componenti
+                    frame.revalidate();
+                    frame.repaint();
+
+                    break;
+                }
+            }
+        }
+
+
     }
 
     private void mostraMessaggio(String messaggio) {

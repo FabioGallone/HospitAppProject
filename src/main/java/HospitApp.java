@@ -1,4 +1,5 @@
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -103,6 +104,47 @@ public class HospitApp {
         }
 
         return null;
+    }
+
+    public void prenotaVisita(String nomePresidio) {
+        // Recupera il presidio corrispondente al nome
+        Presidio presidio = elencoPresidi.get(nomePresidio);
+
+        if (presidio != null) {
+            // Ottieni il reparto selezionato dall'utente
+            String repartoSelezionato = "";  // Imposta questa variabile con il reparto selezionato
+
+            // Ora puoi utilizzare queste informazioni per fare quello che serve per prenotare la visita
+
+            // Esempio:
+            System.out.println("Prenotazione Visita - Presidio: " + presidio.getNome() + " | Reparto: " + repartoSelezionato);
+        } else {
+            System.out.println("Presidio non trovato: " + nomePresidio);
+        }
+    }
+
+    public void mostraReparti(Presidio presidio) {
+        List<Reparto> reparti = getElencoRepartiDelPresidio(presidio);
+
+        StringBuilder repartiText = new StringBuilder("Reparti del presidio " + presidio.getNome() + ":\n");
+        for (Reparto reparto : reparti) {
+            repartiText.append(reparto.getNome()).append("\n");
+        }
+
+        JOptionPane.showMessageDialog(null, repartiText.toString(), "Reparti", JOptionPane.INFORMATION_MESSAGE);
+
+        prenotaVisita(presidio.getNome());
+    }
+
+    public void selezionaReparto(String codiceReparto, Presidio presidio) {
+        Reparto repartoSelezionato = reparti.get(codiceReparto);
+
+        if (repartoSelezionato != null) {
+            System.out.println("Reparto selezionato: " + repartoSelezionato.getNome());
+            prenotaVisita(presidio.getNome());
+        } else {
+            System.out.println("Reparto non trovato: " + codiceReparto);
+        }
     }
 
 

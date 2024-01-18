@@ -10,7 +10,7 @@ public class inserisciReparto implements ActionListener {
     private JPanel addPanel;
     private JLabel nomeLabel, indirizzoLabel, orarioLabel, title, addMessageLabel, repartiLabel;
     private JTextField nomeField, indirizzoField, orarioField;
-    private JButton addButton, backToWelcomePage;
+    private JButton addButton, backtoInserisciPresidio;
     private String email;
     private final String nome;
     private final String cognome;
@@ -87,11 +87,11 @@ public class inserisciReparto implements ActionListener {
         addButton.addActionListener(this);
 
 
-        backToWelcomePage = new JButton("Indietro");
-        backToWelcomePage.setBounds(170, 410, 100, 25); // Modifica della posizione del pulsante
-        backToWelcomePage.setFocusable(false);
-        backToWelcomePage.addActionListener(this);
-        addPanel.add(backToWelcomePage);
+        backtoInserisciPresidio = new JButton("Indietro");
+        backtoInserisciPresidio.setBounds(170, 410, 100, 25); // Modifica della posizione del pulsante
+        backtoInserisciPresidio.setFocusable(false);
+        backtoInserisciPresidio.addActionListener(this);
+        addPanel.add(backtoInserisciPresidio);
 
         addPanel.add(nomeLabel);
         addPanel.add(nomeField);
@@ -152,7 +152,7 @@ public class inserisciReparto implements ActionListener {
 
 
             }
-        } else if (e.getSource() == backToWelcomePage) {
+        } else if (e.getSource() == backtoInserisciPresidio) {
             frame.dispose();
 
             InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
