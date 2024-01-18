@@ -2,9 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class PresidioGUI implements ActionListener {
@@ -129,7 +126,7 @@ public class PresidioGUI implements ActionListener {
                 for (int i = 0; i < repartoCheckBoxes.length; i++) {
                     if (repartoCheckBoxes[i].isSelected()) {
                        Reparto r=hospitapp.getRepartoByNome(nomiReparti[i]); //ritorna un oggetto reparto corrispondente a quel nome
-                       hospitapp.inserisciReparto(r.getNome(), r.getCodice(), p); //lo mette dentro listReparti e crea l'oggetto
+                       hospitapp.inserisciNuovoReparto(r.getNome(), r.getCodice(), p); //lo mette dentro listReparti e crea l'oggetto
 
                     }
                 }
