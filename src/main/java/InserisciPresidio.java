@@ -96,8 +96,43 @@ public class InserisciPresidio implements ActionListener {
             addButton.addActionListener(this);
             frame.add(addButton);
 
-        } else {
-            welcomeLabel.setText("Ciao " + email);
+        }else {
+            welcomeLabel.setText("Ciao " + nome);
+
+            // Aggiungi menù a tendina basati sul file di testo Presidio.txt
+            leggiPresidiDaFile("presidio.txt");
+            ListaPresidi = HospitApp.getInstance().getElencoPresidi();
+
+            int comboBoxXPosition = 100;
+            int comboBoxYPosition = 250;
+
+            for (Presidio presidio : ListaPresidi) {
+                String nomeStruttura = presidio.getNome();
+
+                // Creare un JComboBox per ogni presidio
+                JComboBox<String> repartoComboBox = new JComboBox<>();
+
+                // Aggiungi i reparti associati al presidio corrente al menu a tendina
+                for (Reparto reparto : hospitapp.getElencoRepartiDelPresidio(presidio)) {
+                    repartoComboBox.addItem(reparto.getNome());
+                }
+
+                repartoComboBox.setBounds(comboBoxXPosition, comboBoxYPosition, 150, 40);
+                repartoComboBox.setFocusable(false);
+                repartoComboBox.addActionListener(this);
+
+                // Imposta il titolo del JComboBox con il nome del presidio
+                repartoComboBox.setBorder(BorderFactory.createTitledBorder(nomeStruttura));
+
+                frame.add(repartoComboBox);
+
+                // Aumenta la posizione X e Y per il prossimo JComboBox
+                comboBoxXPosition += 160;
+                if (comboBoxXPosition + 150 > frame.getWidth()) {
+                    comboBoxXPosition = 100;
+                    comboBoxYPosition += 45;
+                }
+            }
         }
 
         quitButton.setBounds(125, 165, 100, 25);
@@ -112,6 +147,7 @@ public class InserisciPresidio implements ActionListener {
         frame.setLayout(null);
         frame.setVisible(true);
     }
+
 
     private void mostraReparti(Presidio presidio) {
         List<Reparto> reparti = hospitapp.getElencoRepartiDelPresidio(presidio);
@@ -133,17 +169,21 @@ public class InserisciPresidio implements ActionListener {
             login.frame.setVisible(true);
         } else if (e.getSource() == addButton) {
             frame.dispose();
-            PresidioGUI presidioGUI = new PresidioGUI(utente);
-            presidioGUI.frame.setVisible(true);
-        } else {
-            // Se il pulsante cliccato è uno dei pulsanti dei presidi
+            inserisciReparto inserisciReparto = new inserisciReparto(utente);
+            inserisciReparto.frame.setVisible(true);
+        }  else {
             for (Presidio presidio : ListaPresidi) {
-                if (e.getActionCommand().equals(presidio.getNome())) {
-                    // Chiamare il metodo per mostrare i reparti associati
-                    mostraReparti(presidio);
+                JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
+                if (comboBox.getSelectedItem() != null) {
+                    String repartoSelezionato = comboBox.getSelectedItem().toString();
+                    mostraMessaggio("Hai selezionato il reparto: " + repartoSelezionato);
                     break;
                 }
             }
         }
+    }
+
+    private void mostraMessaggio(String messaggio) {
+        JOptionPane.showMessageDialog(frame, messaggio, "Selezione Reparto", JOptionPane.INFORMATION_MESSAGE);
     }
 }

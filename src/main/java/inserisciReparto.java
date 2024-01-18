@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.stream.Collectors;
 
-public class PresidioGUI implements ActionListener {
+public class inserisciReparto implements ActionListener {
     protected JFrame frame;
     private Utente utente;
     private JPanel addPanel;
@@ -22,7 +22,7 @@ public class PresidioGUI implements ActionListener {
 
 
 
-    public PresidioGUI(Utente utente) {
+    public inserisciReparto(Utente utente) {
         this.utente=utente;
         this.nome=utente.getNome();
         this.email = utente.getEmail();

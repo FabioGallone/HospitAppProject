@@ -9,11 +9,11 @@ public class HospitApp {
     private Presidio presidioCorrente;
 
     private Map<String, Presidio> elencoPresidi;
-    private Map<String, Reparto> elencoReparti; //tutti i reparti
+    private Map<String, Reparto> reparti; //tutti i reparti
 
     private HospitApp() {
         this.elencoPresidi = new HashMap<>();
-        this.elencoReparti = new HashMap<>(); // Inizializza la mappa reparti
+        this.reparti = new HashMap<>(); // Inizializza la mappa reparti
         loadReparti();
     }
 
@@ -62,13 +62,13 @@ public class HospitApp {
         Reparto r5 = new Reparto("Oculistica", "5");
         Reparto r6 = new Reparto("Urologia", "6");
         Reparto r7 = new Reparto("Oncologia", "7");
-        this.elencoReparti.put("1", r1);
-        this.elencoReparti.put("2", r2);
-        this.elencoReparti.put("3", r3);
-        this.elencoReparti.put("4", r4);
-        this.elencoReparti.put("5", r5);
-        this.elencoReparti.put("6", r6);
-        this.elencoReparti.put("7", r7);
+        this.reparti.put("1", r1);
+        this.reparti.put("2", r2);
+        this.reparti.put("3", r3);
+        this.reparti.put("4", r4);
+        this.reparti.put("5", r5);
+        this.reparti.put("6", r6);
+        this.reparti.put("7", r7);
         System.out.println("Caricamento Reparti Completato");
 
 
@@ -76,10 +76,10 @@ public class HospitApp {
 
     public String[] getNomiReparti() {
         List<String> nomiReparti = new ArrayList<>();
-        for (Reparto reparto : elencoReparti.values()) {
+        for (Reparto reparto : reparti.values()) {
             nomiReparti.add(reparto.getNome());
         }
-        for (Reparto reparto : elencoReparti.values()) {
+        for (Reparto reparto : reparti.values()) {
             System.out.println(reparto.getNome() + " - " + reparto.getCodice());
         }
         return nomiReparti.toArray(new String[0]);
@@ -96,7 +96,7 @@ public class HospitApp {
 
 
     public Reparto getRepartoByNome(String nomeReparto) {
-        for (Reparto reparto : elencoReparti.values()) {
+        for (Reparto reparto : reparti.values()) {
             if (reparto.getNome().equals(nomeReparto)) {
                 return reparto;
             }
