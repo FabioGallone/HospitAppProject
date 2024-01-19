@@ -52,7 +52,7 @@ public class InserisciPresidio implements ActionListener {
                     Presidio presidio = hospitapp.InserisciNuovoPresidio(data[0].trim(), data[1].trim(), data[2].trim());
 
                     for (int j = 3; j < data.length; j++) {
-                        Reparto r = hospitapp.getRepartoByNome(data[j].trim());
+                        Reparto r = hospitapp.selezionaReparto(data[j].trim());
                         if (r != null) {
                             // Associa il reparto al presidio corrente
                             presidio.inserisciReparti(r.getNome(), r.getCodice(), presidio);
@@ -117,7 +117,7 @@ public class InserisciPresidio implements ActionListener {
                 JComboBox<String> repartoComboBox = new JComboBox<>();
 
                 // Aggiungi i reparti associati al presidio corrente al menu a tendina
-                for (Reparto reparto : hospitapp.getElencoRepartiDelPresidio(presidio)) {
+                for (Reparto reparto : hospitapp.mostraReparti(presidio)) {
                     repartoComboBox.addItem(reparto.getNome());
                 }
 
@@ -154,7 +154,7 @@ public class InserisciPresidio implements ActionListener {
 
 
     private void mostraReparti(Presidio presidio) {
-        List<Reparto> reparti = hospitapp.getElencoRepartiDelPresidio(presidio);
+        List<Reparto> reparti = hospitapp.mostraReparti(presidio);
 
         StringBuilder repartiText = new StringBuilder("Reparti del presidio " + presidio.getNome() + ":\n");
         for (Reparto reparto : reparti) {
@@ -194,10 +194,10 @@ public class InserisciPresidio implements ActionListener {
             for (Presidio presidio : ListaPresidi) {
                 JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
                 if (comboBox.getSelectedItem() != null) {
-                    String codiceRepartoSelezionato =   comboBox.getSelectedItem().toString();;
+                    String nomeRepartoSelezionato =   comboBox.getSelectedItem().toString();;
 
 
-                    hospitapp.selezionaReparto(codiceRepartoSelezionato, presidio);
+                    hospitapp.selezionaReparto(nomeRepartoSelezionato);
 
 
                     frame.getContentPane().removeAll();
@@ -213,7 +213,7 @@ public class InserisciPresidio implements ActionListener {
                     riepilogoLabel.setFont(new Font("Arial", Font.BOLD, 17));
                     frame.add(utenteLabel);
 
-                    JLabel scelteLabel = new JLabel("Presidio: " + presidio.getNome() + " | Reparto: " + codiceRepartoSelezionato);
+                    JLabel scelteLabel = new JLabel("Presidio: " + presidio.getNome() + " | Reparto: " + nomeRepartoSelezionato);
                     scelteLabel.setBounds(100, 200, 400, 35);
                     frame.add(scelteLabel);
 

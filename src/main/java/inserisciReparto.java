@@ -125,7 +125,7 @@ public class inserisciReparto implements ActionListener {
 
                 for (int i = 0; i < repartoCheckBoxes.length; i++) {
                     if (repartoCheckBoxes[i].isSelected()) {
-                       Reparto r=hospitapp.getRepartoByNome(nomiReparti[i]); //ritorna un oggetto reparto corrispondente a quel nome
+                       Reparto r=hospitapp.selezionaReparto(nomiReparti[i]); //ritorna un oggetto reparto corrispondente a quel nome
                        hospitapp.inserisciNuovoReparto(r.getNome(), r.getCodice(), p); //lo mette dentro listReparti e crea l'oggetto
 
                     }

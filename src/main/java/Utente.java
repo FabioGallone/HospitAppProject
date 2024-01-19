@@ -1,16 +1,23 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utente {
     private String nome;
     private String cognome;
     private String codiceFiscale;
     private String email;
+
     private String hashedPassword;
     private boolean isAdministrator;
+    private List<Visita> visite;
+
 
     public Utente() {
+        this.visite = new ArrayList<>();
+
     }
 
     public Utente(String nome, String cognome, String codiceFiscale, String email, String hashedPassword, boolean isAdministrator) {
@@ -20,6 +27,8 @@ public class Utente {
         this.email = email;
         this.hashedPassword = hashedPassword;
         this.isAdministrator=isAdministrator;
+        this.visite = new ArrayList<>();
+
     }
 
     public String getNome() {
@@ -158,6 +167,12 @@ public class Utente {
         }
         return false; // Email non trovata nel file
     }
+    public void prenotaVisita(Visita visita) {
+        visite.add(visita);
+    }
 
+    public List<Visita> getVisite() {
+        return visite;
+    }
 
 }

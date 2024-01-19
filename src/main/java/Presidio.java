@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +9,7 @@ public class Presidio {
     private String nome;
     private String indirizzo;
     private String orario;
+    private List<Visita> elencoVisite;
     private Map<String, Reparto> elencoReparti;
 
     public Presidio(String nome, String indirizzo, String orario) {
@@ -49,9 +49,9 @@ public class Presidio {
     @Override
     public String toString() {
         return "Presidio{" +
-                "nome='" + nome + '\'' +
-                ", indirizzo='" + indirizzo + '\'' +
-                ", orario=" + orario +
+                "nome='" + nome + "" +
+        ", indirizzo='" + indirizzo + "" +
+        ", orario=" + orario +
                 '}';
     }
 
@@ -63,7 +63,9 @@ public class Presidio {
         return new ArrayList<>(elencoReparti.values());
     }
 
-
+    public void aggiungiVisita(Visita visita) {
+        elencoVisite.add(visita);
+    }
 
 
 }

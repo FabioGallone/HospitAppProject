@@ -1,9 +1,6 @@
 
-import javax.swing.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
+
 public class HospitApp {
 
     private static HospitApp hospitapp;
@@ -50,7 +47,10 @@ public class HospitApp {
         listPresidi.addAll(elencoPresidi.values());
         return listPresidi;
     }
-    public List<Reparto> getElencoRepartiDelPresidio(Presidio presidio) {
+
+    //prima si chiamava getElencoRepartiDelPresidio
+    public List<Reparto> mostraReparti(Presidio presidio) {
+
         return presidio.getElencoRepartidelPresidio();
     }
 
@@ -90,13 +90,14 @@ public class HospitApp {
     public Reparto inserisciNuovoReparto(String nome, String codiceReparto, Presidio p) {
         Reparto reparto = new Reparto(nome, codiceReparto, p);
         System.out.println("Reparto inserito");
-        // Aggiungi il reparto all'elenco dei reparti del presidio corrente
         p.inserisciReparti(nome, codiceReparto, p);
         return reparto;
     }
 
 
-    public Reparto getRepartoByNome(String nomeReparto) {
+
+    //prima chiamata getRepartoByNome
+    public Reparto selezionaReparto(String nomeReparto) {
         for (Reparto reparto : reparti.values()) {
             if (reparto.getNome().equals(nomeReparto)) {
                 return reparto;
@@ -107,45 +108,39 @@ public class HospitApp {
     }
 
     public void prenotaVisita(String nomePresidio) {
-        // Recupera il presidio corrispondente al nome
         Presidio presidio = elencoPresidi.get(nomePresidio);
 
         if (presidio != null) {
-            // Ottieni il reparto selezionato dall'utente
-            String repartoSelezionato = "";  // Imposta questa variabile con il reparto selezionato
-
-            // Ora puoi utilizzare queste informazioni per fare quello che serve per prenotare la visita
-
-            // Esempio:
-            System.out.println("Prenotazione Visita - Presidio: " + presidio.getNome() + " | Reparto: " + repartoSelezionato);
+            System.out.println("Prenotazione Visita - Presidio: " + presidio.getNome());
         } else {
             System.out.println("Presidio non trovato: " + nomePresidio);
         }
+
+
+
     }
 
-    public void mostraReparti(Presidio presidio) {
-        List<Reparto> reparti = getElencoRepartiDelPresidio(presidio);
 
-        StringBuilder repartiText = new StringBuilder("Reparti del presidio " + presidio.getNome() + ":\n");
-        for (Reparto reparto : reparti) {
-            repartiText.append(reparto.getNome()).append("\n");
-        }
 
-        JOptionPane.showMessageDialog(null, repartiText.toString(), "Reparti", JOptionPane.INFORMATION_MESSAGE);
+    public void confermaPrenotazione(Reparto reparto, Presidio presidio, Utente utente) {
+        if (reparto != null && presidio != null && utente != null) {
 
-        prenotaVisita(presidio.getNome());
-    }
 
-    public void selezionaReparto(String codiceReparto, Presidio presidio) {
-        Reparto repartoSelezionato = reparti.get(codiceReparto);
+            Visita visita = new Visita(null, null, false, null);
 
-        if (repartoSelezionato != null) {
-            System.out.println("Reparto selezionato: " + repartoSelezionato.getNome());
-            prenotaVisita(presidio.getNome());
+            presidio.aggiungiVisita(visita);
+
+            reparto.aggiungiVisita(visita);
+
+            utente.prenotaVisita(visita);
+
         } else {
-            System.out.println("Reparto non trovato: " + codiceReparto);
+            System.out.println("Reparto, Presidio o Utente non validi.");
         }
     }
+
+
+
 
 
 }
