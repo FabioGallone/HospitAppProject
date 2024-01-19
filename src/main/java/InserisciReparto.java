@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.stream.Collectors;
 
-public class inserisciReparto implements ActionListener {
+public class InserisciReparto implements ActionListener {
     protected JFrame frame;
     private Utente utente;
     private JPanel addPanel;
@@ -22,7 +22,7 @@ public class inserisciReparto implements ActionListener {
 
 
 
-    public inserisciReparto(Utente utente) {
+    public InserisciReparto(Utente utente) {
         this.utente=utente;
         this.nome=utente.getNome();
         this.email = utente.getEmail();

@@ -17,6 +17,7 @@ public class Presidio {
         this.indirizzo = indirizzo;
         this.orario = orario;
         this.elencoReparti=new HashMap<>();
+        this.elencoVisite = new ArrayList<>();
     }
 
 

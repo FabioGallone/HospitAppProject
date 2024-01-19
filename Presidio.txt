@@ -7,3 +7,4 @@ dasd,dsad,ds,Cardiologia,Ortopedia,Ginecologia e Ostetricia
 sa,asa,sasaas,Ginecologia e Ostetricia,Neurologia
 adsa,dads,adasdsa,Ortopedia,Ginecologia e Ostetricia
 dsad,sadasdsad,assda,Oculistica,Oncologia
+sda,sda,sda,Cardiologia,Ortopedia,Neurologia
