@@ -191,7 +191,7 @@ public class LoginGUI implements ActionListener {
             } else {
                 String hashedPassword = Utils.hashPassword(password);
 
-                String user = name + "," + surname + "," + fiscalCode + "," + email + "," + hashedPassword + "," + isAdministrator +"," + isPresidio;
+                String user = name + "," + surname + "," + fiscalCode + "," + email + "," + hashedPassword + "," + isAdministrator +","+ isPresidio;
 
                 Utente utente=new Utente(name, surname, fiscalCode, email, hashedPassword, isAdministrator, isPresidio);
 

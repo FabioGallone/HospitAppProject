@@ -68,9 +68,6 @@ public class Presidio {
         elencoVisite.add(visita);
     }
 
-    public boolean contieneReparto(String nomeReparto) {
-        return elencoReparti.containsKey(nomeReparto);
-    }
 
 
 
