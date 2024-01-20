@@ -46,5 +46,9 @@ public class Reparto {
         elencoVisite.add(visita);
     }
 
+    public List<Visita> getVisite(){
+        return elencoVisite;
+    }
+
 
 }

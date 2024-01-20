@@ -134,6 +134,7 @@ public class Utente {
                     utente.setEmail(userDetails[3]);
                     utente.setHashedPassword(userDetails[4]);
                     utente.setAdministrator(Boolean.parseBoolean(userDetails[5]));
+                    utente.setPresidio(Boolean.parseBoolean(userDetails[6]));
                     return utente;
                 }
             }

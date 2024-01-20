@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -6,17 +7,20 @@ public class Medico {
 
     private String nome;
     private String cognome;
+
+
     private String codiceMedico;
     private boolean disponibilità;
 
     private Reparto reparto;
-    private Map<String, List<Medico>> medici; //tutti i medici
+    private Map<String, List<Medico>> medici = new HashMap<>();
 
     public Medico(String nome, String cognome, String codiceMedico, boolean disponibilità) {
         this.nome = nome;
         this.cognome = cognome;
         this.codiceMedico = codiceMedico;
         this.disponibilità = disponibilità;
+        this.reparto = reparto;
 
     }
 
@@ -59,6 +63,10 @@ public class Medico {
     public void setDisponibilità(boolean disponibilità) {
         this.disponibilità = disponibilità;
     }
+    public Reparto getReparto() {
+        return reparto;
+    }
+
 
     @Override
     public String toString() {
@@ -148,4 +156,16 @@ public class Medico {
 
 
     }
+    public Medico getMedicoByReparto(String nomeReparto) {
+        if (medici.containsKey(nomeReparto)) {
+            List<Medico> mediciReparto = medici.get(nomeReparto);
+            // Scegli un medico casuale dalla lista (puoi personalizzare la logica qui)
+            if (!mediciReparto.isEmpty()) {
+                int index = (int) (Math.random() * mediciReparto.size());
+                return mediciReparto.get(index);
+            }
+        }
+        return null;
+    }
+
 }

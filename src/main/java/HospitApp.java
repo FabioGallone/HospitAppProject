@@ -4,6 +4,8 @@ import java.util.*;
 public class HospitApp {
 
     private static HospitApp hospitapp;
+
+
     private Presidio presidioCorrente;
 
     private Map<String, Presidio> elencoPresidi;

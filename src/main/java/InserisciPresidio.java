@@ -100,10 +100,10 @@ public class InserisciPresidio implements ActionListener {
             addButton.addActionListener(this);
             frame.add(addButton);
 
-        } else if(!this.isAdministrator) {
+        } else if(!this.isAdministrator && !this.isPresidio) {
             PrenotaVisita prenotaVisita = new PrenotaVisita(frame, utente);
 
-        }else if(!this.isAdministrator && this.isPresidio){
+        }else{
             GestisciPrenotazione medicoclass= new GestisciPrenotazione(frame, utente);
         }
 
