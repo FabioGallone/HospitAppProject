@@ -10,12 +10,10 @@ import java.util.List;
 public class PrenotaVisita implements ActionListener  {
     private JFrame frame;
     private String nome,cognome, email, codicefiscale;
-    private Presidio presidio;
     private Reparto reparto;
     private List<Presidio> ListaPresidi;
     private Utente utente;
     private JLabel welcomeLabel;
-    private JButton backtoInserisciPresidio;
 
     HospitApp hospitapp = HospitApp.getInstance();
 
@@ -117,11 +115,11 @@ public class PrenotaVisita implements ActionListener  {
 
                 JLabel riepilogoLabel = new JLabel("Riepilogo:");
                 riepilogoLabel.setBounds(100, 150, 200, 45);
+                riepilogoLabel.setFont(new Font("Arial", Font.BOLD, 17));
                 frame.add(riepilogoLabel);
 
-                JLabel utenteLabel = new JLabel("Nome: " + nome + " | Email: " + email + " | CF: " + codicefiscale);
+                JLabel utenteLabel = new JLabel("Nome: " + nome + " | Email: " + email);
                 utenteLabel.setBounds(100, 175, 400, 35);
-                utenteLabel.setFont(new Font("Arial", Font.BOLD, 17));
                 frame.add(utenteLabel);
 
                 JLabel scelteLabel = new JLabel("Presidio: " + presidio.getNome() + " | Reparto: " + repartoSelezionato);

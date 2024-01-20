@@ -126,13 +126,16 @@ public class HospitApp {
         if (reparto != null && presidio != null && utente != null) {
 
 
-            Visita visita = new Visita(null, null, false, null);
+            Visita visita = new Visita(null, null);
 
             presidio.aggiungiVisita(visita);
 
             reparto.aggiungiVisita(visita);
 
             utente.prenotaVisita(visita);
+
+            String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getNome() +"," + visita.getGiorno()+ "," + visita.getOra();
+            Utils.writeOnFile("Visita.txt", contentToWrite);
 
         } else {
             System.out.println("Reparto, Presidio o Utente non validi.");
