@@ -99,6 +99,8 @@ public class HospitApp {
     //prima chiamata getRepartoByNome
     public Reparto selezionaReparto(String nomeReparto) {
         for (Reparto reparto : reparti.values()) {
+
+
             if (reparto.getNome().equals(nomeReparto)) {
                 return reparto;
             }

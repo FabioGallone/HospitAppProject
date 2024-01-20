@@ -9,9 +9,10 @@ public class Utente {
     private String cognome;
     private String codiceFiscale;
     private String email;
-
     private String hashedPassword;
     private boolean isAdministrator;
+
+    private boolean isPresidio;
     private List<Visita> visite;
 
 
@@ -20,7 +21,7 @@ public class Utente {
 
     }
 
-    public Utente(String nome, String cognome, String codiceFiscale, String email, String hashedPassword, boolean isAdministrator) {
+    public Utente(String nome, String cognome, String codiceFiscale, String email, String hashedPassword, boolean isAdministrator, boolean isPresidio) {
         this.nome = nome;
         this.cognome = cognome;
         this.codiceFiscale = codiceFiscale;
@@ -65,7 +66,13 @@ public class Utente {
         return email;
     }
 
+    public boolean isPresidio() {
+        return isPresidio;
+    }
 
+    public void setPresidio(boolean presidio) {
+        isPresidio = presidio;
+    }
 
     public void setEmail(String email) {
         this.email = email;

@@ -183,6 +183,7 @@ public class LoginGUI implements ActionListener {
             String email = regEmailField.getText();
             String password = String.valueOf(regPasswordField.getPassword());
             Boolean isAdministrator = false;
+            Boolean isPresidio = false;
 
             if (name.isEmpty() || surname.isEmpty() || fiscalCode.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 registerMessageLabel.setForeground(Color.RED);
@@ -190,9 +191,9 @@ public class LoginGUI implements ActionListener {
             } else {
                 String hashedPassword = Utils.hashPassword(password);
 
-                String user = name + "," + surname + "," + fiscalCode + "," + email + "," + hashedPassword + "," + isAdministrator;
+                String user = name + "," + surname + "," + fiscalCode + "," + email + "," + hashedPassword + "," + isAdministrator +"," + isPresidio;
 
-                Utente utente=new Utente(name, surname, fiscalCode, email, hashedPassword, isAdministrator);
+                Utente utente=new Utente(name, surname, fiscalCode, email, hashedPassword, isAdministrator, isPresidio);
 
                 if (!utente.isEmailAlreadyUsed(email) && Utils.isValidEmail(email)) {
                     utils.writeOnFile("Users.txt", user);

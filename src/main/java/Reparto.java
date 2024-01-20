@@ -45,4 +45,6 @@ public class Reparto {
     public void aggiungiVisita(Visita visita) {
         elencoVisite.add(visita);
     }
+
+
 }
