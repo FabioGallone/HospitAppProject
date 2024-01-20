@@ -143,7 +143,28 @@ public class Utente {
         }
         return null; // Restituisci null se l'utente non è stato trovato
     }
-
+    public Utente getUserFromName(String nome) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(",");
+                if (userDetails.length > 0 && userDetails[0].equals(nome)) {
+                    Utente utente = new Utente();
+                    utente.setNome(userDetails[0]);
+                    utente.setCognome(userDetails[1]);
+                    utente.setCodiceFiscale(userDetails[2]);
+                    utente.setEmail(userDetails[3]);
+                    utente.setHashedPassword(userDetails[4]);
+                    utente.setAdministrator(Boolean.parseBoolean(userDetails[5]));
+                    utente.setPresidio(Boolean.parseBoolean(userDetails[6]));
+                    return utente;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null; // Restituisci null se l'utente non è stato trovato
+    }
 
 
 

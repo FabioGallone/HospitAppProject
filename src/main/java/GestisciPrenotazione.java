@@ -17,6 +17,7 @@ public class GestisciPrenotazione implements ActionListener {
     private Utente utente;
     private Reparto reparto;
     private JLabel welcomeLabel;
+    private String nomeutente;
     private List<Presidio> ListaPresidi;
     private Medico medico = new Medico(nome,cognome,codicemedico);
 
@@ -60,6 +61,36 @@ public class GestisciPrenotazione implements ActionListener {
         }
     }
 
+    private void leggiVisitedalFile(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 3) {
+                    String nomeReparto = data[1].trim();
+                    String nomePresidio = data[0].trim();
+                    nomeutente = data[2].trim();
+
+                    Reparto reparto = hospitapp.selezionaReparto(nomeReparto);
+                    Presidio presidio = hospitapp.selezionaPresidio(nomePresidio);
+                    System.out.println(reparto);
+                    System.out.println(presidio);
+
+                    if (reparto != null && presidio != null) {
+                        Visita visita= hospitapp.confermaPrenotazione(reparto, presidio, utente.getUserFromName(nomeutente));
+                     
+                        break;
+                    } else {
+                        System.out.println("Reparto o Presidio non trovato: " + nomeReparto + ", " + nomePresidio);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void showGestisciPrenotazioneUI(){
 
@@ -70,33 +101,38 @@ public class GestisciPrenotazione implements ActionListener {
 
 
         this.leggiPresidiDaFile("Presidio.txt");
+        this.leggiVisitedalFile("Visita.txt");
         ListaPresidi = hospitapp.getElencoPresidi();
 
         int comboBoxXPosition = 100;
         int comboBoxYPosition = 250;
 
         for (Presidio presidio : ListaPresidi) {
-            String nomeStruttura = presidio.getNome();
+            if (this.nome.equals(presidio.getNome())) {
+                String nomeStruttura = presidio.getNome();
 
-            JComboBox<String> repartoComboBox = new JComboBox<>();
+                JComboBox<String> repartoComboBox = new JComboBox<>();
 
-            for (Reparto reparto : hospitapp.mostraReparti(presidio)) {
-                repartoComboBox.addItem(reparto.getNome());
+                for (Reparto reparto : hospitapp.mostraReparti(presidio)) {
+                    repartoComboBox.addItem(reparto.getNome());
+                }
+
+                repartoComboBox.setBounds(comboBoxXPosition, comboBoxYPosition, 150, 40);
+                repartoComboBox.setFocusable(false);
+                repartoComboBox.addActionListener(this);
+
+                repartoComboBox.setBorder(BorderFactory.createTitledBorder(nomeStruttura));
+
+                frame.add(repartoComboBox);
+
+                comboBoxXPosition += 160;
+                if (comboBoxXPosition + 150 > frame.getWidth()) {
+                    comboBoxXPosition = 100;
+                    comboBoxYPosition += 45;
+                }
+                break;
             }
 
-            repartoComboBox.setBounds(comboBoxXPosition, comboBoxYPosition, 150, 40);
-            repartoComboBox.setFocusable(false);
-            repartoComboBox.addActionListener(this);
-
-            repartoComboBox.setBorder(BorderFactory.createTitledBorder(nomeStruttura));
-
-            frame.add(repartoComboBox);
-
-            comboBoxXPosition += 160;
-            if (comboBoxXPosition + 150 > frame.getWidth()) {
-                comboBoxXPosition = 100;
-                comboBoxYPosition += 45;
-            }
         }
 
 
@@ -110,39 +146,33 @@ public class GestisciPrenotazione implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (Presidio presidio : ListaPresidi) {
-            JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
-            if (comboBox.getSelectedItem() != null) {
-                String repartoSelezionato = comboBox.getSelectedItem().toString();
-                this.reparto = hospitapp.selezionaReparto(repartoSelezionato);
+        JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
 
-                // Creazione della finestra del riepilogo delle visite
-                JFrame riepilogoFrame = new JFrame("Visite del reparto: " + reparto.getNome());
-                riepilogoFrame.setSize(400, 300);
-                riepilogoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                riepilogoFrame.setLayout(new BorderLayout());
+        if (comboBox.getSelectedItem() != null) {
+            String repartoSelezionato = comboBox.getSelectedItem().toString();
+            this.reparto = hospitapp.selezionaReparto(repartoSelezionato);
 
-                // Ottieni l'elenco delle visite del reparto
-                List<Visita> visiteReparto = reparto.getVisite();
+            JFrame riepilogoFrame = new JFrame("Visite del reparto: " + reparto.getNome());
+            riepilogoFrame.setSize(400, 300);
+            riepilogoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                // Crea un componente (ad esempio, JTextArea) per visualizzare le visite
-                JTextArea textArea = new JTextArea();
-                textArea.setEditable(false);
+            // Creazione del pannello contenente i bottoni
+            JPanel buttonPanel = new JPanel();
 
-                // Aggiungi le visite al componente
-                for (Visita visita : visiteReparto) {
-                    textArea.append(visita.toString() + "\n");
-                }
 
-                // Aggiungi il componente alla finestra
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                riepilogoFrame.add(scrollPane, BorderLayout.CENTER);
+            List<Visita> visiteReparto = reparto.getVisite();
+            System.out.println(visiteReparto);
 
-                // Rendi la finestra visibile
-                riepilogoFrame.setVisible(true);
-
-                break;
+            // Aggiungi un bottone per ogni visita
+            for (Visita visita : visiteReparto) {
+                JButton visitaButton = new JButton("Prenotazione del/la Signor/a: "+ nomeutente);
+                visitaButton.addActionListener(this);  // Aggiungi l'azione al bottone
+                buttonPanel.add(visitaButton);
             }
+
+            riepilogoFrame.add(buttonPanel, BorderLayout.CENTER);
+
+            riepilogoFrame.setVisible(true);
         }
     }
 

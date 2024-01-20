@@ -1,10 +1,2 @@
-Garibaldi,Circonvallazione,02-24,Neurologia
-Garibaldi,123,d1,Cardiologia
-Garibaldi,d1d12,d1111,Cardiologia,Ortopedia,Ginecologia e Ostetricia,Neurologia
-kljlk,jlkjlk,jkljljk,Urologia,Oncologia
-sda,dsa,dadsad,Ortopedia,Ginecologia e Ostetricia
-dasd,dsad,ds,Cardiologia,Ortopedia,Ginecologia e Ostetricia
-sa,asa,sasaas,Ginecologia e Ostetricia,Neurologia
-adsa,dads,adasdsa,Ortopedia,Ginecologia e Ostetricia
-dsad,sadasdsad,assda,Oculistica,Oncologia
-sda,sda,sda,Cardiologia,Ortopedia,Neurologia
+garibaldi,123,123,Cardiologia,Ortopedia,Ginecologia e Ostetricia,Oculistica
+a,a,a,Oncologia

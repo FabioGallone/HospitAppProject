@@ -1,4 +1,6 @@
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class HospitApp {
@@ -7,6 +9,7 @@ public class HospitApp {
 
 
     private Presidio presidioCorrente;
+    private Visita visitacorrente;
 
     private Map<String, Presidio> elencoPresidi;
     private Map<String, Reparto> reparti; //tutti i reparti
@@ -50,11 +53,7 @@ public class HospitApp {
         return listPresidi;
     }
 
-    //prima si chiamava getElencoRepartiDelPresidio
-    public List<Reparto> mostraReparti(Presidio presidio) {
 
-        return presidio.getElencoRepartidelPresidio();
-    }
 
 
     public void loadReparti(){
@@ -124,9 +123,13 @@ public class HospitApp {
 
     }
 
+    //prima si chiamava getElencoRepartiDelPresidio
+    public List<Reparto> mostraReparti(Presidio presidio) {
 
+        return presidio.getElencoRepartidelPresidio();
+    }
 
-    public void confermaPrenotazione(Reparto reparto, Presidio presidio, Utente utente) {
+    public Visita confermaPrenotazione(Reparto reparto, Presidio presidio, Utente utente) {
         if (reparto != null && presidio != null && utente != null) {
 
 
@@ -138,14 +141,40 @@ public class HospitApp {
 
             utente.prenotaVisita(visita);
 
-            String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getNome() +"," + visita.getGiorno()+ "," + visita.getOra();
-            Utils.writeOnFile("Visita.txt", contentToWrite);
-
+            return visita;
         } else {
             System.out.println("Reparto, Presidio o Utente non validi.");
+            return null;
         }
     }
 
+    public void ScrivisuFileVisita(Reparto reparto, Presidio presidio,Utente utente, Visita visita){
+
+        String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getNome() +"," + visita.getGiorno()+ "," + visita.getOra();
+        Utils.writeOnFile("Visita.txt", contentToWrite);
+
+    }
+
+    public Presidio selezionaPresidio(String nomePresidio) {
+        for (Presidio presidio : elencoPresidi.values()) {
+
+
+            if (presidio.getNome().equalsIgnoreCase(nomePresidio)){
+                return presidio;
+            }
+        }
+
+        return null;
+    }
+
+
+
+
+//    public Visita inserisciVisita(LocalTime ora, LocalDate giorno){
+//        this.visitacorrente=new Visita(ora, giorno);
+//        System.out.println("Visita inserita!");
+//        return visitacorrente;
+//    }
 
 
 
