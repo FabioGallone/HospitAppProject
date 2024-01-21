@@ -99,7 +99,6 @@ public class GestisciPrenotazione implements ActionListener {
         if (comboBox.getSelectedItem() != null) {
             String nomeRepartoSelezionato = comboBox.getSelectedItem().toString();
             this.reparto = hospitapp.selezionaReparto(nomeRepartoSelezionato);
-
             JFrame riepilogoFrame = new JFrame("Visite del reparto: " + reparto.getNome());
             riepilogoFrame.setSize(600, 400);
             riepilogoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -122,7 +121,7 @@ public class GestisciPrenotazione implements ActionListener {
 
             if (utentiAssociati != null) {
                 for (String codiceFiscale : utentiAssociati) {
-                    JButton visitaButton = new JButton("Prenotazione del/la Signor/a: " + codiceFiscale);
+                    JButton visitaButton = new JButton("Prenotazione - CF: " + codiceFiscale);
 
                     Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
 
@@ -168,6 +167,7 @@ public class GestisciPrenotazione implements ActionListener {
                             JCalendar calendar = new JCalendar();
                             JDateChooser dateChooser = new JDateChooser(calendar.getDate());
                             nuovaFrame.add(dateChooser, BorderLayout.CENTER);
+                            riepilogoFrame.dispose();
 
                             dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
                                 @Override

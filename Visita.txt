@@ -1,6 +1,6 @@
 a,Neurologia,codfiscLello,null,null,false
 Garibaldi,Ginecologia e Ostetricia,codfiscLello,10/01/2024,8:00,true
-Garibaldi,Ginecologia e Ostetricia,a,null,null,false
+Garibaldi,Ginecologia e Ostetricia,a,22/01/2024,12:00,true
 Garibaldi,Ginecologia e Ostetricia,b,17/01/2024,3:00,true
-Garibaldi,Ginecologia e Ostetricia,dsada,null,null,false
-Garibaldi,Ginecologia e Ostetricia,daddasd,null,null,false
+Garibaldi,Ginecologia e Ostetricia,dsada,14/01/2024,23:00,true
+Garibaldi,Ginecologia e Ostetricia,daddasd,22/01/2024,22:00,false
