@@ -13,7 +13,7 @@ public class PrenotaVisita implements ActionListener {
     private Reparto reparto;
     private List<Presidio> ListaPresidi;
     private Utente utente;
-    private JLabel welcomeLabel;
+    private JLabel welcomeLabel, titoloLabel;
     private JComboBox<String> presidioComboBox;
     private JComboBox<String> repartoComboBox;
     private JButton repartoButton;  // Aggiunta dichiarazione del pulsante del reparto selezionato
@@ -29,6 +29,7 @@ public class PrenotaVisita implements ActionListener {
         this.email = utente.getEmail();
         this.codicefiscale = utente.getCodiceFiscale();
         welcomeLabel = new JLabel();
+        titoloLabel = new JLabel();
         presidioComboBox = new JComboBox<>();
         repartoComboBox = new JComboBox<>();
         repartoButton = new JButton();  // Inizializzazione del pulsante del reparto selezionato
@@ -67,6 +68,11 @@ public class PrenotaVisita implements ActionListener {
         welcomeLabel.setBounds(30, 0, 400, 200);
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
         welcomeLabel.setText("Ciao " + nome);
+        frame.add(titoloLabel);
+        titoloLabel.setBounds(65, 120, 400, 200);
+        titoloLabel.setFont(new Font(null, Font.ITALIC, 15));
+        titoloLabel.setText("SELEZIONA PRESIDIO E REPARTO ");
+
 
         this.leggiPresidiDaFile("Presidio.txt");
         ListaPresidi = hospitapp.getElencoPresidi();
@@ -76,6 +82,8 @@ public class PrenotaVisita implements ActionListener {
             String nomeStruttura = presidio.getNome();
             presidioComboBox.addItem(nomeStruttura);
         }
+
+
 
         presidioComboBox.setBounds(100, 250, 150, 40);
         presidioComboBox.setFocusable(false);

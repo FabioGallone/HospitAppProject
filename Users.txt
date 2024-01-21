@@ -1,3 +1,7 @@
-Claudio,D'Errico,cdvdbsn1223,c@m.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,true,false
-claudio,derrico,123caq,m@c.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
+claudio,D'Errico,cdvdbsn1223,c@m.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,true,false
+lello,derrico,123caq,m@c.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
 Garibaldi,Gallone,123d,f@g.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,true
+alesio,derrico,123caq,m@j.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
+gioggio,derrico,123caq,m@jw.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
+giovanni,derrico,123caq,m@wej.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
+Cannizzaro,Gallone,123d,f@gg.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,true

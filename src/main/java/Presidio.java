@@ -47,6 +47,8 @@ public class Presidio {
     }
 
 
+
+
     @Override
     public String toString() {
         return "Presidio{" +
@@ -57,7 +59,7 @@ public class Presidio {
     }
 
     public void inserisciReparti(String nome, String codiceReparto, Presidio p){
-        Reparto r = new Reparto(nome, codiceReparto, p);
+        Reparto r = new Reparto(nome, codiceReparto);
         elencoReparti.put(codiceReparto, r);
     }
     public List<Reparto> getElencoRepartidelPresidio() {

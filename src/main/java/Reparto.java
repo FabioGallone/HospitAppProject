@@ -7,21 +7,16 @@ public class Reparto {
     private String codice;
     private Presidio presidio;
     private List<Visita> elencoVisite;
+    private List<Reparto> elencoReparto;
     public Reparto(String nome, String codice) {
         this.nome = nome;
         this.codice = codice;
         this.elencoVisite = new ArrayList<>();
     }
-    public Reparto(String nome, String codice, Presidio presidio) {
-        this.presidio =presidio;
-        this.nome = nome;
-        this.codice = codice;
 
-        this.elencoVisite = new ArrayList<>();
-
+    public Presidio getPresidio() {
+        return presidio;
     }
-
-
 
     public String getNome() {
         return nome;

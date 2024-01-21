@@ -89,7 +89,7 @@ public class HospitApp {
 
 
     public Reparto inserisciNuovoReparto(String nome, String codiceReparto, Presidio p) {
-        Reparto reparto = new Reparto(nome, codiceReparto, p);
+        Reparto reparto = new Reparto(nome, codiceReparto);
         System.out.println("Reparto inserito");
         p.inserisciReparti(nome, codiceReparto, p);
         return reparto;
