@@ -114,10 +114,10 @@ public class GestisciPrenotazione implements ActionListener {
             System.out.println("Utenti associati a " + chiaveMappa + ": " + utentiAssociati);
 
             if (utentiAssociati != null) {
-                for (String utente : utentiAssociati) {
-                    JButton visitaButton = new JButton("Prenotazione del/la Signor/a: " + utente);
+                for (String codiceFiscale : utentiAssociati) {
+                    JButton visitaButton = new JButton("Prenotazione del/la Signor/a: " + codiceFiscale);
 
-                    Visita visita= hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), utente);
+                    Visita visita= hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
                     System.out.println("PRIMA (DOVREBBE ESSERE NULL NULL): " + visita);
                     visitaButton.addActionListener(new ActionListener() {
                         @Override
@@ -176,7 +176,7 @@ public class GestisciPrenotazione implements ActionListener {
 
                                     visita.setGiorno(dataSelezionata);
                                     visita.setOra(orarioInserito);
-                                    Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), utente, dataselezionata, orarioInserito, utentiPerRepartoPresidio);
+                                    Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), codiceFiscale, dataselezionata, orarioInserito, utentiPerRepartoPresidio);
                                     nuovaFrame.dispose();
                                 }
                             });

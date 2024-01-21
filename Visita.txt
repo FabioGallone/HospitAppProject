@@ -1,6 +1,2 @@
-Garibaldi,Ginecologia e Ostetricia,giovanni,null,null
-Garibaldi,Neurologia,claudio,10/01/2024,5:00
-Garibaldi,Ginecologia e Ostetricia,alesio,21/01/2024,9:00
-Cannizzaro,Ginecologia e Ostetricia,gioggio,null,null
-Garibaldi,Ginecologia e Ostetricia,melo,null,null
-a,Neurologia,lello,null,null
+Garibaldi,Ginecologia e Ostetricia,codfiscLello,22/09/2023,13
+Garibaldi,Cardiologia,codfiscLello,26/01/2024,12:00

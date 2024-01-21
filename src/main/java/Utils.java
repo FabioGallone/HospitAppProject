@@ -152,15 +152,15 @@ public class Utils {
                 if (data.length >= 3) {
                     String nomePresidio = data[0].trim();
                     String nomeReparto = data[1].trim();
-                     String nomeutente = data[2].trim();
+                     String codiceFiscale = data[2].trim();
 
                     Reparto reparto = hospitapp.selezionaReparto(nomeReparto);
                     Presidio presidio = hospitapp.selezionaPresidio(nomePresidio);
 
                     if (reparto != null && presidio != null) {
-                        Visita visita  = hospitapp.confermaPrenotazione(reparto, presidio, utente.getUserFromName(nomeutente));
+                        Visita visita  = hospitapp.confermaPrenotazione(reparto, presidio, utente.getUserFromCF(codiceFiscale));
                         String chiave = nomePresidio + "_" + nomeReparto;
-                        utentiPerRepartoPresidio.computeIfAbsent(chiave, k -> new ArrayList<>()).add(nomeutente);
+                        utentiPerRepartoPresidio.computeIfAbsent(chiave, k -> new ArrayList<>()).add(codiceFiscale);
                     } else {
                         System.out.println("Reparto o Presidio non trovato: " + nomeReparto + ", " + nomePresidio);
                     }
@@ -171,14 +171,14 @@ public class Utils {
         }
     }
 
-    public static void aggiornaFileVisita(String filePath, String nomePresidio, String nomeReparto, String nomeUtente, String nuovaData, String nuovoOrario, Map<String, List<String>> utentiPerRepartoPresidio) {
+    public static void aggiornaFileVisita(String filePath, String nomePresidio, String nomeReparto, String codiceFiscale, String nuovaData, String nuovoOrario, Map<String, List<String>> utentiPerRepartoPresidio) {
         String chiave = nomePresidio + "_" + nomeReparto;
 
         if (utentiPerRepartoPresidio.containsKey(chiave)) {
             List<String> utentiAssociati = utentiPerRepartoPresidio.get(chiave);
 
             for (String utente : utentiAssociati) {
-                if (utente.equals(nomeUtente)) {
+                if (utente.equals(codiceFiscale)) {
                     try {
                         BufferedReader file = new BufferedReader(new FileReader(filePath));
                         String line;
@@ -190,7 +190,7 @@ public class Utils {
                             String reparto = data[1].trim();
                             String utenteFromFile = data[2].trim();
 
-                            if (presidio.equals(nomePresidio) && reparto.equals(nomeReparto) && utenteFromFile.equals(nomeUtente)) {
+                            if (presidio.equals(nomePresidio) && reparto.equals(nomeReparto) && utenteFromFile.equals(codiceFiscale)) {
                                 // Aggiorna la riga nel file con la nuova data e il nuovo orario
                                 line = presidio + "," + reparto + "," + utente + "," + nuovaData + "," + nuovoOrario;
                             }

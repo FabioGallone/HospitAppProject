@@ -148,7 +148,7 @@ public class HospitApp {
             utente.prenotaVisita(visita);
 
 
-            String value=reparto.getNome()+"_"+presidio.getNome()+"_"+utente.getNome();
+            String value=reparto.getNome()+"_"+presidio.getNome()+"_"+utente.getCodiceFiscale();
             visiteAssociations.put(value, visita);
 
 
@@ -158,8 +158,8 @@ public class HospitApp {
             return null;
         }
     }
-    public Visita trovaVisita(String nomeReparto, String nomePresidio, String nomeUtente) {
-        String key = nomeReparto + "_" + nomePresidio + "_" + nomeUtente;
+    public Visita trovaVisita(String nomeReparto, String nomePresidio, String codiceFiscale) {
+        String key = nomeReparto + "_" + nomePresidio + "_" + codiceFiscale;
 
         if (visiteAssociations.containsKey(key)) {
             return visiteAssociations.get(key);
@@ -172,7 +172,7 @@ public class HospitApp {
 
     public void ScrivisuFileVisita(Reparto reparto, Presidio presidio,Utente utente, Visita visita){
 
-        String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getNome() +"," + visita.getGiorno()+ "," + visita.getOra();
+        String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getCodiceFiscale() +"," + visita.getGiorno()+ "," + visita.getOra();
         Utils.writeOnFile("Visita.txt", contentToWrite);
 
     }

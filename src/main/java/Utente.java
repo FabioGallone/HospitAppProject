@@ -143,12 +143,12 @@ public class Utente {
         }
         return null; // Restituisci null se l'utente non è stato trovato
     }
-    public Utente getUserFromName(String nome) {
+    public Utente getUserFromCF(String codiceFiscale) {
         try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split(",");
-                if (userDetails.length > 0 && userDetails[0].equals(nome)) {
+                if (userDetails.length > 0 && userDetails[2].equals(codiceFiscale)) {
                     Utente utente = new Utente();
                     utente.setNome(userDetails[0]);
                     utente.setCognome(userDetails[1]);
