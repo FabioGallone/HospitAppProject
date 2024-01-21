@@ -38,6 +38,7 @@ public class Reparto {
         elencoVisite.add(visita);
     }
 
-
-
+    public List<Visita> getElencoVisite() {
+        return elencoVisite;
+    }
 }

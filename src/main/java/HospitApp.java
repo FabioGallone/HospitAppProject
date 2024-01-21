@@ -2,10 +2,12 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.HashMap;
 
 public class HospitApp {
 
     private static HospitApp hospitapp;
+    private Map<String, Visita> visiteAssociations;
 
 
     private Presidio presidioCorrente;
@@ -17,6 +19,8 @@ public class HospitApp {
     private HospitApp() {
         this.elencoPresidi = new HashMap<>();
         this.reparti = new HashMap<>(); // Inizializza la mappa reparti
+        this.visiteAssociations = new HashMap<>();
+
         loadReparti();
     }
 
@@ -133,6 +137,8 @@ public class HospitApp {
         if (reparto != null && presidio != null && utente != null) {
 
 
+
+
             Visita visita = new Visita(null, null);
 
             presidio.aggiungiVisita(visita);
@@ -141,12 +147,28 @@ public class HospitApp {
 
             utente.prenotaVisita(visita);
 
+
+            String value=reparto.getNome()+"_"+presidio.getNome()+"_"+utente.getNome();
+            visiteAssociations.put(value, visita);
+
+
             return visita;
         } else {
             System.out.println("Reparto, Presidio o Utente non validi.");
             return null;
         }
     }
+    public Visita trovaVisita(String nomeReparto, String nomePresidio, String nomeUtente) {
+        String key = nomeReparto + "_" + nomePresidio + "_" + nomeUtente;
+
+        if (visiteAssociations.containsKey(key)) {
+            return visiteAssociations.get(key);
+        } else {
+            System.out.println("Visita non trovata per la chiave: " + key);
+            return null;
+        }
+    }
+
 
     public void ScrivisuFileVisita(Reparto reparto, Presidio presidio,Utente utente, Visita visita){
 

@@ -5,13 +5,13 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
+
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
@@ -25,9 +25,10 @@ public class GestisciPrenotazione implements ActionListener {
     private JLabel welcomeLabel;
     private String nomeutente;
     private List<Presidio> ListaPresidi;
-    private Utente u;
+
+
     private Medico medico = new Medico(nome, cognome, codicemedico);
-    private List<Visita> listVisita = new ArrayList<>();
+
     private Map<String, List<String>> utentiPerRepartoPresidio;
 
     public GestisciPrenotazione(JFrame frame, Utente utente) {
@@ -43,33 +44,7 @@ public class GestisciPrenotazione implements ActionListener {
         showGestisciPrenotazioneUI();
     }
 
-    private void leggiVisitedalFile(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
 
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 3) {
-                    String nomePresidio = data[0].trim();
-                    String nomeReparto = data[1].trim();
-                    nomeutente = data[2].trim();
-
-                    Reparto reparto = hospitapp.selezionaReparto(nomeReparto);
-                    Presidio presidio = hospitapp.selezionaPresidio(nomePresidio);
-
-                    if (reparto != null && presidio != null) {
-                        Visita visita = hospitapp.confermaPrenotazione(reparto, presidio, utente.getUserFromName(nomeutente));
-                        String chiave = nomePresidio + "_" + nomeReparto;
-                        utentiPerRepartoPresidio.computeIfAbsent(chiave, k -> new ArrayList<>()).add(nomeutente);
-                    } else {
-                        System.out.println("Reparto o Presidio non trovato: " + nomeReparto + ", " + nomePresidio);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void showGestisciPrenotazioneUI() {
         frame.add(welcomeLabel);
@@ -77,8 +52,8 @@ public class GestisciPrenotazione implements ActionListener {
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
         welcomeLabel.setText("Ciaoooooooooooo " + nome);
 
-        this.leggiPresidiDaFile("Presidio.txt");
-        this.leggiVisitedalFile("Visita.txt");
+        Utils.leggiPresidiDaFile("Presidio.txt");
+        Utils.leggiVisitedalFile("Visita.txt", utente, utentiPerRepartoPresidio);
         ListaPresidi = hospitapp.getElencoPresidi();
 
         int comboBoxXPosition = 100;
@@ -141,6 +116,9 @@ public class GestisciPrenotazione implements ActionListener {
             if (utentiAssociati != null) {
                 for (String utente : utentiAssociati) {
                     JButton visitaButton = new JButton("Prenotazione del/la Signor/a: " + utente);
+
+                    Visita visita= hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), utente);
+                    System.out.println("PRIMA (DOVREBBE ESSERE NULL NULL): " + visita);
                     visitaButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -172,7 +150,9 @@ public class GestisciPrenotazione implements ActionListener {
                                 @Override
                                 public void propertyChange(PropertyChangeEvent evt) {
                                     java.util.Date dataSelezionata = dateChooser.getDate();
+
                                     System.out.println("Data selezionata: " + dataSelezionata);
+
 
                                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                                     dataSelezionataLabel.setText(sdf.format(dataSelezionata));
@@ -183,12 +163,20 @@ public class GestisciPrenotazione implements ActionListener {
                             confermaButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
+
+
                                     String orarioInserito = orarioTextField.getText();
                                     java.util.Date dataSelezionata = dateChooser.getDate();
 
-                                    System.out.println("Orario inserito: " + orarioInserito);
-                                    System.out.println("Data selezionata: " + dataSelezionata);
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                    String dataselezionata= sdf.format(dataSelezionata);
 
+                                    System.out.println("Orario inserito: " + orarioInserito);
+                                    System.out.println("Data selezionata: " + dataselezionata);
+
+                                    visita.setGiorno(dataSelezionata);
+                                    visita.setOra(orarioInserito);
+                                    Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), utente, dataselezionata, orarioInserito, utentiPerRepartoPresidio);
                                     nuovaFrame.dispose();
                                 }
                             });
@@ -207,29 +195,9 @@ public class GestisciPrenotazione implements ActionListener {
         }
     }
 
-    private void leggiPresidiDaFile(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
 
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 3) {
-                    Presidio presidio = hospitapp.InserisciNuovoPresidio(data[0].trim(), data[1].trim(), data[2].trim());
 
-                    for (int j = 3; j < data.length; j++) {
-                        Reparto r = hospitapp.selezionaReparto(data[j].trim());
-                        if (r != null) {
-                            presidio.inserisciReparti(r.getNome(), r.getCodice(), presidio);
-                        }
-                    }
 
-                    hospitapp.confermaInserimento();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void mostraMessaggio(String messaggio) {
         JOptionPane.showMessageDialog(frame, messaggio, "Messaggio", JOptionPane.INFORMATION_MESSAGE);

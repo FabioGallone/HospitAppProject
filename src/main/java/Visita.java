@@ -1,37 +1,37 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 public class Visita {
 
-    private LocalTime ora;
-    private LocalDate giorno;
+    private String ora;
+    private Date giorno;
 
 
-    public Visita(LocalTime ora, LocalDate giorno) {
+    public Visita(String ora, Date giorno) {
         this.ora = ora;
         this.giorno = giorno;
     }
 
-    public LocalTime getOra() {
+    public String getOra() {
         return ora;
     }
 
-    public void setOra(LocalTime ora) {
+    public void setOra(String ora) {
         this.ora = ora;
     }
 
-    public LocalDate getGiorno() {
+    public Date getGiorno() {
         return giorno;
     }
 
-    public void setGiorno(LocalDate giorno) {
+    public void setGiorno(Date giorno) {
         this.giorno = giorno;
     }
 
     @Override
     public String toString() {
-        return "PrenotaVisita{" +
-                "ora=" + ora +
+        return  "ora=" + ora +
                 ", giorno=" + giorno +
                 '}';
     }

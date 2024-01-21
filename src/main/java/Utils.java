@@ -1,9 +1,7 @@
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -104,7 +102,120 @@ public class Utils {
 
         return listaPresidi;
     }
+    public static String generaCodiceCasuale(int lunghezza) {
+        String caratteriPerCodice = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder codiceCasuale = new StringBuilder();
 
+        Random random = new Random();
+        for (int i = 0; i < lunghezza; i++) {
+            int index = random.nextInt(caratteriPerCodice.length());
+            char carattereCasuale = caratteriPerCodice.charAt(index);
+            codiceCasuale.append(carattereCasuale);
+        }
+
+        return codiceCasuale.toString();
+    }
+
+    public static void leggiPresidiDaFile(String filePath) {
+        HospitApp hospitapp= HospitApp.getInstance();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 3) {
+                    Presidio presidio = hospitapp.InserisciNuovoPresidio(data[0].trim(), data[1].trim(), data[2].trim());
+
+                    for (int j = 3; j < data.length; j++) {
+                        Reparto r = hospitapp.selezionaReparto(data[j].trim());
+                        if (r != null) {
+                            presidio.inserisciReparti(r.getNome(), r.getCodice(), presidio);
+                        }
+                    }
+
+                    hospitapp.confermaInserimento();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void leggiVisitedalFile(String filePath, Utente utente, Map<String, List<String>> utentiPerRepartoPresidio) {
+        HospitApp hospitapp= HospitApp.getInstance();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 3) {
+                    String nomePresidio = data[0].trim();
+                    String nomeReparto = data[1].trim();
+                     String nomeutente = data[2].trim();
+
+                    Reparto reparto = hospitapp.selezionaReparto(nomeReparto);
+                    Presidio presidio = hospitapp.selezionaPresidio(nomePresidio);
+
+                    if (reparto != null && presidio != null) {
+                        Visita visita  = hospitapp.confermaPrenotazione(reparto, presidio, utente.getUserFromName(nomeutente));
+                        String chiave = nomePresidio + "_" + nomeReparto;
+                        utentiPerRepartoPresidio.computeIfAbsent(chiave, k -> new ArrayList<>()).add(nomeutente);
+                    } else {
+                        System.out.println("Reparto o Presidio non trovato: " + nomeReparto + ", " + nomePresidio);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void aggiornaFileVisita(String filePath, String nomePresidio, String nomeReparto, String nomeUtente, String nuovaData, String nuovoOrario, Map<String, List<String>> utentiPerRepartoPresidio) {
+        String chiave = nomePresidio + "_" + nomeReparto;
+
+        if (utentiPerRepartoPresidio.containsKey(chiave)) {
+            List<String> utentiAssociati = utentiPerRepartoPresidio.get(chiave);
+
+            for (String utente : utentiAssociati) {
+                if (utente.equals(nomeUtente)) {
+                    try {
+                        BufferedReader file = new BufferedReader(new FileReader(filePath));
+                        String line;
+                        StringBuilder inputBuffer = new StringBuilder();
+
+                        while ((line = file.readLine()) != null) {
+                            String[] data = line.split(",");
+                            String presidio = data[0].trim();
+                            String reparto = data[1].trim();
+                            String utenteFromFile = data[2].trim();
+
+                            if (presidio.equals(nomePresidio) && reparto.equals(nomeReparto) && utenteFromFile.equals(nomeUtente)) {
+                                // Aggiorna la riga nel file con la nuova data e il nuovo orario
+                                line = presidio + "," + reparto + "," + utente + "," + nuovaData + "," + nuovoOrario;
+                            }
+
+                            inputBuffer.append(line);
+                            inputBuffer.append('\n');
+                        }
+
+                        file.close();
+
+                        // Sovrascrivi il file con le nuove informazioni
+                        FileOutputStream fileOut = new FileOutputStream(filePath);
+                        fileOut.write(inputBuffer.toString().getBytes());
+                        fileOut.close();
+
+                        System.out.println("File visita.txt aggiornato con successo.");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else {
+            System.out.println("Prenotazione non trovata per la chiave: " + chiave);
+        }
+    }
 
 
 }

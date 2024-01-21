@@ -71,6 +71,7 @@ public class Presidio {
     }
 
 
-
-
+    public List<Visita> getElencoVisite() {
+        return elencoVisite;
+    }
 }
