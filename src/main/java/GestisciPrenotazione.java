@@ -2,13 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
 public class GestisciPrenotazione implements ActionListener {
     private JFrame frame;
@@ -54,9 +59,6 @@ public class GestisciPrenotazione implements ActionListener {
 
                     if (reparto != null && presidio != null) {
                         Visita visita = hospitapp.confermaPrenotazione(reparto, presidio, utente.getUserFromName(nomeutente));
-//                        listVisita.add(visita);
-
-                        // Memorizza il nomeUtente associato a reparto e presidio
                         String chiave = nomePresidio + "_" + nomeReparto;
                         utentiPerRepartoPresidio.computeIfAbsent(chiave, k -> new ArrayList<>()).add(nomeutente);
                     } else {
@@ -125,25 +127,76 @@ public class GestisciPrenotazione implements ActionListener {
             this.reparto = hospitapp.selezionaReparto(nomeRepartoSelezionato);
 
             JFrame riepilogoFrame = new JFrame("Visite del reparto: " + reparto.getNome());
-            riepilogoFrame.setSize(400, 300);
+            riepilogoFrame.setSize(300, 200);
             riepilogoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             JPanel buttonPanel = new JPanel();
+//            buttonPanel.setLayout(new GridLayout(3, 1));
 
-            // Ottieni la chiave per la mappa
             String chiaveMappa = presidio.getNome() + "_" + reparto.getNome();
-
-            // Ottieni la lista di utenti associata alla chiave dalla mappa
             List<String> utentiAssociati = utentiPerRepartoPresidio.get(chiaveMappa);
 
-            // Stampa i nomi utente associati a quel presidio e reparto
             System.out.println("Utenti associati a " + chiaveMappa + ": " + utentiAssociati);
 
-            // Aggiungi un bottone per ogni visita
             if (utentiAssociati != null) {
                 for (String utente : utentiAssociati) {
                     JButton visitaButton = new JButton("Prenotazione del/la Signor/a: " + utente);
-                    visitaButton.addActionListener(this);  // Aggiungi l'azione al bottone
+                    visitaButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            JFrame nuovaFrame = new JFrame("Inserisci Orario e Data");
+                            nuovaFrame.setSize(400, 300);
+                            nuovaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                            JPanel orarioDataPanel = new JPanel();
+                            orarioDataPanel.setLayout(new GridLayout(2, 2));
+
+                            JLabel orarioLabel = new JLabel("Inserisci Orario:");
+                            JTextField orarioTextField = new JTextField();
+                            orarioDataPanel.add(orarioLabel);
+                            orarioDataPanel.add(orarioTextField);
+
+                            JLabel dataLabel = new JLabel("Data selezionata:");
+                            JLabel dataSelezionataLabel = new JLabel();
+                            orarioDataPanel.add(dataLabel);
+                            orarioDataPanel.add(dataSelezionataLabel);
+
+                            nuovaFrame.add(orarioDataPanel, BorderLayout.NORTH);
+
+                            // Rendi il campo di inserimento della data più piccolo
+                            JCalendar calendar = new JCalendar();
+                            JDateChooser dateChooser = new JDateChooser(calendar.getDate());
+                            nuovaFrame.add(dateChooser, BorderLayout.CENTER);
+
+                            dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
+                                @Override
+                                public void propertyChange(PropertyChangeEvent evt) {
+                                    java.util.Date dataSelezionata = dateChooser.getDate();
+                                    System.out.println("Data selezionata: " + dataSelezionata);
+
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                    dataSelezionataLabel.setText(sdf.format(dataSelezionata));
+                                }
+                            });
+
+                            JButton confermaButton = new JButton("Conferma");
+                            confermaButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    String orarioInserito = orarioTextField.getText();
+                                    java.util.Date dataSelezionata = dateChooser.getDate();
+
+                                    System.out.println("Orario inserito: " + orarioInserito);
+                                    System.out.println("Data selezionata: " + dataSelezionata);
+
+                                    nuovaFrame.dispose();
+                                }
+                            });
+
+                            nuovaFrame.add(confermaButton, BorderLayout.SOUTH);
+                            nuovaFrame.setVisible(true);
+                        }
+                    });
                     buttonPanel.add(visitaButton);
                 }
             }
@@ -176,5 +229,9 @@ public class GestisciPrenotazione implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void mostraMessaggio(String messaggio) {
+        JOptionPane.showMessageDialog(frame, messaggio, "Messaggio", JOptionPane.INFORMATION_MESSAGE);
     }
 }

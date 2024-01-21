@@ -14,9 +14,6 @@ public class Reparto {
         this.elencoVisite = new ArrayList<>();
     }
 
-    public Presidio getPresidio() {
-        return presidio;
-    }
 
     public String getNome() {
         return nome;
@@ -41,9 +38,6 @@ public class Reparto {
         elencoVisite.add(visita);
     }
 
-    public List<Visita> getVisite(){
-        return elencoVisite;
-    }
 
 
 }
