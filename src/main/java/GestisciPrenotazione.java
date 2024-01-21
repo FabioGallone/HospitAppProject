@@ -95,30 +95,54 @@ public class GestisciPrenotazione implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
         Presidio presidio = hospitapp.selezionaPresidio(utente.getNome());
-        List<Reparto> elencoReparti = presidio.getElencoRepartidelPresidio();
 
         if (comboBox.getSelectedItem() != null) {
             String nomeRepartoSelezionato = comboBox.getSelectedItem().toString();
             this.reparto = hospitapp.selezionaReparto(nomeRepartoSelezionato);
 
             JFrame riepilogoFrame = new JFrame("Visite del reparto: " + reparto.getNome());
-            riepilogoFrame.setSize(300, 200);
+            riepilogoFrame.setSize(600, 400);
             riepilogoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-            JPanel buttonPanel = new JPanel();
-//            buttonPanel.setLayout(new GridLayout(3, 1));
+            JPanel mainPanel = new JPanel(new GridLayout(1, 2));
+
+            JPanel visiteDaPrenotarePanel = new JPanel();
+            JPanel visitePrenotatePanel = new JPanel();
+
+            visiteDaPrenotarePanel.setLayout(new BoxLayout(visiteDaPrenotarePanel, BoxLayout.Y_AXIS));
+            visitePrenotatePanel.setLayout(new BoxLayout(visitePrenotatePanel, BoxLayout.Y_AXIS));
 
             String chiaveMappa = presidio.getNome() + "_" + reparto.getNome();
             List<String> utentiAssociati = utentiPerRepartoPresidio.get(chiaveMappa);
 
             System.out.println("Utenti associati a " + chiaveMappa + ": " + utentiAssociati);
 
+            boolean titoloVisiteDaPrenotareAggiunto = false;
+            boolean titoloVisitePrenotateAggiunto = false;
+
             if (utentiAssociati != null) {
                 for (String codiceFiscale : utentiAssociati) {
                     JButton visitaButton = new JButton("Prenotazione del/la Signor/a: " + codiceFiscale);
 
-                    Visita visita= hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
-                    System.out.println("PRIMA (DOVREBBE ESSERE NULL NULL): " + visita);
+                    Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
+
+
+                    if (!visita.isStato()) {
+                        if (!titoloVisiteDaPrenotareAggiunto) {
+                            JLabel label = new JLabel("Visite da prenotare: ");
+                            visiteDaPrenotarePanel.add(label);
+                            titoloVisiteDaPrenotareAggiunto = true;
+                        }
+                        visiteDaPrenotarePanel.add(visitaButton);
+                    } else {
+                        if (!titoloVisitePrenotateAggiunto) {
+                            JLabel label = new JLabel("Visite prenotate: ");
+                            visitePrenotatePanel.add(label);
+                            titoloVisitePrenotateAggiunto = true;
+                        }
+                        visitePrenotatePanel.add(visitaButton);
+                    }
+
                     visitaButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -141,7 +165,6 @@ public class GestisciPrenotazione implements ActionListener {
 
                             nuovaFrame.add(orarioDataPanel, BorderLayout.NORTH);
 
-                            // Rendi il campo di inserimento della data più piccolo
                             JCalendar calendar = new JCalendar();
                             JDateChooser dateChooser = new JDateChooser(calendar.getDate());
                             nuovaFrame.add(dateChooser, BorderLayout.CENTER);
@@ -150,9 +173,7 @@ public class GestisciPrenotazione implements ActionListener {
                                 @Override
                                 public void propertyChange(PropertyChangeEvent evt) {
                                     java.util.Date dataSelezionata = dateChooser.getDate();
-
                                     System.out.println("Data selezionata: " + dataSelezionata);
-
 
                                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                                     dataSelezionataLabel.setText(sdf.format(dataSelezionata));
@@ -163,20 +184,20 @@ public class GestisciPrenotazione implements ActionListener {
                             confermaButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-
-
                                     String orarioInserito = orarioTextField.getText();
                                     java.util.Date dataSelezionata = dateChooser.getDate();
 
                                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                    String dataselezionata= sdf.format(dataSelezionata);
+                                    String dataselezionata = sdf.format(dataSelezionata);
 
                                     System.out.println("Orario inserito: " + orarioInserito);
                                     System.out.println("Data selezionata: " + dataselezionata);
 
-                                    visita.setGiorno(dataSelezionata);
+                                    visita.setGiorno(dataselezionata);
                                     visita.setOra(orarioInserito);
-                                    Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), codiceFiscale, dataselezionata, orarioInserito, utentiPerRepartoPresidio);
+                                    visita.setStato(true);
+                                    Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), codiceFiscale, dataselezionata, orarioInserito, utentiPerRepartoPresidio, visita.isStato());
+
                                     nuovaFrame.dispose();
                                 }
                             });
@@ -185,15 +206,21 @@ public class GestisciPrenotazione implements ActionListener {
                             nuovaFrame.setVisible(true);
                         }
                     });
-                    buttonPanel.add(visitaButton);
                 }
             }
 
-            riepilogoFrame.add(buttonPanel, BorderLayout.CENTER);
+            if (titoloVisiteDaPrenotareAggiunto) {
+                mainPanel.add(new JScrollPane(visiteDaPrenotarePanel));
+            }
+            if (titoloVisitePrenotateAggiunto) {
+                mainPanel.add(new JScrollPane(visitePrenotatePanel));
+            }
 
+            riepilogoFrame.add(mainPanel);
             riepilogoFrame.setVisible(true);
         }
     }
+
 
 
 

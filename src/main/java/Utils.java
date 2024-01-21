@@ -1,6 +1,8 @@
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -153,12 +155,19 @@ public class Utils {
                     String nomePresidio = data[0].trim();
                     String nomeReparto = data[1].trim();
                      String codiceFiscale = data[2].trim();
+                     String date= data[3].trim();
+                     String ora= data[4].trim();
+                     boolean  isStato= Boolean.parseBoolean(data[5].trim());
 
                     Reparto reparto = hospitapp.selezionaReparto(nomeReparto);
                     Presidio presidio = hospitapp.selezionaPresidio(nomePresidio);
 
                     if (reparto != null && presidio != null) {
                         Visita visita  = hospitapp.confermaPrenotazione(reparto, presidio, utente.getUserFromCF(codiceFiscale));
+                        visita.setStato(isStato);
+                        visita.setOra(ora);
+                        visita.setGiorno(date);
+
                         String chiave = nomePresidio + "_" + nomeReparto;
                         utentiPerRepartoPresidio.computeIfAbsent(chiave, k -> new ArrayList<>()).add(codiceFiscale);
                     } else {
@@ -171,7 +180,7 @@ public class Utils {
         }
     }
 
-    public static void aggiornaFileVisita(String filePath, String nomePresidio, String nomeReparto, String codiceFiscale, String nuovaData, String nuovoOrario, Map<String, List<String>> utentiPerRepartoPresidio) {
+    public static void aggiornaFileVisita(String filePath, String nomePresidio, String nomeReparto, String codiceFiscale, String nuovaData, String nuovoOrario, Map<String, List<String>> utentiPerRepartoPresidio, boolean isStato) {
         String chiave = nomePresidio + "_" + nomeReparto;
 
         if (utentiPerRepartoPresidio.containsKey(chiave)) {
@@ -192,7 +201,7 @@ public class Utils {
 
                             if (presidio.equals(nomePresidio) && reparto.equals(nomeReparto) && utenteFromFile.equals(codiceFiscale)) {
                                 // Aggiorna la riga nel file con la nuova data e il nuovo orario
-                                line = presidio + "," + reparto + "," + utente + "," + nuovaData + "," + nuovoOrario;
+                                line = presidio + "," + reparto + "," + utente + "," + nuovaData + "," + nuovoOrario +"," +isStato;
                             }
 
                             inputBuffer.append(line);

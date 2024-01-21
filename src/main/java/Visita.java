@@ -5,12 +5,22 @@ import java.util.Date;
 public class Visita {
 
     private String ora;
-    private Date giorno;
+    private String giorno;
 
+    private boolean stato;
 
-    public Visita(String ora, Date giorno) {
+    public Visita(String ora, String giorno, boolean stato) {
         this.ora = ora;
         this.giorno = giorno;
+        this.stato=stato;
+    }
+
+    public boolean isStato() {
+        return stato;
+    }
+
+    public void setStato(boolean stato) {
+        this.stato = stato;
     }
 
     public String getOra() {
@@ -21,20 +31,19 @@ public class Visita {
         this.ora = ora;
     }
 
-    public Date getGiorno() {
+    public String getGiorno() {
         return giorno;
     }
 
-    public void setGiorno(Date giorno) {
+    public void setGiorno(String giorno) {
         this.giorno = giorno;
     }
 
     @Override
     public String toString() {
-        return  "ora=" + ora +
+        return   "ora='" + ora + '\'' +
                 ", giorno=" + giorno +
+                ", stato=" + stato +
                 '}';
     }
-
-
 }

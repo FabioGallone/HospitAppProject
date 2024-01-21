@@ -139,7 +139,7 @@ public class HospitApp {
 
 
 
-            Visita visita = new Visita(null, null);
+            Visita visita = new Visita(null, null, false);
 
             presidio.aggiungiVisita(visita);
 
@@ -172,7 +172,7 @@ public class HospitApp {
 
     public void ScrivisuFileVisita(Reparto reparto, Presidio presidio,Utente utente, Visita visita){
 
-        String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getCodiceFiscale() +"," + visita.getGiorno()+ "," + visita.getOra();
+        String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getCodiceFiscale() +"," + visita.getGiorno()+ "," + visita.getOra()+ "," + visita.isStato();
         Utils.writeOnFile("Visita.txt", contentToWrite);
 
     }
