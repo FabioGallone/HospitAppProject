@@ -166,7 +166,7 @@ public class PrenotaVisita implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Visita visita = hospitapp.confermaPrenotazione(reparto, presidioCorrente, utente);
-                hospitapp.ScrivisuFileVisita(reparto, presidioCorrente, utente, visita);
+                Utils.ScrivisuFileVisita(reparto, presidioCorrente, utente, visita);
                 mostraMessaggio("Visita prenotata con successo!");
                 InserisciPresidio inserisciPresidio = new InserisciPresidio(utente);
                 frame.dispose();

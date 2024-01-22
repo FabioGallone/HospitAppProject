@@ -111,10 +111,9 @@ public class GestisciPrenotazione implements ActionListener {
             visiteDaPrenotarePanel.setLayout(new BoxLayout(visiteDaPrenotarePanel, BoxLayout.Y_AXIS));
             visitePrenotatePanel.setLayout(new BoxLayout(visitePrenotatePanel, BoxLayout.Y_AXIS));
 
-            String chiaveMappa = presidio.getNome() + "_" + reparto.getNome();
-            List<String> utentiAssociati = utentiPerRepartoPresidio.get(chiaveMappa);
 
-            System.out.println("Utenti associati a " + chiaveMappa + ": " + utentiAssociati);
+            List<String> utentiAssociati = hospitapp.visualizzaPrenotazioni(reparto, presidio, utente, utentiPerRepartoPresidio);
+
 
             boolean titoloVisiteDaPrenotareAggiunto = false;
             boolean titoloVisitePrenotateAggiunto = false;
@@ -193,9 +192,7 @@ public class GestisciPrenotazione implements ActionListener {
                                     System.out.println("Orario inserito: " + orarioInserito);
                                     System.out.println("Data selezionata: " + dataselezionata);
 
-                                    visita.setGiorno(dataselezionata);
-                                    visita.setOra(orarioInserito);
-                                    visita.setStato(true);
+                                    hospitapp.confermaGestione(visita, dataselezionata,orarioInserito);
                                     Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), codiceFiscale, dataselezionata, orarioInserito, utentiPerRepartoPresidio, visita.isStato());
 
                                     nuovaFrame.dispose();

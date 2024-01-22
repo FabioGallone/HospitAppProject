@@ -170,12 +170,26 @@ public class HospitApp {
     }
 
 
-    public void ScrivisuFileVisita(Reparto reparto, Presidio presidio,Utente utente, Visita visita){
+    public List<String> visualizzaPrenotazioni(Reparto reparto, Presidio presidio, Utente utente, Map<String, List<String>> utentiPerRepartoPresidio) {
 
-        String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getCodiceFiscale() +"," + visita.getGiorno()+ "," + visita.getOra()+ "," + visita.isStato();
-        Utils.writeOnFile("Visita.txt", contentToWrite);
-
+        String chiaveMappa = presidio.getNome() + "_" + reparto.getNome();
+        List<String> utentiAssociati = utentiPerRepartoPresidio.get(chiaveMappa);
+        System.out.println("Utenti associati a " + chiaveMappa + ": " + utentiAssociati);
+        return utentiAssociati;
     }
+
+
+    public void confermaGestione(Visita visita, String data, String orario) {
+
+        visita.setGiorno(data);
+        visita.setOra(orario);
+        visita.setStato(true);
+    }
+
+
+
+
+
 
     public Presidio selezionaPresidio(String nomePresidio) {
         for (Presidio presidio : elencoPresidi.values()) {
@@ -191,12 +205,6 @@ public class HospitApp {
 
 
 
-
-//    public Visita inserisciVisita(LocalTime ora, LocalDate giorno){
-//        this.visitacorrente=new Visita(ora, giorno);
-//        System.out.println("Visita inserita!");
-//        return visitacorrente;
-//    }
 
 
 

@@ -144,6 +144,13 @@ public class Utils {
         }
     }
 
+    public static void ScrivisuFileVisita(Reparto reparto, Presidio presidio,Utente utente, Visita visita){
+
+        String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getCodiceFiscale() +"," + visita.getGiorno()+ "," + visita.getOra()+ "," + visita.isStato();
+        Utils.writeOnFile("Visita.txt", contentToWrite);
+
+    }
+
     public static void leggiVisitedalFile(String filePath, Utente utente, Map<String, List<String>> utentiPerRepartoPresidio) {
         HospitApp hospitapp= HospitApp.getInstance();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
