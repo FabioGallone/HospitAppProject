@@ -152,8 +152,9 @@ public class Utils {
 
     }
 
-    public static Map<String, List<String>> leggiVisitedalFile(String filePath, Utente utente) {
+    public static Map<String, List<String>> leggiVisitedalFile(String filePath) {
         HospitApp hospitapp= HospitApp.getInstance();
+        Utente utente= new Utente();
         Map<String, List<String>> utentiPerRepartoPresidio=new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {

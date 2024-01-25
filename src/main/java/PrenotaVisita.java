@@ -16,7 +16,7 @@ public class PrenotaVisita implements ActionListener {
     private JLabel welcomeLabel, titoloLabel;
     private JComboBox<String> presidioComboBox;
     private JComboBox<String> repartoComboBox;
-    private JButton repartoButton;  // Aggiunta dichiarazione del pulsante del reparto selezionato
+    private JButton visualizzaPrenotazione;  // Aggiunta dichiarazione del pulsante del reparto selezionato
     private Presidio  presidioCorrente;
     private String nomepresidioSelezionato, nomeRepartoSelezionato;
     HospitApp hospitapp = HospitApp.getInstance();
@@ -32,7 +32,7 @@ public class PrenotaVisita implements ActionListener {
         titoloLabel = new JLabel();
         presidioComboBox = new JComboBox<>();
         repartoComboBox = new JComboBox<>();
-        repartoButton = new JButton();  // Inizializzazione del pulsante del reparto selezionato
+        visualizzaPrenotazione= new JButton();// Inizializzazione del pulsante del reparto selezionato
 
 
         showPrenotaVisitaUI();
@@ -72,6 +72,21 @@ public class PrenotaVisita implements ActionListener {
         titoloLabel.setBounds(65, 120, 400, 200);
         titoloLabel.setFont(new Font(null, Font.ITALIC, 15));
         titoloLabel.setText("SELEZIONA PRESIDIO E REPARTO ");
+
+
+        visualizzaPrenotazione = new JButton("Visualizza Prenotazioni");
+        visualizzaPrenotazione.setBounds(75, 350, 200, 25);
+        visualizzaPrenotazione.setFocusable(false);
+        frame.add(visualizzaPrenotazione);
+
+        visualizzaPrenotazione.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VisualizzaPrenotazione visualizzaPrenotazione= new VisualizzaPrenotazione(utente);
+            }
+        });
+
+
 
 
         this.leggiPresidiDaFile("Presidio.txt");

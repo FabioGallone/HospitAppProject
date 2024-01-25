@@ -17,11 +17,12 @@ public class Utente {
     private boolean isPresidio;
     private List<Visita> visite;
 
-    private Map<String, Visita> visiterepartopresidioassociateadutente=new HashMap<>();
+    private Map<String, Visita> VisitaRepartoPresidioUtente =new HashMap<>();
 
 
     public Utente() {
         this.visite = new ArrayList<>();
+
 
     }
 
@@ -200,17 +201,15 @@ public class Utente {
         }
         return false; // Email non trovata nel file
     }
-    public Map<String, Visita> prenotaVisita(Visita visita, String nomereparto, String nomepresidio) {
+    public void prenotaVisita(Visita visita, String nomereparto, String nomepresidio) {
 
         String key= nomereparto+"_"+nomepresidio;
-        visiterepartopresidioassociateadutente.put(key, visita);
-
-        return visiterepartopresidioassociateadutente;
+        VisitaRepartoPresidioUtente.put(key, visita); //tutte le visite di un utente
 
     }
 
-    public List<Visita> getVisite() {
-        return visite;
+    public Map<String, Visita> getVisite() {
+        return VisitaRepartoPresidioUtente;
     }
 
 }
