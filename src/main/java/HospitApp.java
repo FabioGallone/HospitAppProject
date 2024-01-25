@@ -137,15 +137,13 @@ public class HospitApp {
         if (reparto != null && presidio != null && utente != null) {
 
 
-
-
             Visita visita = new Visita(null, null, false);
 
-            presidio.aggiungiVisita(visita);
+            presidio.aggiungiVisita(visita, reparto.getNome(), utente.getNome());
 
-            reparto.aggiungiVisita(visita);
+            reparto.aggiungiVisita(visita, presidio.getNome(), utente.getNome());
 
-            utente.prenotaVisita(visita);
+            utente.prenotaVisita(visita, presidio.getNome(), reparto.getNome());
 
 
             String value=reparto.getNome()+"_"+presidio.getNome()+"_"+utente.getCodiceFiscale();

@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 public class Reparto {
 
@@ -8,6 +11,7 @@ public class Reparto {
     private Presidio presidio;
     private List<Visita> elencoVisite;
     private List<Reparto> elencoReparto;
+    private Map<String, Visita> visiteperpresidioutenteassociateareparto=new HashMap<>();
     public Reparto(String nome, String codice) {
         this.nome = nome;
         this.codice = codice;
@@ -40,5 +44,14 @@ public class Reparto {
 
     public List<Visita> getElencoVisite() {
         return elencoVisite;
+    }
+
+    public Map<String, Visita> aggiungiVisita(Visita visita, String nomepresidio, String nomeutente) {
+
+        String key= nomepresidio +"_"+nomeutente;
+        visiteperpresidioutenteassociateareparto.put(key, visita);
+
+        return visiteperpresidioutenteassociateareparto;
+
     }
 }

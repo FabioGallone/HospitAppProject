@@ -12,6 +12,8 @@ public class Presidio {
     private List<Visita> elencoVisite;
     private Map<String, Reparto> elencoReparti;
 
+    private Map<String, Visita> visiteperutenterepartoassociateapresidio=new HashMap<>();
+
     public Presidio(String nome, String indirizzo, String orario) {
         this.nome = nome;
         this.indirizzo = indirizzo;
@@ -66,8 +68,12 @@ public class Presidio {
         return new ArrayList<>(elencoReparti.values());
     }
 
-    public void aggiungiVisita(Visita visita) {
-        elencoVisite.add(visita);
+    public Map<String, Visita> aggiungiVisita(Visita visita, String nomereparto, String nomeutente) {
+
+        String key= nomereparto+"_"+nomeutente;
+        visiteperutenterepartoassociateapresidio.put(key, visita);
+
+        return visiteperutenterepartoassociateapresidio;
     }
 
 

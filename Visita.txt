@@ -2,5 +2,7 @@ a,Neurologia,codfiscLello,null,null,false
 Garibaldi,Ginecologia e Ostetricia,codfiscLello,10/01/2024,8:00,true
 Garibaldi,Ginecologia e Ostetricia,a,22/01/2024,12:00,true
 Garibaldi,Ginecologia e Ostetricia,b,04/01/2024,21312,true
-Garibaldi,Ginecologia e Ostetricia,dsada,11/01/2024,231,true
+Garibaldi,Ginecologia e Ostetricia,dsada,25/01/2024,8:00,true
 Garibaldi,Ginecologia e Ostetricia,daddasd,04/01/2024,231,true
+Garibaldi,Cardiologia,codfiscLello,25/01/2024,8:00,true
+Garibaldi,Oculistica,codfiscLello,25/01/2024,3:00,true

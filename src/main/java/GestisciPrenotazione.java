@@ -53,7 +53,7 @@ public class GestisciPrenotazione implements ActionListener {
         welcomeLabel.setText("Ciaoooooooooooo " + nome);
 
         Utils.leggiPresidiDaFile("Presidio.txt");
-        Utils.leggiVisitedalFile("Visita.txt", utente, utentiPerRepartoPresidio);
+        utentiPerRepartoPresidio= Utils.leggiVisitedalFile("Visita.txt", utente);
         ListaPresidi = hospitapp.getElencoPresidi();
 
         int comboBoxXPosition = 100;

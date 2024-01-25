@@ -2,7 +2,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Utente {
     private String nome;
@@ -14,6 +16,8 @@ public class Utente {
 
     private boolean isPresidio;
     private List<Visita> visite;
+
+    private Map<String, Visita> visiterepartopresidioassociateadutente=new HashMap<>();
 
 
     public Utente() {
@@ -196,8 +200,13 @@ public class Utente {
         }
         return false; // Email non trovata nel file
     }
-    public void prenotaVisita(Visita visita) {
-        visite.add(visita);
+    public Map<String, Visita> prenotaVisita(Visita visita, String nomereparto, String nomepresidio) {
+
+        String key= nomereparto+"_"+nomepresidio;
+        visiterepartopresidioassociateadutente.put(key, visita);
+
+        return visiterepartopresidioassociateadutente;
+
     }
 
     public List<Visita> getVisite() {

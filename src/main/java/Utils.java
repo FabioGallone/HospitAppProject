@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
+
     public static String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -151,8 +152,10 @@ public class Utils {
 
     }
 
-    public static void leggiVisitedalFile(String filePath, Utente utente, Map<String, List<String>> utentiPerRepartoPresidio) {
+    public static Map<String, List<String>> leggiVisitedalFile(String filePath, Utente utente) {
         HospitApp hospitapp= HospitApp.getInstance();
+        Map<String, List<String>> utentiPerRepartoPresidio=new HashMap<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
 
@@ -179,12 +182,16 @@ public class Utils {
                         utentiPerRepartoPresidio.computeIfAbsent(chiave, k -> new ArrayList<>()).add(codiceFiscale);
                     } else {
                         System.out.println("Reparto o Presidio non trovato: " + nomeReparto + ", " + nomePresidio);
+                        return null;
                     }
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
+        return utentiPerRepartoPresidio;
+
     }
 
     public static void aggiornaFileVisita(String filePath, String nomePresidio, String nomeReparto, String codiceFiscale, String nuovaData, String nuovoOrario, Map<String, List<String>> utentiPerRepartoPresidio, boolean isStato) {
