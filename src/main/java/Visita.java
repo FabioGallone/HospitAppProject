@@ -43,7 +43,6 @@ public class Visita {
     public String toString() {
         return   "ora='" + ora + '\'' +
                 ", giorno=" + giorno +
-                ", stato=" + stato +
-                '}';
+                ", stato=" + stato;
     }
 }
