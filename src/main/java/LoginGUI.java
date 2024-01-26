@@ -5,6 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import java.util.List;
 
 public class LoginGUI implements ActionListener {
 
@@ -15,15 +18,15 @@ public class LoginGUI implements ActionListener {
     private JPasswordField userPasswordField, regPasswordField;
     private JButton loginButton, registerButton, backToLoginButton, signUpButton;
 
-       private Utente utente;
-       private Utils utils;
+
 
 
 
     public LoginGUI() {
+        Utils.populateUtentiListFromFile("Users.txt");
+
+
         initialize();
-          utente= new Utente();
-          utils = new Utils();
     }
 
     private void initialize() {
@@ -164,12 +167,12 @@ public class LoginGUI implements ActionListener {
             String email = emailField.getText();
             String password = String.valueOf(userPasswordField.getPassword());
 
-            if (utente.findUser(email, Utils.hashPassword(password))) {
+            if (Utente.findUser(email, Utils.hashPassword(password))) {
                 loginMessageLabel.setForeground(Color.GREEN);
                 loginMessageLabel.setText("Login avvenuto con successo!");
 
                 frame.dispose();
-                InserisciPresidio inseriscipresidio = new InserisciPresidio(utente.getUserFromEmail(email));
+                InserisciPresidio inseriscipresidio = new InserisciPresidio(Utente.getUserFromEmail(email));
             } else {
                 loginMessageLabel.setForeground(Color.RED);
                 loginMessageLabel.setText("Password o email non corrispondono");
@@ -196,12 +199,12 @@ public class LoginGUI implements ActionListener {
                 Utente utente=new Utente(name, surname, fiscalCode, email, hashedPassword, isAdministrator, isPresidio);
 
                 if (!utente.isEmailAlreadyUsed(email) && Utils.isValidEmail(email)) {
-                    utils.writeOnFile("Users.txt", user);
+                    Utils.writeOnFile("Users.txt", user);
                     registerMessageLabel.setForeground(Color.GREEN);
                     registerMessageLabel.setText("Utente registrato con successo!");
                     frame.dispose();
                     InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
-                } else if (utils.isEmailAlreadyUsed(email)) {
+                } else if (Utils.isEmailAlreadyUsed(email)) {
                     registerMessageLabel.setForeground(Color.RED);
                     registerMessageLabel.setText("Email giÃ  in uso");
                 } else if (!Utils.isValidEmail(email)) {

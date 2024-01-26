@@ -17,14 +17,11 @@ public class Utente {
     private boolean isPresidio;
     private List<Visita> visite;
 
-    private Map<String, Visita> VisitaRepartoPresidioUtente =new HashMap<>();
+    private Map<String, Visita> VisitaRepartoPresidioUtente;
+    private static List<Utente> utentiList = new ArrayList<>();
 
 
-    public Utente() {
-        this.visite = new ArrayList<>();
 
-
-    }
 
     public Utente(String nome, String cognome, String codiceFiscale, String email, String hashedPassword, boolean isAdministrator, boolean isPresidio) {
         this.nome = nome;
@@ -33,8 +30,17 @@ public class Utente {
         this.email = email;
         this.hashedPassword = hashedPassword;
         this.isAdministrator=isAdministrator;
-        this.visite = new ArrayList<>();
+        this.isPresidio=isPresidio;
 
+        this.visite = new ArrayList<>();
+        this.VisitaRepartoPresidioUtente=new HashMap<>();
+        utentiList.add(this);
+
+
+    }
+
+    public static List<Utente> getUtentiList() {
+        return utentiList;
     }
 
     public String getNome() {
@@ -111,7 +117,7 @@ public class Utente {
                 '}';
     }
 
-    public boolean findUser(String email, String hashedPassword) {
+    public static boolean findUser(String email, String hashedPassword) {
         try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -126,49 +132,23 @@ public class Utente {
         return false;
     }
 
-    public Utente getUserFromEmail(String email) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userDetails = line.split(",");
-                if (userDetails.length > 4 && userDetails[3].equals(email)) {
-                    Utente utente = new Utente();
-                    utente.setNome(userDetails[0]);
-                    utente.setCognome(userDetails[1]);
-                    utente.setCodiceFiscale(userDetails[2]);
-                    utente.setEmail(userDetails[3]);
-                    utente.setHashedPassword(userDetails[4]);
-                    utente.setAdministrator(Boolean.parseBoolean(userDetails[5]));
-                    utente.setPresidio(Boolean.parseBoolean(userDetails[6]));
-                    return utente;
-                }
+    public static Utente getUserFromEmail(String email) {
+        for (Utente utente : Utente.getUtentiList()) {
+            if (utente.getEmail().equals(email)) {
+                return utente;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return null; // Restituisci null se l'utente non è stato trovato
+        return null;
     }
-    public Utente getUserFromCF(String codiceFiscale) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userDetails = line.split(",");
-                if (userDetails.length > 0 && userDetails[2].equals(codiceFiscale)) {
-                    Utente utente = new Utente();
-                    utente.setNome(userDetails[0]);
-                    utente.setCognome(userDetails[1]);
-                    utente.setCodiceFiscale(userDetails[2]);
-                    utente.setEmail(userDetails[3]);
-                    utente.setHashedPassword(userDetails[4]);
-                    utente.setAdministrator(Boolean.parseBoolean(userDetails[5]));
-                    utente.setPresidio(Boolean.parseBoolean(userDetails[6]));
-                    return utente;
-                }
+
+
+    public static Utente getUserFromCF(String codiceFiscale) {
+        for (Utente utente : Utente.getUtentiList()) {
+            if (utente.getCodiceFiscale().equals(codiceFiscale)) {
+                return utente;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return null; // Restituisci null se l'utente non è stato trovato
+        return null;
     }
 
 
@@ -201,15 +181,15 @@ public class Utente {
         }
         return false; // Email non trovata nel file
     }
+
+
     public void prenotaVisita(Visita visita, String nomereparto, String nomepresidio) {
 
         String key= nomereparto+"_"+nomepresidio;
-        VisitaRepartoPresidioUtente.put(key, visita); //tutte le visite di un utente
+        this.VisitaRepartoPresidioUtente.put(key, visita); //tutte le visite di un utente
 
     }
-
-    public Map<String, Visita> getVisite() {
-        return VisitaRepartoPresidioUtente;
+  public Map<String, Visita> getVisitaRepartoPresidioUtente() {
+        return this.VisitaRepartoPresidioUtente;
     }
-
 }

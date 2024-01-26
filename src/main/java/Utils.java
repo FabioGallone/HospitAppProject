@@ -42,20 +42,36 @@ public class Utils {
         }
     }
 
-    public static void writeOnFileObject(String fileName, Presidio presidio) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            // Converti l'oggetto Presidio in una stringa (ad esempio, usando il metodo toString())
-            String presidioString = presidio.toString();
+    public static List<Utente> populateUtentiListFromFile(String fileName) {
+        List<Utente> utentiList = new ArrayList<>();
 
-            // Scrivi la stringa nel file
-            writer.write(presidioString);
-            writer.newLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(",");
+                if (userDetails.length == 7) {
+                    String nome = userDetails[0];
+                    String cognome = userDetails[1];
+                    String codiceFiscale = userDetails[2];
+                    String email = userDetails[3];
+                    String hashedPassword = userDetails[4];
+                    boolean isAdministrator = Boolean.parseBoolean(userDetails[5]);
+                    boolean isPresidio = Boolean.parseBoolean(userDetails[6]);
+
+                    Utente utente = new Utente(nome, cognome, codiceFiscale, email, hashedPassword, isAdministrator, isPresidio);
+
+                }
+            }
         } catch (IOException e) {
-            System.err.println("Errore durante la scrittura su file: " + e.getMessage());
+            e.printStackTrace();
         }
+
+        return utentiList;
     }
 
-    public boolean isEmailAlreadyUsed(String email) {
+
+
+    public static boolean isEmailAlreadyUsed(String email) {
         try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -70,54 +86,6 @@ public class Utils {
         return false; // Email non trovata nel file
     }
 
-    public static List<Presidio> readFromFile(String fileName) {
-        List<Presidio> listaPresidi = new ArrayList<>();
-
-        try (Scanner scanner = new Scanner(new File(fileName))) {
-            // Utilizziamo un delimitatore personalizzato per estrarre le informazioni
-            scanner.useDelimiter("[=,{}\\s]+");
-
-            while (scanner.hasNext()) {
-                if (scanner.next().equals("Presidio")) {
-                    // Leggi il nome
-                    scanner.next(); // Ignora la chiave 'nome'
-                    scanner.next(); // Ignora l'uguale
-                    String nome = scanner.next();
-
-                    // Leggi l'indirizzo
-                    scanner.next(); // Ignora la chiave 'indirizzo'
-                    scanner.next(); // Ignora l'uguale
-                    String indirizzo = scanner.next();
-
-                    // Leggi l'orario
-                    scanner.next(); // Ignora la chiave 'orario'
-                    scanner.next(); // Ignora l'uguale
-                    String orario = scanner.next();
-
-                    // Ignora il resto e costruisci l'oggetto Presidio
-                    Presidio presidio = new Presidio(nome, indirizzo, orario);
-                    listaPresidi.add(presidio);
-                }
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("Errore durante la lettura da file: " + e.getMessage());
-        }
-
-        return listaPresidi;
-    }
-    public static String generaCodiceCasuale(int lunghezza) {
-        String caratteriPerCodice = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder codiceCasuale = new StringBuilder();
-
-        Random random = new Random();
-        for (int i = 0; i < lunghezza; i++) {
-            int index = random.nextInt(caratteriPerCodice.length());
-            char carattereCasuale = caratteriPerCodice.charAt(index);
-            codiceCasuale.append(carattereCasuale);
-        }
-
-        return codiceCasuale.toString();
-    }
 
     public static void leggiPresidiDaFile(String filePath) {
         HospitApp hospitapp= HospitApp.getInstance();
@@ -154,7 +122,6 @@ public class Utils {
 
     public static Map<String, List<String>> leggiVisitedalFile(String filePath) {
         HospitApp hospitapp= HospitApp.getInstance();
-        Utente utente= new Utente();
         Map<String, List<String>> utentiPerRepartoPresidio=new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -164,21 +131,24 @@ public class Utils {
                 String[] data = line.split(",");
                 if (data.length >= 3) {
                     String nomePresidio = data[0].trim();
+
                     String nomeReparto = data[1].trim();
                      String codiceFiscale = data[2].trim();
                      String date= data[3].trim();
                      String ora= data[4].trim();
-                     boolean  isStato= Boolean.parseBoolean(data[5].trim());
+                     boolean isStato= Boolean.parseBoolean(data[5].trim());
 
                     Reparto reparto = hospitapp.selezionaReparto(nomeReparto);
+
                     Presidio presidio = hospitapp.selezionaPresidio(nomePresidio);
 
                     if (reparto != null && presidio != null) {
-                        Visita visita  = hospitapp.confermaPrenotazione(reparto, presidio, utente.getUserFromCF(codiceFiscale));
+                    Utente  utente=Utente.getUserFromCF(codiceFiscale);
+
+                        Visita visita  = hospitapp.confermaPrenotazione(reparto, presidio, utente);
                         visita.setStato(isStato);
                         visita.setOra(ora);
                         visita.setGiorno(date);
-
                         String chiave = nomePresidio + "_" + nomeReparto;
                         utentiPerRepartoPresidio.computeIfAbsent(chiave, k -> new ArrayList<>()).add(codiceFiscale);
                     } else {

@@ -55,11 +55,13 @@ public class GestisciPrenotazione implements ActionListener {
         Utils.leggiPresidiDaFile("Presidio.txt");
         utentiPerRepartoPresidio= Utils.leggiVisitedalFile("Visita.txt");
         ListaPresidi = hospitapp.getElencoPresidi();
+        System.out.println(ListaPresidi);
 
         int comboBoxXPosition = 100;
         int comboBoxYPosition = 250;
 
         for (Presidio presidio : ListaPresidi) {
+
             if (this.nome.equals(presidio.getNome())) {
                 String nomeStruttura = presidio.getNome();
 

@@ -104,6 +104,7 @@ public class InserisciPresidio implements ActionListener {
             PrenotaVisita prenotaVisita = new PrenotaVisita(frame, utente);
 
         }else{
+
             GestisciPrenotazione medicoclass= new GestisciPrenotazione(frame, utente);
         }
 

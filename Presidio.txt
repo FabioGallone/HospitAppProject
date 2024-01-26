@@ -1,3 +1,1 @@
-Garibaldi,1234c,3213,Cardiologia,Ginecologia e Ostetricia,Neurologia,Oculistica
-Cannizzaro,123d,213,Cardiologia, Ginecologia e Ostetricia
-a,a,a,Cardiologia,Oculistica,Neurologia
+Garibaldi,a,a,Ginecologia e Ostetricia,Neurologia

@@ -114,6 +114,18 @@ public class HospitApp {
         return null;
     }
 
+    public Presidio selezionaPresidio(String nomePresidio) {
+        for (Presidio presidio : elencoPresidi.values()) {
+
+            if (presidio.getNome().equalsIgnoreCase(nomePresidio)){
+                return presidio;
+            }
+        }
+
+        return null;
+    }
+
+
     public void prenotaVisita(String nomePresidio) {
         Presidio presidio = elencoPresidi.get(nomePresidio);
 
@@ -189,17 +201,6 @@ public class HospitApp {
 
 
 
-    public Presidio selezionaPresidio(String nomePresidio) {
-        for (Presidio presidio : elencoPresidi.values()) {
-
-
-            if (presidio.getNome().equalsIgnoreCase(nomePresidio)){
-                return presidio;
-            }
-        }
-
-        return null;
-    }
 
 
 
