@@ -12,16 +12,16 @@ public class Presidio {
     private List<Visita> elencoVisite;
     private Map<String, Reparto> elencoReparti;
 
-    private Map<String, Visita> visiteperutenterepartoassociateapresidio=new HashMap<>();
+    private Map<String, Visita> visiteperutenterepartopresidio;
 
     public Presidio(String nome, String indirizzo, String orario) {
         this.nome = nome;
         this.indirizzo = indirizzo;
         this.orario = orario;
-        this.elencoReparti=new HashMap<>();
+        this.elencoReparti = new HashMap<>();
         this.elencoVisite = new ArrayList<>();
+        this.visiteperutenterepartopresidio=new HashMap<>();
     }
-
 
 
     public String getNome() {
@@ -49,35 +49,37 @@ public class Presidio {
     }
 
 
-
-
     @Override
     public String toString() {
         return "Presidio{" +
                 "nome='" + nome + "" +
-        ", indirizzo='" + indirizzo + "" +
-        ", orario=" + orario +
+                ", indirizzo='" + indirizzo + "" +
+                ", orario=" + orario +
                 '}';
     }
 
-    public void inserisciReparti(String nome, String codiceReparto, Presidio p){
+    public void inserisciReparti(String nome, String codiceReparto, Presidio p) {
         Reparto r = new Reparto(nome, codiceReparto);
         elencoReparti.put(codiceReparto, r);
     }
+
     public List<Reparto> getElencoRepartidelPresidio() {
         return new ArrayList<>(elencoReparti.values());
     }
 
-    public Map<String, Visita> aggiungiVisita(Visita visita, String nomereparto, String nomeutente) {
+    public void aggiungiVisita(Visita visita, String nomereparto, String nomeutente) {
 
-        String key= nomereparto+"_"+nomeutente;
-        visiteperutenterepartoassociateapresidio.put(key, visita);
+        String key = nomereparto + "_" + nomeutente;
+        visiteperutenterepartopresidio.put(key, visita);
 
-        return visiteperutenterepartoassociateapresidio;
     }
 
 
-    public List<Visita> getElencoVisite() {
-        return elencoVisite;
+    public Map<String, Visita> getVisiteUtenteRepartoPresidio() {
+        return visiteperutenterepartopresidio;
     }
 }
+
+
+
+

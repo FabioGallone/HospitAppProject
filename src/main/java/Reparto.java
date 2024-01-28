@@ -11,11 +11,12 @@ public class Reparto {
     private Presidio presidio;
     private List<Visita> elencoVisite;
     private List<Reparto> elencoReparto;
-    private Map<String, Visita> visiteperpresidioutenteassociateareparto=new HashMap<>();
+    private Map<String, Visita> visiteperpresidioutentereparto;
     public Reparto(String nome, String codice) {
         this.nome = nome;
         this.codice = codice;
         this.elencoVisite = new ArrayList<>();
+        this.visiteperpresidioutentereparto=new HashMap<>();
     }
 
 
@@ -46,12 +47,15 @@ public class Reparto {
         return elencoVisite;
     }
 
-    public Map<String, Visita> aggiungiVisita(Visita visita, String nomepresidio, String nomeutente) {
+    public void aggiungiVisita(Visita visita, String nomepresidio, String nomeutente) {
 
         String key= nomepresidio +"_"+nomeutente;
-        visiteperpresidioutenteassociateareparto.put(key, visita);
+        visiteperpresidioutentereparto.put(key, visita);
 
-        return visiteperpresidioutenteassociateareparto;
 
+    }
+
+    public Map<String, Visita> getVisitePresidioUtenteReparto() {
+        return visiteperpresidioutentereparto;
     }
 }

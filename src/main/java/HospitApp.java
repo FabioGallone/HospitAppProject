@@ -1,4 +1,5 @@
 
+import javax.swing.table.DefaultTableModel;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -196,7 +197,27 @@ public class HospitApp {
         visita.setStato(true);
     }
 
+    public DefaultTableModel visualizzaPrenotazioneUtente(Utente utente) {
+        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel.addColumn("Visita");
+        tableModel.addColumn("Presidio");
+        tableModel.addColumn("Reparto");
 
+        Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
+
+        for (Map.Entry<String, Visita> entry : RiepilogoVisiteUtente.entrySet()) {
+            String key = entry.getKey();
+            Visita visita = entry.getValue();
+
+            // Separo la chiave in Reparto e Presidio
+            String[] repartoPresidio = key.split("_");
+
+            // Aggiungo una riga al modello di tabella
+            tableModel.addRow(new Object[]{visita.toString(), repartoPresidio[0], repartoPresidio[1]});
+        }
+
+        return tableModel;
+    }
 
 
 
