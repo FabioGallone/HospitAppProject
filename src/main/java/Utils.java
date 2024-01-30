@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -165,6 +167,8 @@ public class Utils {
 
     }
 
+
+
     public static void aggiornaFileVisita(String filePath, String nomePresidio, String nomeReparto, String codiceFiscale, String nuovaData, String nuovoOrario, Map<String, List<String>> utentiPerRepartoPresidio, boolean isStato) {
         String chiave = nomePresidio + "_" + nomeReparto;
 
@@ -211,5 +215,32 @@ public class Utils {
         }
     }
 
+
+
+    public static void rimuoviRigaDaFile(String filePath, String lineToRemove) {
+        try {
+
+            List<String> lines = Files.readAllLines(Paths.get(filePath));
+
+            lines.removeIf(line -> line.contains(lineToRemove));
+
+
+            Files.write(Paths.get(filePath), lines);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected static void rimuoviPrenotazioneDalFile(String codiceFiscale, String giorno, String ora, String stato) {
+        try {
+            //stringa della prenotazione da rimuovere
+            String prenotazioneToRemove = String.format("%s,%s,%s,%s", codiceFiscale, giorno, ora, stato);
+
+            Utils.rimuoviRigaDaFile("visita.txt", prenotazioneToRemove);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

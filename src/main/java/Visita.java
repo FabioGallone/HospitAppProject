@@ -41,8 +41,7 @@ public class Visita {
 
     @Override
     public String toString() {
-        return   "ora='" + ora + '\'' +
-                ", giorno=" + giorno +
-                ", stato=" + stato;
+        return   "ora=" + ora + ",giorno=" + giorno +
+                ",stato=" + stato;
     }
 }
