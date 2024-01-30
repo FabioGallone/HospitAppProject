@@ -205,6 +205,11 @@ public class HospitApp {
 
         Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
 
+        if (RiepilogoVisiteUtente.isEmpty()) {
+            System.out.println("Nessuna prenotazione trovata.");
+            return null;
+        }
+
         for (Map.Entry<String, Visita> entry : RiepilogoVisiteUtente.entrySet()) {
             String key = entry.getKey();
             Visita visita = entry.getValue();
