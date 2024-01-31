@@ -204,6 +204,7 @@ public class HospitApp {
         tableModel.addColumn("Reparto");
 
         Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
+        System.out.println(RiepilogoVisiteUtente);
 
         if (RiepilogoVisiteUtente.isEmpty()) {
             System.out.println("Nessuna prenotazione trovata.");
@@ -222,6 +223,17 @@ public class HospitApp {
         }
 
         return tableModel;
+    }
+//La mappa visiteAssociations contiene come key nomeReparto + "_" + nomePresidio + "_" + codiceFiscale e come value la visita.
+    public void rimuoviVisitaAssociata(String nomeReparto, String nomePresidio, Utente utente) {
+        Presidio p=this.selezionaPresidio(nomePresidio);
+        Reparto r=this.selezionaReparto(nomeReparto);
+        String codiceFiscale=utente.getCodiceFiscale();
+        String key = nomeReparto + "_" + nomePresidio + "_" + codiceFiscale;
+        visiteAssociations.remove(key);
+        utente.rimuoviVisita(nomeReparto,nomePresidio);
+        p.rimuoviVisita(nomeReparto, utente.getNome());
+        r.rimuoviVisita(nomePresidio,utente.getNome());
     }
 
 

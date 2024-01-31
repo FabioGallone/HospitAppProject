@@ -183,13 +183,26 @@ public class Utente {
     }
 
 
-    public void prenotaVisita(Visita visita, String nomereparto, String nomepresidio) {
+    public void prenotaVisita(Visita visita, String nomepresidio, String nomereparto) {
 
-        String key= nomereparto+"_"+nomepresidio;
+        String key= nomepresidio+"_"+nomereparto;
         this.VisitaRepartoPresidioUtente.put(key, visita); //tutte le visite di un utente
 
     }
   public Map<String, Visita> getVisitaRepartoPresidioUtente() {
         return this.VisitaRepartoPresidioUtente;
+    }
+
+
+    //la mappa VisiRepartoPresidioutente contiene come key nomePresidio+nomeReparto e come value la visita.
+    public void rimuoviVisita(String nomeReparto, String nomePresidio) {
+        String key = nomePresidio + "_" + nomeReparto;
+
+        if (VisitaRepartoPresidioUtente.containsKey(key)) {
+            VisitaRepartoPresidioUtente.remove(key);
+            System.out.println("Visita rimossa con successo per il reparto " + nomeReparto + " e il presidio " + nomePresidio);
+        } else {
+            System.out.println("Nessuna visita trovata per il reparto " + nomeReparto + " e il presidio " + nomePresidio);
+        }
     }
 }

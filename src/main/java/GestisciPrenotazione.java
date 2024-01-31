@@ -225,7 +225,5 @@ public class GestisciPrenotazione implements ActionListener {
 
 
 
-    private void mostraMessaggio(String messaggio) {
-        JOptionPane.showMessageDialog(frame, messaggio, "Messaggio", JOptionPane.INFORMATION_MESSAGE);
-    }
+
 }

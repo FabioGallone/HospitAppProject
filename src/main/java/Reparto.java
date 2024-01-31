@@ -58,4 +58,10 @@ public class Reparto {
     public Map<String, Visita> getVisitePresidioUtenteReparto() {
         return visiteperpresidioutentereparto;
     }
+
+    public void rimuoviVisita(String nomePresidio, String nomeUtente) {
+        String key = nomePresidio + "_" + nomeUtente;
+        visiteperpresidioutentereparto.remove(key);
+    }
+
 }
