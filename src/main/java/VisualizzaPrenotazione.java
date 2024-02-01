@@ -9,6 +9,11 @@ public class VisualizzaPrenotazione extends JFrame {
     private Utente utente;
     private String[] nomiPresidi;
     private String[] nomiReparti;
+    private JLabel messageLabel;
+    private JPanel bottomPanel;
+    private JTable table;
+    private JScrollPane scrollPane;
+    private JButton confermaButton, rifiutaButton;
 
     public VisualizzaPrenotazione(Utente utente) {
         this.utente = utente;
@@ -23,13 +28,13 @@ public class VisualizzaPrenotazione extends JFrame {
         DefaultTableModel tableModel = HospitApp.getInstance().visualizzaPrenotazioneUtente(utente);
 
         if (tableModel == null) {
-            JLabel messageLabel = new JLabel("Nessuna prenotazione disponibile per l'utente. Per prenotare una visita selezionare presidio e reparto e mandare la richiesta.");
+            messageLabel = new JLabel("Nessuna prenotazione disponibile per l'utente. Per prenotare una visita selezionare presidio e reparto e mandare la richiesta.");
             messageLabel.setHorizontalAlignment(JLabel.CENTER);
             add(messageLabel, BorderLayout.CENTER);
         } else {
-            JTable table = new JTable(tableModel);
+            table = new JTable(tableModel);
             table.setRowHeight(30);
-            JScrollPane scrollPane = new JScrollPane(table);
+            scrollPane = new JScrollPane(table);
 
             int righe=tableModel.getRowCount();
 
@@ -54,10 +59,10 @@ public class VisualizzaPrenotazione extends JFrame {
             }
 
             JComboBox<String> azioniComboBox = new JComboBox<>(righeTabella);
-            JButton confermaButton = new JButton("Conferma");
-            JButton rifiutaButton = new JButton("Rifiuta");
+            confermaButton = new JButton("Conferma");
+            rifiutaButton = new JButton("Rifiuta");
 
-            JPanel bottomPanel = new JPanel(new FlowLayout());
+            bottomPanel = new JPanel(new FlowLayout());
             bottomPanel.add(azioniComboBox);
             bottomPanel.add(confermaButton);
             bottomPanel.add(rifiutaButton);

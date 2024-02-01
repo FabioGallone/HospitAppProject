@@ -19,12 +19,21 @@ public class GestisciPrenotazione implements ActionListener {
     private JFrame frame;
     private HospitApp hospitapp = HospitApp.getInstance();
     private String nome, cognome, email, codicefiscale, codicemedico;
-
     private Utente utente;
     private Reparto reparto;
-    private JLabel welcomeLabel;
+    private JLabel welcomeLabel, label, orarioLabel,dataLabel,dataSelezionataLabel;
+    private JFrame riepilogoFrame, nuovaFrame;
+    private JPanel mainPanel, visiteDaPrenotarePanel,visitePrenotatePanel,orarioDataPanel;
+    private  JButton visitaButton, confermaButton;
     private String nomeutente;
     private List<Presidio> ListaPresidi;
+    private JComboBox<String> repartoComboBox;
+    private JComboBox<?> comboBox;
+    private JTextField orarioTextField;
+    private JCalendar calendar;
+    private JDateChooser dateChooser;
+    JSpinner orarioSpinner;
+
 
 
     private Medico medico = new Medico(nome, cognome, codicemedico);
@@ -65,7 +74,7 @@ public class GestisciPrenotazione implements ActionListener {
             if (this.nome.equals(presidio.getNome())) {
                 String nomeStruttura = presidio.getNome();
 
-                JComboBox<String> repartoComboBox = new JComboBox<>();
+              repartoComboBox = new JComboBox<>();
 
                 for (Reparto reparto : hospitapp.mostraReparti(presidio)) {
                     repartoComboBox.addItem(reparto.getNome());
@@ -95,20 +104,20 @@ public class GestisciPrenotazione implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
+        comboBox = (JComboBox<?>) e.getSource();
         Presidio presidio = hospitapp.selezionaPresidio(utente.getNome());
 
         if (comboBox.getSelectedItem() != null) {
             String nomeRepartoSelezionato = comboBox.getSelectedItem().toString();
             this.reparto = hospitapp.selezionaReparto(nomeRepartoSelezionato);
-            JFrame riepilogoFrame = new JFrame("Visite del reparto: " + reparto.getNome());
+            riepilogoFrame = new JFrame("Visite del reparto: " + reparto.getNome());
             riepilogoFrame.setSize(600, 400);
             riepilogoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-            JPanel mainPanel = new JPanel(new GridLayout(1, 2));
+            mainPanel = new JPanel(new GridLayout(1, 2));
 
-            JPanel visiteDaPrenotarePanel = new JPanel();
-            JPanel visitePrenotatePanel = new JPanel();
+            visiteDaPrenotarePanel = new JPanel();
+            visitePrenotatePanel = new JPanel();
 
             visiteDaPrenotarePanel.setLayout(new BoxLayout(visiteDaPrenotarePanel, BoxLayout.Y_AXIS));
             visitePrenotatePanel.setLayout(new BoxLayout(visitePrenotatePanel, BoxLayout.Y_AXIS));
@@ -122,21 +131,21 @@ public class GestisciPrenotazione implements ActionListener {
 
             if (utentiAssociati != null) {
                 for (String codiceFiscale : utentiAssociati) {
-                    JButton visitaButton = new JButton("Prenotazione - CF: " + codiceFiscale);
+                    visitaButton = new JButton("Prenotazione - CF: " + codiceFiscale);
 
                     Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
 
 
                     if (!visita.isStato()) {
                         if (!titoloVisiteDaPrenotareAggiunto) {
-                            JLabel label = new JLabel("Visite da prenotare: ");
+                            label = new JLabel("Visite da prenotare: ");
                             visiteDaPrenotarePanel.add(label);
                             titoloVisiteDaPrenotareAggiunto = true;
                         }
                         visiteDaPrenotarePanel.add(visitaButton);
                     } else {
                         if (!titoloVisitePrenotateAggiunto) {
-                            JLabel label = new JLabel("Visite prenotate: ");
+                            label = new JLabel("Visite prenotate: ");
                             visitePrenotatePanel.add(label);
                             titoloVisitePrenotateAggiunto = true;
                         }
@@ -146,64 +155,64 @@ public class GestisciPrenotazione implements ActionListener {
                     visitaButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            JFrame nuovaFrame = new JFrame("Inserisci Orario e Data");
+                            nuovaFrame = new JFrame("Inserisci Orario e Data");
                             nuovaFrame.setSize(400, 300);
                             nuovaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                            JPanel orarioDataPanel = new JPanel();
-                            orarioDataPanel.setLayout(new GridLayout(2, 2));
+                            orarioDataPanel = new JPanel();
+                            orarioDataPanel.setLayout(null);
+                            orarioDataPanel.setBounds(0, 60, 420, 280);
 
-                            JLabel orarioLabel = new JLabel("Inserisci Orario:");
-                            JTextField orarioTextField = new JTextField();
+                            orarioLabel = new JLabel("Orario:");
+                            orarioLabel.setBounds(50, 20, 75, 25);
+
+                            // Utilizza JSpinner per l'inserimento dell'orario
+                            SpinnerDateModel orarioModel = new SpinnerDateModel();
+                            orarioSpinner = new JSpinner(orarioModel);
+                            JSpinner.DateEditor orarioEditor = new JSpinner.DateEditor(orarioSpinner, "HH:mm");
+                            orarioSpinner.setEditor(orarioEditor);
+                            orarioSpinner.setBounds(160, 20, 200, 25);
+
                             orarioDataPanel.add(orarioLabel);
-                            orarioDataPanel.add(orarioTextField);
+                            orarioDataPanel.add(orarioSpinner);
 
-                            JLabel dataLabel = new JLabel("Data selezionata:");
-                            JLabel dataSelezionataLabel = new JLabel();
-
+                            dataLabel = new JLabel("Data Visita: ");
+                            dataLabel.setBounds(50, 60, 75, 25);
+                            dateChooser = new JDateChooser();
+                            dateChooser.setBounds(160, 60, 200, 25);
+                            orarioDataPanel.add(dateChooser);
                             orarioDataPanel.add(dataLabel);
-                            orarioDataPanel.add(dataSelezionataLabel);
-
-                            nuovaFrame.add(orarioDataPanel, BorderLayout.NORTH);
-
-                            JCalendar calendar = new JCalendar();
-                            JDateChooser dateChooser = new JDateChooser(calendar.getDate());
-                            nuovaFrame.add(dateChooser, BorderLayout.CENTER);
                             riepilogoFrame.dispose();
 
-                            dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
-                                @Override
-                                public void propertyChange(PropertyChangeEvent evt) {
-                                    java.util.Date dataSelezionata = dateChooser.getDate();
-                                    System.out.println("Data selezionata: " + dataSelezionata);
+                            confermaButton = new JButton("Conferma");
+                            confermaButton.setBounds(160, 220, 100, 25);
 
-                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                    dataSelezionataLabel.setText(sdf.format(dataSelezionata));
-                                }
-                            });
-
-                            JButton confermaButton = new JButton("Conferma");
                             confermaButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    String orarioInserito = orarioTextField.getText();
+                                    Date orarioSelezionato = (Date) orarioSpinner.getValue();
                                     java.util.Date dataSelezionata = dateChooser.getDate();
 
-                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                    String dataselezionata = sdf.format(dataSelezionata);
+                                    SimpleDateFormat sdfOrario = new SimpleDateFormat("HH:mm");
+                                    String orarioInserito = sdfOrario.format(orarioSelezionato);
+
+                                    SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
+                                    String dataSelezionataFormattata = sdfData.format(dataSelezionata);
 
                                     System.out.println("Orario inserito: " + orarioInserito);
-                                    System.out.println("Data selezionata: " + dataselezionata);
+                                    System.out.println("Data selezionata: " + dataSelezionataFormattata);
 
-                                    hospitapp.confermaGestione(visita, dataselezionata,orarioInserito);
-                                    Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), codiceFiscale, dataselezionata, orarioInserito, utentiPerRepartoPresidio, visita.isStato());
+                                    hospitapp.confermaGestione(visita, dataSelezionataFormattata, orarioInserito);
+                                    Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), codiceFiscale, dataSelezionataFormattata, orarioInserito, utentiPerRepartoPresidio, visita.isStato());
 
                                     nuovaFrame.dispose();
                                 }
                             });
 
-                            nuovaFrame.add(confermaButton, BorderLayout.SOUTH);
+                            nuovaFrame.add(confermaButton);
+                            nuovaFrame.add(orarioDataPanel);
                             nuovaFrame.setVisible(true);
+
                         }
                     });
                 }

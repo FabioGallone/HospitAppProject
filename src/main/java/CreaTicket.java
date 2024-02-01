@@ -17,7 +17,6 @@ public class CreaTicket implements ActionListener {
     private String residenza, nazionalità;
     private JLabel title, annoLabel, residenzaLabel, nazionalitaLabel, riepilogoLabel, utenteLabel, scelteLabel;
     private JDateChooser dateChooser; // Utilizza JDateChooser per la data
-
     private JTextField residenzaField, nazionalitaField;
     private JButton confermaButton;
 
