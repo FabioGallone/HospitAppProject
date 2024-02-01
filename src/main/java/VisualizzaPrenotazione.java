@@ -31,14 +31,26 @@ public class VisualizzaPrenotazione extends JFrame {
             table.setRowHeight(30);
             JScrollPane scrollPane = new JScrollPane(table);
 
-            String[] righeTabella = new String[tableModel.getRowCount()];
-            nomiPresidi = new String[tableModel.getRowCount()];
-            nomiReparti = new String[tableModel.getRowCount()];
+            int righe=tableModel.getRowCount();
 
             for (int i = 0; i < tableModel.getRowCount(); i++) {
-                righeTabella[i] = tableModel.getValueAt(i, 0).toString();
-                nomiPresidi[i] = tableModel.getValueAt(i, 1).toString();
-                nomiReparti[i] = tableModel.getValueAt(i, 2).toString();
+                if(tableModel.getValueAt(i, 0).toString().equals("ora=null,giorno=null,stato=false")) {
+                  righe--;
+                }
+            }
+
+
+            String[] righeTabella = new String[righe];
+            nomiPresidi = new String[righe];
+            nomiReparti = new String[righe];
+
+
+            for (int i = 0; i < righe; i++) {
+                if(!tableModel.getValueAt(i, 0).toString().equals("ora=null,giorno=null,stato=false")) {
+                    righeTabella[i] = tableModel.getValueAt(i, 0).toString();
+                    nomiPresidi[i] = tableModel.getValueAt(i, 1).toString();
+                    nomiReparti[i] = tableModel.getValueAt(i, 2).toString();
+                }
             }
 
             JComboBox<String> azioniComboBox = new JComboBox<>(righeTabella);
@@ -65,7 +77,19 @@ public class VisualizzaPrenotazione extends JFrame {
     private void confermaPrenotazione(JTable table, JComboBox<String> azioniComboBox) {
         String selectedValue = azioniComboBox.getSelectedItem().toString();
         System.out.println("Conferma prenotazione per il valore: " + selectedValue);
+        int selectedIndex = azioniComboBox.getSelectedIndex();
+        String[] parts = selectedValue.split(",");
+        String ora = getValueAfterEquals(parts[0]);
+        String giorno = getValueAfterEquals(parts[1]);
+        String stato = getValueAfterEquals(parts[2]);
+        String nomePresidio = getValueAfterEquals(nomiPresidi[selectedIndex]);
+        String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
+        CreaTicket creaTicket= new CreaTicket(utente,ora,giorno,stato,nomePresidio,nomeReparto);
+
     }
+
+
+
 
     private void rifiutaPrenotazione(JTable table, JComboBox<String> azioniComboBox) {
         String selectedValue = azioniComboBox.getSelectedItem().toString();

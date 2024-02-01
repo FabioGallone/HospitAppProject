@@ -160,6 +160,7 @@ public class GestisciPrenotazione implements ActionListener {
 
                             JLabel dataLabel = new JLabel("Data selezionata:");
                             JLabel dataSelezionataLabel = new JLabel();
+
                             orarioDataPanel.add(dataLabel);
                             orarioDataPanel.add(dataSelezionataLabel);
 

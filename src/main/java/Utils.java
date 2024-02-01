@@ -243,4 +243,42 @@ public class Utils {
         }
     }
 
+
+    public static boolean leggiTicketdalFile(String filePath, String riepilogo) {
+        File file = new File(filePath);
+
+        // Verifica se il file è vuoto
+        if (file.length() == 0) {
+            return false;
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length > 1) {
+                    String nome = data[0].trim();
+                    String cognome = data[1].trim();
+                    String codiceFiscale = data[2].trim();
+                    String residenza= data[3].trim();
+                    String giornoVisita= data[4].trim();
+                    String oraVisita= data[5].trim();
+                    String nomePresidio= data[6].trim();
+                    String nomeReparto= data[7].trim();
+
+                    if (riepilogo.contains(nome) && riepilogo.contains(cognome) && riepilogo.contains(codiceFiscale)
+                            && riepilogo.contains(giornoVisita) && riepilogo.contains(oraVisita)
+                            && riepilogo.contains(nomePresidio) && riepilogo.contains(nomeReparto)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
 }

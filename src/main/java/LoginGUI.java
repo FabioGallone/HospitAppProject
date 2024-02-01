@@ -129,7 +129,7 @@ public class LoginGUI implements ActionListener {
         backToLoginButton.setBounds(225, 220, 100, 25); // Modifica della posizione del pulsante
         backToLoginButton.setFocusable(false);
         backToLoginButton.addActionListener(this);
-        registerPanel.add(backToLoginButton);
+
 
         registerPanel.add(nameLabel);
         registerPanel.add(nameField);
