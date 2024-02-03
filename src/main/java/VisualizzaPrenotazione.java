@@ -86,6 +86,7 @@ public class VisualizzaPrenotazione extends JFrame {
         String nomePresidio = getValueAfterEquals(nomiPresidi[selectedIndex]);
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
         new CreaTicket(utente, ora, giorno, nomePresidio, nomeReparto);
+        dispose();
     }
 
     private void rifiutaPrenotazione(JTable table, JComboBox<String> azioniComboBox) {

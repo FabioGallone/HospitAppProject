@@ -19,7 +19,7 @@ public class CreaTicket implements ActionListener {
     private JDateChooser dateChooser; // Utilizza JDateChooser per la data
 
     private JTextField residenzaField, nazionalitaField;
-    private JButton confermaButton;
+    private JButton confermaButton, backButton;
 
     public CreaTicket(Utente utente, String oraVisita, String giornoVisita,String nomePresidio, String nomeReparto) {
         this.utente = utente;
@@ -72,9 +72,14 @@ public class CreaTicket implements ActionListener {
         nazionalitaField.setBounds(160, 100, 200, 25);
 
         confermaButton = new JButton("Conferma");
-        confermaButton.setBounds(160, 220, 100, 25);
+        confermaButton.setBounds(90, 220, 100, 25);
         confermaButton.setFocusable(false);
         confermaButton.addActionListener(this);
+
+        backButton = new JButton("Indietro");
+        backButton.setBounds(200, 220, 100, 25);
+        backButton.setFocusable(false);
+        backButton.addActionListener(this);
 
         ticketPanel.add(annoLabel);
         ticketPanel.add(dateChooser);
@@ -83,6 +88,7 @@ public class CreaTicket implements ActionListener {
         ticketPanel.add(nazionalitaLabel);
         ticketPanel.add(nazionalitaField);
         ticketPanel.add(confermaButton);
+        ticketPanel.add(backButton);
 
         frame.add(ticketPanel);
         frame.setVisible(true);
@@ -112,7 +118,7 @@ public class CreaTicket implements ActionListener {
                 Utils.writeOnFile("Ticket.txt", informazioni);
                 Utils.rimuoviPrenotazioneDalFile(utente.getCodiceFiscale(), giornoVisita, oraVisita);
                 HospitApp.getInstance().rimuoviVisitaAssociata(nomeReparto,nomePresidio,utente);
-//                new GestisciPagamento(utente,oraVisita,giornoVisita,nomePresidio,nomeReparto);
+
 
             }
             else
@@ -122,6 +128,13 @@ public class CreaTicket implements ActionListener {
 
 
         }
+        else {
+            new VisualizzaPrenotazione(utente);
+            frame.dispose();
+
+        }
+
+
     }
 
     private void mostraMessaggio(String messaggio) {
