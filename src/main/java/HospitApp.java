@@ -1,7 +1,5 @@
 
 import javax.swing.table.DefaultTableModel;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.HashMap;
 
@@ -197,11 +195,13 @@ public class HospitApp {
         visita.setStato(true);
     }
 
-    public DefaultTableModel visualizzaPrenotazioneUtente(Utente utente) {
-        DefaultTableModel tableModel = new DefaultTableModel();
-        tableModel.addColumn("Visita");
-        tableModel.addColumn("Presidio");
-        tableModel.addColumn("Reparto");
+    public DefaultTableModel visualizzaVisitaPrenotata(Utente utente) {
+        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
+        DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
+
+        tableModelPrenotata.addColumn("Prenotata");
+        tableModelPrenotata.addColumn("Presidio");
+        tableModelPrenotata.addColumn("Reparto");
 
         Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
         System.out.println(RiepilogoVisiteUtente);
@@ -219,11 +219,46 @@ public class HospitApp {
             String[] repartoPresidio = key.split("_");
 
             // Aggiungo una riga al modello di tabella
-            tableModel.addRow(new Object[]{visita.toString(), repartoPresidio[0], repartoPresidio[1]});
+            if(visita.isStato() != false)
+                tableModelPrenotata.addRow(new Object[]{visita.toString(), repartoPresidio[0], repartoPresidio[1]});
         }
 
-        return tableModel;
+        return tableModelPrenotata;
     }
+
+    public DefaultTableModel visualizzaVisitaDaPrenotare(Utente utente) {
+        DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
+
+        tableModeldaPrenotare.addColumn("Da Prenotare");
+        tableModeldaPrenotare.addColumn("Presidio");
+        tableModeldaPrenotare.addColumn("Reparto");
+
+        Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
+        System.out.println(RiepilogoVisiteUtente);
+
+        if (RiepilogoVisiteUtente.isEmpty()) {
+            System.out.println("Nessuna prenotazione trovata.");
+            return null;
+        }
+
+        for (Map.Entry<String, Visita> entry : RiepilogoVisiteUtente.entrySet()) {
+            String key = entry.getKey();
+            Visita visita = entry.getValue();
+
+            // Separo la chiave in Reparto e Presidio
+            String[] repartoPresidio = key.split("_");
+
+            // Aggiungo una riga al modello di tabella
+            if(visita.isStato() == false)
+                tableModeldaPrenotare.addRow(new Object[]{visita.toString(), repartoPresidio[0], repartoPresidio[1]});
+
+        }
+
+        return tableModeldaPrenotare;
+    }
+
+
+
 //La mappa visiteAssociations contiene come key nomeReparto + "_" + nomePresidio + "_" + codiceFiscale e come value la visita.
     public void rimuoviVisitaAssociata(String nomeReparto, String nomePresidio, Utente utente) {
         Presidio p=this.selezionaPresidio(nomePresidio);

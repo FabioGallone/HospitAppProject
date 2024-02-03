@@ -1,18 +1,15 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class VisualizzaPrenotazione extends JFrame {
 
     private Utente utente;
     private String[] nomiPresidi;
     private String[] nomiReparti;
-    private JLabel messageLabel;
-    private JPanel bottomPanel;
-    private JTable table;
-    private JScrollPane scrollPane;
+    private JLabel messageLabel, messageLabel2;
+    private JTable tablePrenotata, tableDaPrenotare;
+    private JScrollPane scrollPanePrenotata, scrollPaneDaPrenotare;
     private JButton confermaButton, rifiutaButton;
 
     public VisualizzaPrenotazione(Utente utente) {
@@ -25,56 +22,56 @@ public class VisualizzaPrenotazione extends JFrame {
         setTitle("Riepilogo Prenotazioni");
         setLayout(new BorderLayout());
 
-        DefaultTableModel tableModel = HospitApp.getInstance().visualizzaPrenotazioneUtente(utente);
+        DefaultTableModel tableModelPrenotata = HospitApp.getInstance().visualizzaVisitaPrenotata(utente);
+        DefaultTableModel tableModelDaPrenotare = HospitApp.getInstance().visualizzaVisitaDaPrenotare(utente);
 
-        if (tableModel == null) {
+        if (tableModelPrenotata == null) {
             messageLabel = new JLabel("Nessuna prenotazione disponibile per l'utente. Per prenotare una visita selezionare presidio e reparto e mandare la richiesta.");
             messageLabel.setHorizontalAlignment(JLabel.CENTER);
             add(messageLabel, BorderLayout.CENTER);
         } else {
-            table = new JTable(tableModel);
-            table.setRowHeight(30);
-            scrollPane = new JScrollPane(table);
+            tablePrenotata = new JTable(tableModelPrenotata);
+            tablePrenotata.setRowHeight(30);
+            scrollPanePrenotata = new JScrollPane(tablePrenotata);
 
-            int righe=tableModel.getRowCount();
+            int righePrenotate = tableModelPrenotata.getRowCount();
 
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                if(tableModel.getValueAt(i, 0).toString().equals("ora=null,giorno=null,stato=false")) {
-                  righe--;
-                }
+            String[] righeTabellaPrenotate = new String[righePrenotate];
+            nomiPresidi = new String[righePrenotate];
+            nomiReparti = new String[righePrenotate];
+
+            for (int i = 0; i < righePrenotate; i++) {
+                righeTabellaPrenotate[i] = tableModelPrenotata.getValueAt(i, 0).toString();
+                nomiPresidi[i] = tableModelPrenotata.getValueAt(i, 1).toString();
+                nomiReparti[i] = tableModelPrenotata.getValueAt(i, 2).toString();
             }
 
-
-            String[] righeTabella = new String[righe];
-            nomiPresidi = new String[righe];
-            nomiReparti = new String[righe];
-
-
-            for (int i = 0; i < righe; i++) {
-                if(!tableModel.getValueAt(i, 0).toString().equals("ora=null,giorno=null,stato=false")) {
-                    righeTabella[i] = tableModel.getValueAt(i, 0).toString();
-                    nomiPresidi[i] = tableModel.getValueAt(i, 1).toString();
-                    nomiReparti[i] = tableModel.getValueAt(i, 2).toString();
-                }
-            }
-
-            JComboBox<String> azioniComboBox = new JComboBox<>(righeTabella);
+            JComboBox<String> azioniComboBox = new JComboBox<>(righeTabellaPrenotate);
             confermaButton = new JButton("Conferma");
             rifiutaButton = new JButton("Rifiuta");
 
-            bottomPanel = new JPanel(new FlowLayout());
-            bottomPanel.add(azioniComboBox);
-            bottomPanel.add(confermaButton);
-            bottomPanel.add(rifiutaButton);
+            JPanel bottomPanelPrenotata = new JPanel(new FlowLayout());
+            bottomPanelPrenotata.add(azioniComboBox);
+            bottomPanelPrenotata.add(confermaButton);
+            bottomPanelPrenotata.add(rifiutaButton);
 
-            add(scrollPane, BorderLayout.CENTER);
-            add(bottomPanel, BorderLayout.SOUTH);
+            JPanel southPanelPrenotata = new JPanel(new BorderLayout());
+            southPanelPrenotata.add(scrollPanePrenotata, BorderLayout.CENTER);
+            southPanelPrenotata.add(bottomPanelPrenotata, BorderLayout.SOUTH);
 
-            confermaButton.addActionListener(e -> confermaPrenotazione(table, azioniComboBox));
-            rifiutaButton.addActionListener(e -> rifiutaPrenotazione(table, azioniComboBox));
+            add(southPanelPrenotata, BorderLayout.CENTER);
+
+            confermaButton.addActionListener(e -> confermaPrenotazione(tablePrenotata, azioniComboBox));
+            rifiutaButton.addActionListener(e -> rifiutaPrenotazione(tablePrenotata, azioniComboBox));
         }
 
-        setSize(900, 400);
+            tableDaPrenotare = new JTable(tableModelDaPrenotare);
+            tableDaPrenotare.setRowHeight(30);
+            scrollPaneDaPrenotare = new JScrollPane(tableDaPrenotare);
+            add(scrollPaneDaPrenotare, BorderLayout.SOUTH);
+
+
+        setSize(850,700);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -86,15 +83,10 @@ public class VisualizzaPrenotazione extends JFrame {
         String[] parts = selectedValue.split(",");
         String ora = getValueAfterEquals(parts[0]);
         String giorno = getValueAfterEquals(parts[1]);
-        String stato = getValueAfterEquals(parts[2]);
         String nomePresidio = getValueAfterEquals(nomiPresidi[selectedIndex]);
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
-        new CreaTicket(utente,ora,giorno,stato,nomePresidio,nomeReparto);
-
+        new CreaTicket(utente, ora, giorno, nomePresidio, nomeReparto);
     }
-
-
-
 
     private void rifiutaPrenotazione(JTable table, JComboBox<String> azioniComboBox) {
         String selectedValue = azioniComboBox.getSelectedItem().toString();
@@ -105,14 +97,11 @@ public class VisualizzaPrenotazione extends JFrame {
         String[] parts = selectedValue.split(",");
         String ora = getValueAfterEquals(parts[0]);
         String giorno = getValueAfterEquals(parts[1]);
-      //  String stato = getValueAfterEquals(parts[2]);
         String nomePresidio = getValueAfterEquals(nomiPresidi[selectedIndex]);
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
 
-
         Utils.rimuoviPrenotazioneDalFile(codiceFisc, giorno, ora);
-        HospitApp.getInstance().rimuoviVisitaAssociata(nomeReparto,nomePresidio,utente);
-
+        HospitApp.getInstance().rimuoviVisitaAssociata(nomeReparto, nomePresidio, utente);
 
         System.out.println("Rifiuto prenotazione per il valore: " + selectedValue);
         mostraMessaggio("Prenotazione cancellata con successo");

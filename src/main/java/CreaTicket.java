@@ -15,16 +15,16 @@ public class CreaTicket implements ActionListener {
     private JPanel ticketPanel;
     private Date dataNascita;
     private String residenza, nazionalità;
-    private JLabel title, annoLabel, residenzaLabel, nazionalitaLabel, riepilogoLabel, utenteLabel, scelteLabel;
+    private JLabel title, annoLabel, residenzaLabel, nazionalitaLabel, riepilogoLabel1, riepilogoLabel2;
     private JDateChooser dateChooser; // Utilizza JDateChooser per la data
+
     private JTextField residenzaField, nazionalitaField;
     private JButton confermaButton;
 
-    public CreaTicket(Utente utente, String oraVisita, String giornoVisita, String stato, String nomePresidio, String nomeReparto) {
+    public CreaTicket(Utente utente, String oraVisita, String giornoVisita,String nomePresidio, String nomeReparto) {
         this.utente = utente;
         this.oraVisita = oraVisita;
         this.giornoVisita = giornoVisita;
-        this.stato = stato;
         this.nomePresidio = nomePresidio;
         this.nomeReparto = nomeReparto;
         initializeUI();
@@ -45,13 +45,13 @@ public class CreaTicket implements ActionListener {
         ticketPanel.setLayout(null);
         ticketPanel.setBounds(0, 60, 420, 280);
 
-        utenteLabel = new JLabel("Visita prenotata: Presidio " + nomePresidio + " | Reparto : " + nomeReparto);
-        utenteLabel.setBounds(50, 190, 400, 35);
-        frame.add(utenteLabel);
+        riepilogoLabel1 = new JLabel("Visita prenotata: Presidio: " + nomePresidio + " | Reparto : " + nomeReparto);
+        riepilogoLabel1.setBounds(50, 190, 400, 35);
+        frame.add(riepilogoLabel1);
 
-        scelteLabel = new JLabel(" In data " + giornoVisita + " | alle ore " + oraVisita);
-        scelteLabel.setBounds(50, 215, 400, 35);
-        frame.add(scelteLabel);
+        riepilogoLabel2 = new JLabel(" In data " + giornoVisita + " | alle ore " + oraVisita);
+        riepilogoLabel2.setBounds(50, 215, 400, 35);
+        frame.add(riepilogoLabel2);
 
         // Componenti per la registrazione
         annoLabel = new JLabel("Data di nascita:");
@@ -112,6 +112,7 @@ public class CreaTicket implements ActionListener {
                 Utils.writeOnFile("Ticket.txt", informazioni);
                 Utils.rimuoviPrenotazioneDalFile(utente.getCodiceFiscale(), giornoVisita, oraVisita);
                 HospitApp.getInstance().rimuoviVisitaAssociata(nomeReparto,nomePresidio,utente);
+//                new GestisciPagamento(utente,oraVisita,giornoVisita,nomePresidio,nomeReparto);
 
             }
             else
