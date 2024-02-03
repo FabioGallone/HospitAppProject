@@ -95,6 +95,11 @@ public class CreaTicket implements ActionListener {
             residenza = residenzaField.getText();
             nazionalità = nazionalitaField.getText();
 
+            if (dataNascita == null || residenza.trim().isEmpty() || nazionalità.trim().isEmpty()) {
+                mostraMessaggio("Si prega di compilare tutti i campi obbligatori.");
+                return;
+            }
+
             // Formattazione della data in dd/MM/yyyy
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String dataNascitaFormatted = dateFormat.format(dataNascita);
@@ -105,6 +110,8 @@ public class CreaTicket implements ActionListener {
 
             if (!Utils.leggiTicketdalFile("Ticket.txt", informazioni)) {
                 Utils.writeOnFile("Ticket.txt", informazioni);
+                Utils.rimuoviPrenotazioneDalFile(utente.getCodiceFiscale(), giornoVisita, oraVisita);
+                HospitApp.getInstance().rimuoviVisitaAssociata(nomeReparto,nomePresidio,utente);
 
             }
             else

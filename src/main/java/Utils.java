@@ -231,10 +231,10 @@ public class Utils {
         }
     }
 
-    protected static void rimuoviPrenotazioneDalFile(String codiceFiscale, String giorno, String ora, String stato) {
+    protected static void rimuoviPrenotazioneDalFile(String codiceFiscale, String giornoVisita, String oraVisita) {
         try {
             //stringa della prenotazione da rimuovere
-            String prenotazioneToRemove = String.format("%s,%s,%s,%s", codiceFiscale, giorno, ora, stato);
+            String prenotazioneToRemove = String.format("%s,%s,%s", codiceFiscale, giornoVisita, oraVisita);
 
             Utils.rimuoviRigaDaFile("visita.txt", prenotazioneToRemove);
 

@@ -68,6 +68,7 @@ public class InserisciPresidio implements ActionListener {
     }
 
     private void initializeUI() {
+
         welcomeLabel.setBounds(30, 0, 400, 200);
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
 

@@ -89,7 +89,7 @@ public class VisualizzaPrenotazione extends JFrame {
         String stato = getValueAfterEquals(parts[2]);
         String nomePresidio = getValueAfterEquals(nomiPresidi[selectedIndex]);
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
-        CreaTicket creaTicket= new CreaTicket(utente,ora,giorno,stato,nomePresidio,nomeReparto);
+        new CreaTicket(utente,ora,giorno,stato,nomePresidio,nomeReparto);
 
     }
 
@@ -105,12 +105,12 @@ public class VisualizzaPrenotazione extends JFrame {
         String[] parts = selectedValue.split(",");
         String ora = getValueAfterEquals(parts[0]);
         String giorno = getValueAfterEquals(parts[1]);
-        String stato = getValueAfterEquals(parts[2]);
+      //  String stato = getValueAfterEquals(parts[2]);
         String nomePresidio = getValueAfterEquals(nomiPresidi[selectedIndex]);
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
 
 
-        Utils.rimuoviPrenotazioneDalFile(codiceFisc, giorno, ora, stato);
+        Utils.rimuoviPrenotazioneDalFile(codiceFisc, giorno, ora);
         HospitApp.getInstance().rimuoviVisitaAssociata(nomeReparto,nomePresidio,utente);
 
 

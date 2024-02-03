@@ -18,6 +18,8 @@ public class Utente {
     private List<Visita> visite;
 
     private Map<String, Visita> VisitaRepartoPresidioUtente;
+
+    // da fixare
     private static List<Utente> utentiList = new ArrayList<>();
 
 
@@ -189,7 +191,7 @@ public class Utente {
         this.VisitaRepartoPresidioUtente.put(key, visita); //tutte le visite di un utente
 
     }
-  public Map<String, Visita> getVisitaRepartoPresidioUtente() {
+    public Map<String, Visita> getVisitaRepartoPresidioUtente() {
         return this.VisitaRepartoPresidioUtente;
     }
 
