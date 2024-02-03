@@ -1,3 +1,4 @@
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +84,43 @@ public class Presidio {
         String key = nomeReparto + "_" + nomeUtente;
         visiteperutenterepartopresidio.remove(key);
     }
+
+
+
+
+    public double calcolaCostoTotalePaziente(int etaPaziente) {
+        double costoTotale = 0;
+
+        for (Map.Entry<String, Visita> entry : visiteperutenterepartopresidio.entrySet()) {
+            Visita visita = entry.getValue();
+
+
+            costoTotale += visita.getCosto();
+        }
+
+        double sconto = calcolaScontoInBaseAllEta(etaPaziente);
+        costoTotale -= costoTotale * sconto;
+
+        return costoTotale;
+    }
+
+    private double calcolaScontoInBaseAllEta(int eta) {
+        if (eta >= 0 && eta <= 6) {
+            // Bambini (0-6 anni): gratis
+            return 1.0;
+        } else if (eta >= 7 && eta <= 17) {
+            // Ragazzi (7-17 anni): Sconto del 50%
+            return 0.5;
+        } else if (eta >= 65) {
+            // Anziani (65 anni o più): Sconto del 70%
+            return 0.7;
+        } else {
+            //adulti: costo massimo.
+            return 0.0;
+        }
+    }
+
+
 
 }
 

@@ -150,7 +150,7 @@ public class HospitApp {
         if (reparto != null && presidio != null && utente != null) {
 
 
-            Visita visita = new Visita(null, null, false);
+            Visita visita = new Visita(null, null, false, 50);
 
             presidio.aggiungiVisita(visita, reparto.getNome(), utente.getNome());
 

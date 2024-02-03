@@ -8,11 +8,22 @@ public class Visita {
     private String giorno;
 
     private boolean stato;
+    private double costo;
 
-    public Visita(String ora, String giorno, boolean stato) {
+
+    public Visita(String ora, String giorno, boolean stato, double costo) {
         this.ora = ora;
         this.giorno = giorno;
         this.stato=stato;
+        this.costo=costo;
+    }
+
+    public double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(double costo) {
+        this.costo = costo;
     }
 
     public boolean isStato() {
