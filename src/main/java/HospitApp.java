@@ -159,7 +159,7 @@ public class HospitApp {
 
             String value=reparto.getNome()+"_"+presidio.getNome()+"_"+utente.getCodiceFiscale();
             visiteAssociations.put(value, visita);
-
+            System.out.println("sono visiteassociation: "+visiteAssociations);
 
             return visita;
         } else {
@@ -270,6 +270,31 @@ public class HospitApp {
         p.rimuoviVisita(nomeReparto, utente.getNome());
         r.rimuoviVisita(nomePresidio,utente.getNome());
     }
+
+
+    public double calcolaCostoTotalePaziente(Visita visita, int etaPaziente) {
+        double costoTotale = visita.getCosto();
+        double sconto = calcolaScontoInBaseAllEta(etaPaziente);
+        costoTotale -= costoTotale * sconto;
+        return costoTotale;
+    }
+
+    private double calcolaScontoInBaseAllEta(int eta) {
+        if (eta >= 0 && eta <= 6) {
+            // Bambini (0-6 anni): gratis
+            return 1.0;
+        } else if (eta >= 7 && eta <= 17) {
+            // Ragazzi (7-17 anni): Sconto del 50%
+            return 0.5;
+        } else if (eta >= 65) {
+            // Anziani (65 anni o più): Sconto del 70%
+            return 0.7;
+        } else {
+            // Adulti: costo massimo.
+            return 0.0;
+        }
+    }
+
 
 
 

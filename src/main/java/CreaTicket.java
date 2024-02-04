@@ -117,7 +117,7 @@ public class CreaTicket implements ActionListener {
             if (!Utils.leggiTicketdalFile("Ticket.txt", informazioni)) {
                 Utils.writeOnFile("Ticket.txt", informazioni);
                 Utils.rimuoviPrenotazioneDalFile(utente.getCodiceFiscale(), giornoVisita, oraVisita);
-                HospitApp.getInstance().rimuoviVisitaAssociata(nomeReparto,nomePresidio,utente);
+                new GestionePagamento(informazioni, utente);
 
 
             }
