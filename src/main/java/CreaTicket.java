@@ -114,18 +114,8 @@ public class CreaTicket implements ActionListener {
                     residenza + "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
                     nomeReparto + "," + nazionalità + "," + dataNascitaFormatted;
 
-            if (!Utils.leggiTicketdalFile("Ticket.txt", informazioni)) {
-                Utils.writeOnFile("Ticket.txt", informazioni);
-                Utils.rimuoviPrenotazioneDalFile(utente.getCodiceFiscale(), giornoVisita, oraVisita);
-                new GestionePagamento(informazioni, utente);
-
-
-            }
-            else
-                mostraMessaggio("Hai già richiesto questo ticket.");
-
+            new GestionePagamento(informazioni, utente);
             frame.dispose();
-
 
         }
         else {
