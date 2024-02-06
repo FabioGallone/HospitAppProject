@@ -19,7 +19,7 @@ public class HospitApp {
     private Map<String, Reparto> reparti; //tutti i reparti
     private List<String> RiepilogoTicket= new ArrayList<>();
 
-    private HospitApp() {
+    public HospitApp() {
         this.elencoPresidi = new HashMap<>();
         this.reparti = new HashMap<>(); // Inizializza la mappa reparti
         this.visiteAssociations = new HashMap<>();
@@ -99,6 +99,7 @@ public class HospitApp {
         Reparto reparto = new Reparto(nome, codiceReparto);
         System.out.println("Reparto inserito");
         p.inserisciReparti(nome, codiceReparto, p);
+
         return reparto;
     }
 
@@ -118,6 +119,8 @@ public class HospitApp {
     }
 
     public Presidio selezionaPresidio(String nomePresidio) {
+
+
         for (Presidio presidio : elencoPresidi.values()) {
 
             if (presidio.getNome().equalsIgnoreCase(nomePresidio)){
@@ -131,6 +134,7 @@ public class HospitApp {
 
     public void prenotaVisita(String nomePresidio) {
         Presidio presidio = elencoPresidi.get(nomePresidio);
+
 
         if (presidio != null) {
             System.out.println("Prenotazione Visita - Presidio: " + presidio.getNome());
@@ -163,7 +167,7 @@ public class HospitApp {
 
             String value=reparto.getNome()+"_"+presidio.getNome()+"_"+utente.getCodiceFiscale();
             visiteAssociations.put(value, visita);
-            System.out.println("sono visiteassociation: "+visiteAssociations);
+
 
             return visita;
         } else {
@@ -292,7 +296,9 @@ public class HospitApp {
 //La mappa visiteAssociations contiene come key nomeReparto + "_" + nomePresidio + "_" + codiceFiscale e come value la visita.
     public void rimuoviVisitaAssociata(String nomeReparto, String nomePresidio, Utente utente) {
         Presidio p=this.selezionaPresidio(nomePresidio);
+
         Reparto r=this.selezionaReparto(nomeReparto);
+
         String codiceFiscale=utente.getCodiceFiscale();
         String key = nomeReparto + "_" + nomePresidio + "_" + codiceFiscale;
         visiteAssociations.remove(key);
@@ -309,7 +315,7 @@ public class HospitApp {
         return costoTotale;
     }
 
-    private double calcolaScontoInBaseAllEta(int eta) {
+    public double calcolaScontoInBaseAllEta(int eta) {
         if (eta >= 0 && eta <= 6) {
             // Bambini (0-6 anni): gratis
             return 1.0;

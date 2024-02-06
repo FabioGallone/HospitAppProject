@@ -21,7 +21,7 @@ public class Utente {
 
     private Map<String, Visita> VisitaRepartoPresidioUtente;
 
-    // da fixare
+
     private static List<Utente> utentiList = new ArrayList<>();
 
 
@@ -111,7 +111,7 @@ public class Utente {
 
     @Override
     public String toString() {
-        return "domain.Utente{" +
+        return "Utente{" +
                 "nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
                 ", codiceFiscale='" + codiceFiscale + '\'' +
@@ -204,7 +204,7 @@ public class Utente {
 
         if (VisitaRepartoPresidioUtente.containsKey(key)) {
             VisitaRepartoPresidioUtente.remove(key);
-            System.out.println("domain.Visita rimossa con successo per il reparto " + nomeReparto + " e il presidio " + nomePresidio);
+            System.out.println("Visita rimossa con successo per il reparto " + nomeReparto + " e il presidio " + nomePresidio);
         } else {
             System.out.println("Nessuna visita trovata per il reparto " + nomeReparto + " e il presidio " + nomePresidio);
         }

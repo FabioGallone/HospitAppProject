@@ -16,7 +16,7 @@ public class HospitAppTest {
     private Reparto reparto;
     private Utente utente;
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
     private final PrintStream originalOut = System.out;
 
     @Before
@@ -56,8 +56,18 @@ public class HospitAppTest {
 
     @Test
     public void testPrenotaVisita() {
+
+        //ByteArrayOutputStream serve per catturare l'output che viene normalmente stampato su System.out
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        //tutto ciò che viene stampato su System.out verrà ora catturato da outContent
+        System.setOut(new PrintStream(outContent));
+
         hospitApp.prenotaVisita("TestPresidio");
-        assertEquals("Prenotazione Visita - Presidio: TestPresidio", systemOut());
+
+        //la stampa successiva vada di nuovo sulla console.
+        System.setOut(originalOut);
+
+        assertEquals("Prenotazione Visita - Presidio: TestPresidio", outContent.toString().trim());
     }
 
     @Test
@@ -97,8 +107,6 @@ public class HospitAppTest {
         assertEquals(0.0, hospitApp.calcolaScontoInBaseAllEta(30), 0.001);
     }
 
-    // Helper method to capture System.out.println() statements
-    private String systemOut() {
-        return outContent.toString();
-    }
+
+
 }

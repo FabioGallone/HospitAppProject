@@ -53,7 +53,7 @@ public class Presidio {
 
     @Override
     public String toString() {
-        return "domain.Presidio{" +
+        return "Presidio{" +
                 "nome='" + nome + "" +
                 ", indirizzo='" + indirizzo + "" +
                 ", orario=" + orario +
