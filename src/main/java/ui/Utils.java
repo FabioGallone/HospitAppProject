@@ -310,11 +310,12 @@ public class Utils {
                         String nomeReparto = data[7].trim();
                         String nazionalità=data[8].trim();
                         String dataNascitaFormatted=data[9].trim();
+                        String costo=data[10].trim();
 
 
                         String informazioni = nome + "," + cognome + "," + codiceFiscale + "," +
                                 residenza + "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
-                                nomeReparto + "," + nazionalità + "," + dataNascitaFormatted;
+                                nomeReparto + "," + nazionalità + "," + dataNascitaFormatted + "," + costo;
 
                         elencoVisite.add(informazioni);
 

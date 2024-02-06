@@ -80,7 +80,7 @@ public class GestionePagamento {
 
         int eta = Utils.calcolaEtaDaDataNascita(dettagli[9].trim());
 
-        double importo = HospitApp.getInstance().calcolaCostoTotalePaziente(HospitApp.getInstance().trovaVisita(dettagli[7].trim(), dettagli[6].trim(), dettagli[2].trim()), eta);
+        String importo = dettagli[10].trim();
 
         importoLabel = new JLabel("Importo: €" + importo);
         importoLabel.setFont(new Font(null, Font.BOLD, 24));
