@@ -53,7 +53,7 @@ public class Presidio {
 
     @Override
     public String toString() {
-        return "domain.Presidio{" +
+        return "Presidio{" +
                 "nome='" + nome + "" +
                 ", indirizzo='" + indirizzo + "" +
                 ", orario=" + orario +
@@ -63,6 +63,15 @@ public class Presidio {
     public void inserisciReparti(String nome, String codiceReparto, Presidio p) {
         Reparto r = new Reparto(nome, codiceReparto);
         elencoReparti.put(codiceReparto, r);
+    }
+
+
+    public Map<String, Reparto> getElencoReparti() {
+        return elencoReparti;
+    }
+
+    public void setElencoReparti(Map<String, Reparto> elencoReparti) {
+        this.elencoReparti = elencoReparti;
     }
 
     public List<Reparto> getElencoRepartidelPresidio() {

@@ -35,7 +35,7 @@ public class Reparto {
 
     @Override
     public String toString() {
-        return "domain.Reparto{" +
+        return "Reparto{" +
                 "nome='" + nome + "" +
         ", codice='" + codice + "" +
         '}';

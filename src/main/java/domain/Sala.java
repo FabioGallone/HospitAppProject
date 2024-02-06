@@ -30,7 +30,7 @@ public class Sala {
 
     @Override
     public String toString() {
-        return "domain.Sala{" +
+        return "Sala{" +
                 "codice='" + codice + '\'' +
                 ", reparto=" + reparto +
                 '}';

@@ -18,7 +18,7 @@ import java.util.Set;
 
 public class InserisciPresidio implements ActionListener {
     private Utente utente;
-    JFrame frame;
+    public JFrame frame;
     private JLabel welcomeLabel;
     private JButton quitButton;
     private JButton addButton;
@@ -49,30 +49,6 @@ public class InserisciPresidio implements ActionListener {
         email = null;
     }
 
-    private void leggiPresidiDaFile(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 3) {
-                    Presidio presidio = hospitapp.InserisciNuovoPresidio(data[0].trim(), data[1].trim(), data[2].trim());
-
-                    for (int j = 3; j < data.length; j++) {
-                        Reparto r = hospitapp.selezionaReparto(data[j].trim());
-                        if (r != null) {
-                            // Associa il reparto al presidio corrente
-                            presidio.inserisciReparti(r.getNome(), r.getCodice(), presidio);
-                        }
-                    }
-
-                    hospitapp.confermaInserimento();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void initializeUI() {
 
@@ -81,7 +57,7 @@ public class InserisciPresidio implements ActionListener {
 
         if (this.isAdministrator) {
             welcomeLabel.setText("Ciao amministratore " + nome);
-            leggiPresidiDaFile("presidio.txt");
+            Utils.leggiPresidiDaFile("presidio.txt");
             ListaPresidi = hospitapp.getElencoPresidi();
 
             int buttonYPosition = 250;
@@ -162,6 +138,8 @@ public class InserisciPresidio implements ActionListener {
 
         JOptionPane.showMessageDialog(frame, repartiText.toString(), "Reparti", JOptionPane.INFORMATION_MESSAGE);
     }
+
+
 
 
 }
