@@ -1,3 +1,5 @@
+package domain;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +35,7 @@ public class Reparto {
 
     @Override
     public String toString() {
-        return "Reparto{" +
+        return "domain.Reparto{" +
                 "nome='" + nome + "" +
         ", codice='" + codice + "" +
         '}';

@@ -1,3 +1,8 @@
+package ui;
+
+import domain.HospitApp;
+import domain.Utente;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -77,7 +82,6 @@ public class GestionePagamento {
 
         double importo = HospitApp.getInstance().calcolaCostoTotalePaziente(HospitApp.getInstance().trovaVisita(dettagli[7].trim(), dettagli[6].trim(), dettagli[2].trim()), eta);
 
-        HospitApp.getInstance().rimuoviVisitaAssociata(dettagli[7].trim(), dettagli[6].trim(), utente);
         importoLabel = new JLabel("Importo: €" + importo);
         importoLabel.setFont(new Font(null, Font.BOLD, 24));
         bottomPanel.add(importoLabel, BorderLayout.CENTER);
@@ -91,6 +95,7 @@ public class GestionePagamento {
                 if (!Utils.leggiTicketdalFile("Ticket.txt", informazioni)) {
                     Utils.writeOnFile("Ticket.txt", informazioni);
                     Utils.rimuoviPrenotazioneDalFile(utente.getCodiceFiscale(), dettagli[4].trim(), dettagli[5].trim());
+                    HospitApp.getInstance().rimuoviVisitaAssociata(dettagli[7].trim(), dettagli[6].trim(), utente);
                     frame.dispose();
                 }
                 else

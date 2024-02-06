@@ -1,4 +1,5 @@
-import java.time.DayOfWeek;
+package domain;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,7 @@ public class Presidio {
 
     @Override
     public String toString() {
-        return "Presidio{" +
+        return "domain.Presidio{" +
                 "nome='" + nome + "" +
                 ", indirizzo='" + indirizzo + "" +
                 ", orario=" + orario +

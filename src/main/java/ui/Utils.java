@@ -1,3 +1,7 @@
+package ui;
+
+import domain.*;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -115,7 +119,7 @@ public class Utils {
         }
     }
 
-    public static void ScrivisuFileVisita(Reparto reparto, Presidio presidio,Utente utente, Visita visita){
+    public static void ScrivisuFileVisita(Reparto reparto, Presidio presidio, Utente utente, Visita visita){
 
         String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getCodiceFiscale() +"," + visita.getGiorno()+ "," + visita.getOra()+ "," + visita.isStato();
         Utils.writeOnFile("Visita.txt", contentToWrite);
@@ -145,7 +149,7 @@ public class Utils {
                     Presidio presidio = hospitapp.selezionaPresidio(nomePresidio);
 
                     if (reparto != null && presidio != null) {
-                    Utente  utente=Utente.getUserFromCF(codiceFiscale);
+                    Utente utente= Utente.getUserFromCF(codiceFiscale);
 
                         Visita visita  = hospitapp.confermaPrenotazione(reparto, presidio, utente);
                         visita.setStato(isStato);
@@ -279,6 +283,51 @@ public class Utils {
             e.printStackTrace();
         }
         return false;
+
+    }
+
+    public static List<String> VisualizzaTicket(String filePath, Utente utente) {
+        File file = new File(filePath);
+        List<String> elencoVisite=new ArrayList<>();
+        // Verifica se il file è vuoto
+        if (file.length() == 0) {
+            return null;
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length > 1) {
+                    if(utente.getCodiceFiscale().equals(data[2].trim())) {
+                        String nome = data[0].trim();
+                        String cognome = data[1].trim();
+                        String codiceFiscale = data[2].trim();
+                        String residenza = data[3].trim();
+                        String giornoVisita = data[4].trim();
+                        String oraVisita = data[5].trim();
+                        String nomePresidio = data[6].trim();
+                        String nomeReparto = data[7].trim();
+                        String nazionalità=data[8].trim();
+                        String dataNascitaFormatted=data[9].trim();
+
+
+                        String informazioni = nome + "," + cognome + "," + codiceFiscale + "," +
+                                residenza + "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
+                                nomeReparto + "," + nazionalità + "," + dataNascitaFormatted;
+
+                        elencoVisite.add(informazioni);
+
+
+                    }
+                }
+            }
+            return elencoVisite;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
 
     }
 

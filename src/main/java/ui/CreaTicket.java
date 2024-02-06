@@ -1,4 +1,7 @@
+package ui;
+
 import com.toedter.calendar.JDateChooser;
+import domain.Utente;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +24,7 @@ public class CreaTicket implements ActionListener {
     private JTextField residenzaField, nazionalitaField;
     private JButton confermaButton, backButton;
 
-    public CreaTicket(Utente utente, String oraVisita, String giornoVisita,String nomePresidio, String nomeReparto) {
+    public CreaTicket(Utente utente, String oraVisita, String giornoVisita, String nomePresidio, String nomeReparto) {
         this.utente = utente;
         this.oraVisita = oraVisita;
         this.giornoVisita = giornoVisita;

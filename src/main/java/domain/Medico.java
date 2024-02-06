@@ -1,3 +1,5 @@
+package domain;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +72,7 @@ public class Medico {
 
     @Override
     public String toString() {
-        return "Medico{" +
+        return "domain.Medico{" +
                 "nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
                 ", codiceMedico='" + codiceMedico + '\'' +

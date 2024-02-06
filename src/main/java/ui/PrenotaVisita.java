@@ -1,3 +1,7 @@
+package ui;
+
+import domain.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,8 +20,8 @@ public class PrenotaVisita implements ActionListener {
     private JLabel welcomeLabel, titoloLabel;
     private JComboBox<String> presidioComboBox;
     private JComboBox<String> repartoComboBox;
-    private JButton visualizzaPrenotazione;  // Aggiunta dichiarazione del pulsante del reparto selezionato
-    private Presidio  presidioCorrente;
+    private JButton visualizzaPrenotazione, visualizzaTicket;  // Aggiunta dichiarazione del pulsante del reparto selezionato
+    private Presidio presidioCorrente;
     private String nomepresidioSelezionato, nomeRepartoSelezionato;
     HospitApp hospitapp = HospitApp.getInstance();
 
@@ -33,6 +37,7 @@ public class PrenotaVisita implements ActionListener {
         presidioComboBox = new JComboBox<>();
         repartoComboBox = new JComboBox<>();
         visualizzaPrenotazione= new JButton();// Inizializzazione del pulsante del reparto selezionato
+        visualizzaTicket=new JButton();
 
 
         showPrenotaVisitaUI();
@@ -79,10 +84,25 @@ public class PrenotaVisita implements ActionListener {
         visualizzaPrenotazione.setFocusable(false);
         frame.add(visualizzaPrenotazione);
 
+        visualizzaTicket = new JButton("Visualizza Ticket");
+        visualizzaTicket.setBounds(75, 400, 200, 25);
+        visualizzaTicket.setFocusable(false);
+        frame.add(visualizzaTicket);
+
         visualizzaPrenotazione.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 VisualizzaPrenotazione visualizzaPrenotazione= new VisualizzaPrenotazione(utente);
+            }
+        });
+
+
+        //partire da qui
+        visualizzaTicket.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String> elencovisite= Utils.VisualizzaTicket("ticket.txt", utente);
+
             }
         });
 

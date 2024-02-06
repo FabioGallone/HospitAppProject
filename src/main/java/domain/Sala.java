@@ -1,4 +1,4 @@
-import java.util.Map;
+package domain;
 
 public class Sala {
 
@@ -30,7 +30,7 @@ public class Sala {
 
     @Override
     public String toString() {
-        return "Sala{" +
+        return "domain.Sala{" +
                 "codice='" + codice + '\'' +
                 ", reparto=" + reparto +
                 '}';

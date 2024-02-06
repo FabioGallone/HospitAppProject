@@ -1,3 +1,8 @@
+package ui;
+
+import domain.HospitApp;
+import domain.Utente;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;

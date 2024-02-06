@@ -1,3 +1,5 @@
+package domain;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -109,7 +111,7 @@ public class Utente {
 
     @Override
     public String toString() {
-        return "Utente{" +
+        return "domain.Utente{" +
                 "nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
                 ", codiceFiscale='" + codiceFiscale + '\'' +
@@ -202,7 +204,7 @@ public class Utente {
 
         if (VisitaRepartoPresidioUtente.containsKey(key)) {
             VisitaRepartoPresidioUtente.remove(key);
-            System.out.println("Visita rimossa con successo per il reparto " + nomeReparto + " e il presidio " + nomePresidio);
+            System.out.println("domain.Visita rimossa con successo per il reparto " + nomeReparto + " e il presidio " + nomePresidio);
         } else {
             System.out.println("Nessuna visita trovata per il reparto " + nomeReparto + " e il presidio " + nomePresidio);
         }

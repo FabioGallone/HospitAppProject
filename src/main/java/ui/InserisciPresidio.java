@@ -1,3 +1,10 @@
+package ui;
+
+import domain.HospitApp;
+import domain.Presidio;
+import domain.Reparto;
+import domain.Utente;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
