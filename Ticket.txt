@@ -1,3 +1,1 @@
 
-Lello,Pello,codfiscLello,prova,25/01/2024,8:00,Garibaldi,Cardiologia,ita,09/02/2024
-Lello,Pello,codfiscLello,jiljlk,27/01/2024,22,Garibaldi,Ortopedia,jkljkljkl,07/02/2024

@@ -1,5 +1,7 @@
 package domain;
 
+import ui.Utils;
+
 import javax.swing.table.DefaultTableModel;
 import java.util.*;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ public class HospitApp {
 
     private Map<String, Presidio> elencoPresidi;
     private Map<String, Reparto> reparti; //tutti i reparti
+    private List<String> RiepilogoTicket= new ArrayList<>();
 
     private HospitApp() {
         this.elencoPresidi = new HashMap<>();
@@ -37,7 +40,7 @@ public class HospitApp {
 
     public Presidio InserisciNuovoPresidio(String nome, String indirizzo, String orario){
         this.presidioCorrente=new Presidio(nome, indirizzo, orario);
-        System.out.println("domain.Presidio inserito");
+        System.out.println("Presidio inserito");
         return presidioCorrente;
     }
 
@@ -46,7 +49,7 @@ public class HospitApp {
     public void confermaInserimento() {
         if (presidioCorrente != null) {
             this.elencoPresidi.put(presidioCorrente.getNome(), presidioCorrente);
-            System.out.println("Operazione Inserimento domain.Presidio Conclusa");
+            System.out.println("Operazione Inserimento Presidio Conclusa");
         }
 
     }
@@ -94,7 +97,7 @@ public class HospitApp {
 
     public Reparto inserisciNuovoReparto(String nome, String codiceReparto, Presidio p) {
         Reparto reparto = new Reparto(nome, codiceReparto);
-        System.out.println("domain.Reparto inserito");
+        System.out.println("Reparto inserito");
         p.inserisciReparti(nome, codiceReparto, p);
         return reparto;
     }
@@ -130,9 +133,9 @@ public class HospitApp {
         Presidio presidio = elencoPresidi.get(nomePresidio);
 
         if (presidio != null) {
-            System.out.println("Prenotazione domain.Visita - domain.Presidio: " + presidio.getNome());
+            System.out.println("Prenotazione Visita - Presidio: " + presidio.getNome());
         } else {
-            System.out.println("domain.Presidio non trovato: " + nomePresidio);
+            System.out.println("Presidio non trovato: " + nomePresidio);
         }
 
 
@@ -164,7 +167,7 @@ public class HospitApp {
 
             return visita;
         } else {
-            System.out.println("domain.Reparto, domain.Presidio o domain.Utente non validi.");
+            System.out.println("Reparto, Presidio o Utente non validi.");
             return null;
         }
     }
@@ -174,7 +177,7 @@ public class HospitApp {
         if (visiteAssociations.containsKey(key)) {
             return visiteAssociations.get(key);
         } else {
-            System.out.println("domain.Visita non trovata per la chiave: " + key);
+            System.out.println("Visita non trovata per la chiave: " + key);
             return null;
         }
     }
@@ -198,11 +201,10 @@ public class HospitApp {
 
     public DefaultTableModel visualizzaVisitaPrenotata(Utente utente) {
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
-        DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
 
         tableModelPrenotata.addColumn("Prenotata");
-        tableModelPrenotata.addColumn("domain.Presidio");
-        tableModelPrenotata.addColumn("domain.Reparto");
+        tableModelPrenotata.addColumn("Presidio");
+        tableModelPrenotata.addColumn("Reparto");
 
         Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
         System.out.println(RiepilogoVisiteUtente);
@@ -216,7 +218,7 @@ public class HospitApp {
             String key = entry.getKey();
             Visita visita = entry.getValue();
 
-            // Separo la chiave in domain.Reparto e domain.Presidio
+            // Separo la chiave in Reparto e Presidio
             String[] repartoPresidio = key.split("_");
 
             // Aggiungo una riga al modello di tabella
@@ -231,8 +233,8 @@ public class HospitApp {
         DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
 
         tableModeldaPrenotare.addColumn("Da Prenotare");
-        tableModeldaPrenotare.addColumn("domain.Presidio");
-        tableModeldaPrenotare.addColumn("domain.Reparto");
+        tableModeldaPrenotare.addColumn("Presidio");
+        tableModeldaPrenotare.addColumn("Reparto");
 
         Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
         System.out.println(RiepilogoVisiteUtente);
@@ -246,7 +248,7 @@ public class HospitApp {
             String key = entry.getKey();
             Visita visita = entry.getValue();
 
-            // Separo la chiave in domain.Reparto e domain.Presidio
+            // Separo la chiave in Reparto e Presidio
             String[] repartoPresidio = key.split("_");
 
             // Aggiungo una riga al modello di tabella
@@ -256,6 +258,33 @@ public class HospitApp {
         }
 
         return tableModeldaPrenotare;
+    }
+
+
+    public DefaultTableModel visualizzaPrenotazioneTicket(Utente utente) {
+        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
+
+        tableModelPrenotata.addColumn("Utente");
+        tableModelPrenotata.addColumn("Visita");
+        tableModelPrenotata.addColumn("Presidio");
+        tableModelPrenotata.addColumn("Reparto");
+        tableModelPrenotata.addColumn("Costo");
+
+        RiepilogoTicket=Utils.VisualizzaTicket("ticket.txt", utente);
+        System.out.println(RiepilogoTicket);
+
+        if (RiepilogoTicket.isEmpty()) {
+            System.out.println("Nessun Ticket trovato.");
+            return null;
+        }
+
+        for (String ticket : RiepilogoTicket) {
+
+            String[] ticketData = ticket.split(",");
+            tableModelPrenotata.addRow(new Object[]{ticketData[2],ticketData[4]+","+ticketData[5],ticketData[6],ticketData[7],ticketData[10]});
+
+        }
+        return tableModelPrenotata;
     }
 
 

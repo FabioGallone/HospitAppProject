@@ -101,7 +101,8 @@ public class PrenotaVisita implements ActionListener {
         visualizzaTicket.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<String> elencovisite= Utils.VisualizzaTicket("ticket.txt", utente);
+
+                new VisualizzaTicket(utente);
 
             }
         });
