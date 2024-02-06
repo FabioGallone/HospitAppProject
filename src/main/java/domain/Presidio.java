@@ -65,6 +65,15 @@ public class Presidio {
         elencoReparti.put(codiceReparto, r);
     }
 
+
+    public Map<String, Reparto> getElencoReparti() {
+        return elencoReparti;
+    }
+
+    public void setElencoReparti(Map<String, Reparto> elencoReparti) {
+        this.elencoReparti = elencoReparti;
+    }
+
     public List<Reparto> getElencoRepartidelPresidio() {
         return new ArrayList<>(elencoReparti.values());
     }

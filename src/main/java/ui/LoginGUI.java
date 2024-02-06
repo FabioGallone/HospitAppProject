@@ -13,10 +13,27 @@ public class LoginGUI implements ActionListener {
 
     protected JFrame frame;
     private JPanel loginPanel, registerPanel;
-    private JLabel title, emailLabel, userPasswordLabel, nameLabel, surnameLabel, fiscalCodeLabel, regEmailLabel, regPasswordLabel, loginMessageLabel, registerMessageLabel;
-    private JTextField emailField, nameField, surnameField, fiscalCodeField, regEmailField;
-    private JPasswordField userPasswordField, regPasswordField;
-    private JButton loginButton, registerButton, backToLoginButton, signUpButton;
+    private JLabel title;
+    private JLabel emailLabel;
+    private JLabel userPasswordLabel;
+    private JLabel nameLabel;
+    private JLabel surnameLabel;
+    private JLabel fiscalCodeLabel;
+    private JLabel regEmailLabel;
+    private JLabel regPasswordLabel;
+    public JLabel loginMessageLabel;
+    public JLabel registerMessageLabel;
+    public JTextField emailField;
+    public JTextField nameField;
+    public JTextField surnameField;
+    public JTextField fiscalCodeField;
+    public JTextField regEmailField;
+    public JPasswordField userPasswordField;
+    public JPasswordField regPasswordField;
+    public JButton loginButton;
+    private JButton registerButton;
+    private JButton backToLoginButton;
+    public JButton signUpButton;
 
 
 
@@ -206,7 +223,7 @@ public class LoginGUI implements ActionListener {
                     InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
                 } else if (Utils.isEmailAlreadyUsed(email)) {
                     registerMessageLabel.setForeground(Color.RED);
-                    registerMessageLabel.setText("Email giÃ  in uso");
+                    registerMessageLabel.setText("Email gia in uso");
                 } else if (!Utils.isValidEmail(email)) {
                     registerMessageLabel.setForeground(Color.RED);
                     registerMessageLabel.setText("Email nel formato non corretto");

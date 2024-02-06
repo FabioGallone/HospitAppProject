@@ -12,12 +12,20 @@ import java.awt.event.ActionListener;
 import java.util.stream.Collectors;
 
 public class InserisciReparto implements ActionListener {
-    protected JFrame frame;
+    public JFrame frame;
     private Utente utente;
-    private JPanel addPanel;
-    private JLabel nomeLabel, indirizzoLabel, orarioLabel, title, addMessageLabel, repartiLabel;
-    private JTextField nomeField, indirizzoField, orarioField;
-    private JButton addButton, backtoInserisciPresidio;
+    public JPanel addPanel;
+    private JLabel nomeLabel;
+    private JLabel indirizzoLabel;
+    private JLabel orarioLabel;
+    private JLabel title;
+    public JLabel addMessageLabel;
+    private JLabel repartiLabel;
+    public JTextField nomeField;
+    public JTextField indirizzoField;
+    public JTextField orarioField;
+    public JButton addButton;
+    public JButton backtoInserisciPresidio;
     private String email;
     private final String nome;
     private final String cognome;
