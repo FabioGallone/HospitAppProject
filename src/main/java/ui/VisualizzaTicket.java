@@ -19,7 +19,7 @@ public class VisualizzaTicket extends JFrame{
     private JPanel titlePanel;
     private String[] nomiPresidi, nomiReparti, codFisc, OraGiornoVisita, StringaCompleta;
     private JScrollPane scrollPanePrenotata;
-    private JButton confermaButton, rifiutaButton;
+    private JButton backButton, rifiutaButton;
     private JLabel titleLabel,title, messageLabel;
     private JTable tableTicket;
 
@@ -37,7 +37,7 @@ public class VisualizzaTicket extends JFrame{
 
 
         if (tableModelTicket == null) {
-            messageLabel = new JLabel("Nessuna prenotazione disponibile per l'utente. Per prenotare una visita selezionare presidio e reparto e mandare la richiesta.");
+            messageLabel = new JLabel("Nessun Ticket disponibile per l'utente.");
             messageLabel.setHorizontalAlignment(JLabel.CENTER);
             add(messageLabel, BorderLayout.CENTER);
         } else {
@@ -45,31 +45,31 @@ public class VisualizzaTicket extends JFrame{
             tableTicket.setRowHeight(30);
             scrollPanePrenotata = new JScrollPane(tableTicket);
 
-            int righePrenotate = tableModelTicket.getRowCount();
+//            int righePrenotate = tableModelTicket.getRowCount();
 
 
-            codFisc = new String[righePrenotate];
-            OraGiornoVisita = new String[righePrenotate];
-            nomiPresidi = new String[righePrenotate];
-            nomiReparti = new String[righePrenotate];
-            StringaCompleta= new String[righePrenotate];
+//            codFisc = new String[righePrenotate];
+//            OraGiornoVisita = new String[righePrenotate];
+//            nomiPresidi = new String[righePrenotate];
+//            nomiReparti = new String[righePrenotate];
+//            StringaCompleta= new String[righePrenotate];
+//
+//            for (int i = 0; i < righePrenotate; i++) {
+//                codFisc[i] = tableModelTicket.getValueAt(i, 0).toString();
+//                OraGiornoVisita[i] = tableModelTicket.getValueAt(i, 1).toString();
+//                nomiPresidi[i] = tableModelTicket.getValueAt(i, 2).toString();
+//                nomiReparti[i] = tableModelTicket.getValueAt(i, 3).toString();
+//                StringaCompleta[i]= OraGiornoVisita[i]+","+  nomiPresidi[i]+","+nomiReparti[i] ;
+//
+//
+//            }
 
-            for (int i = 0; i < righePrenotate; i++) {
-                codFisc[i] = tableModelTicket.getValueAt(i, 0).toString();
-                OraGiornoVisita[i] = tableModelTicket.getValueAt(i, 1).toString();
-                nomiPresidi[i] = tableModelTicket.getValueAt(i, 2).toString();
-                nomiReparti[i] = tableModelTicket.getValueAt(i, 3).toString();
-                StringaCompleta[i]= OraGiornoVisita[i]+","+  nomiPresidi[i]+","+nomiReparti[i] ;
-
-
-            }
-
-            JComboBox<String> azioniComboBox = new JComboBox<>(StringaCompleta);
-            confermaButton = new JButton("Conferma");
+//            JComboBox<String> azioniComboBox = new JComboBox<>(StringaCompleta);
+            backButton = new JButton("indietro");
 
             JPanel bottomPanelPrenotata = new JPanel(new FlowLayout());
-            bottomPanelPrenotata.add(azioniComboBox);
-            bottomPanelPrenotata.add(confermaButton);
+//            bottomPanelPrenotata.add(azioniComboBox);
+            bottomPanelPrenotata.add(backButton);
 
 
             JPanel southPanelPrenotata = new JPanel(new BorderLayout());
@@ -78,7 +78,7 @@ public class VisualizzaTicket extends JFrame{
 
             add(southPanelPrenotata, BorderLayout.CENTER);
 
-            confermaButton.addActionListener(e -> confermaPrenotazione(tableTicket, azioniComboBox));
+            backButton.addActionListener(e -> Indietro(tableTicket));
         }
 
 
@@ -88,8 +88,8 @@ public class VisualizzaTicket extends JFrame{
 
     }
 
-    private void confermaPrenotazione(JTable table, JComboBox<String> azioniComboBox) {
-        System.out.println("VediTikcert:");
+    private void Indietro(JTable table) {
+        dispose();
     }
 
 
