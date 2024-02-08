@@ -187,12 +187,12 @@ public class HospitApp {
     }
 
 
-    public List<String> visualizzaPrenotazioni(Reparto reparto, Presidio presidio, Utente utente, Map<String, List<String>> utentiPerRepartoPresidio) {
+    public List<String> visualizzaPrenotazioni(Reparto reparto, Presidio presidio, Map<String, List<String>> utentiPerRepartoPresidio) {
 
         String chiaveMappa = presidio.getNome() + "_" + reparto.getNome();
         List<String> utentiAssociati = utentiPerRepartoPresidio.get(chiaveMappa);
         System.out.println("Utenti associati a " + chiaveMappa + ": " + utentiAssociati);
-        return utentiAssociati;
+        return utentiAssociati; //contiene tutti gli utenti del reparto di un presidio
     }
 
 
@@ -311,7 +311,7 @@ public class HospitApp {
         for (String ticket : RiepilogoTicket) {
 
             String[] ticketData = ticket.split(",");
-            tableModelPrenotata.addRow(new Object[]{ticketData[2],ticketData[4]+","+ticketData[5],ticketData[6],ticketData[7],ticketData[10]});
+            tableModelPrenotata.addRow(new Object[]{ticketData[2],ticketData[3]+","+ticketData[4],ticketData[5],ticketData[6],ticketData[10]});
 
         }
         return tableModelPrenotata;

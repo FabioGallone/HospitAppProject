@@ -46,7 +46,7 @@ public class GestionePagamento {
         upperPanel.setPreferredSize(new Dimension(300, 120));
         upperPanel.setBackground(Color.WHITE);
 
-        infoPanel = new JPanel(new GridLayout(9, 2));
+        infoPanel = new JPanel(new GridLayout(10, 2));
         infoPanel.setBackground(Color.WHITE);
 
         String[] dettagli = informazioni.split(",");

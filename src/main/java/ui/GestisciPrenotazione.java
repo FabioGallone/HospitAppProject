@@ -135,7 +135,7 @@ public class GestisciPrenotazione implements ActionListener {
             visitePrenotatePanel.setLayout(new BoxLayout(visitePrenotatePanel, BoxLayout.Y_AXIS));
 
 
-            List<String> utentiAssociati = hospitapp.visualizzaPrenotazioni(reparto, presidio, utente, utentiPerRepartoPresidio);
+            List<String> utentiAssociati = hospitapp.visualizzaPrenotazioni(reparto, presidio, utentiPerRepartoPresidio);
 
 
             boolean titoloVisiteDaPrenotareAggiunto = false;
