@@ -14,11 +14,10 @@ class TestLogin {
     void testRegistration() {
         LoginGUI loginGUI = new LoginGUI();
 
-        // Set up test data
+
         String existingEmail = "c@m.com"; //email già esistente (utente già registrato)
         String invalidEmailFormat = "invalidemail"; // Un formato di email non valido
 
-        // Test existing email during registration
         loginGUI.nameField.setText("Giorgio");
         loginGUI.surnameField.setText("Di Bartolo");
         loginGUI.fiscalCodeField.setText("ABC123");

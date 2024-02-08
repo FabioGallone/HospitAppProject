@@ -285,6 +285,32 @@ public class HospitApp {
         for (String ticket : RiepilogoTicket) {
 
             String[] ticketData = ticket.split(",");
+            tableModelPrenotata.addRow(new Object[]{ticketData[2],ticketData[3]+","+ticketData[4],ticketData[5],ticketData[6],ticketData[10]});
+
+        }
+        return tableModelPrenotata;
+    }
+
+    public DefaultTableModel VisualizzaTuttiTicket() {
+        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
+
+        tableModelPrenotata.addColumn("Utente");
+        tableModelPrenotata.addColumn("Visita");
+        tableModelPrenotata.addColumn("Presidio");
+        tableModelPrenotata.addColumn("Reparto");
+        tableModelPrenotata.addColumn("Costo");
+
+        RiepilogoTicket=Utils.VisualizzaTuttiTicket("ticket.txt");
+
+
+        if (RiepilogoTicket.isEmpty()) {
+            System.out.println("Nessun Ticket trovato.");
+            return null;
+        }
+
+        for (String ticket : RiepilogoTicket) {
+
+            String[] ticketData = ticket.split(",");
             tableModelPrenotata.addRow(new Object[]{ticketData[2],ticketData[4]+","+ticketData[5],ticketData[6],ticketData[7],ticketData[10]});
 
         }
@@ -330,6 +356,8 @@ public class HospitApp {
             return 0.0;
         }
     }
+
+
 
 
 

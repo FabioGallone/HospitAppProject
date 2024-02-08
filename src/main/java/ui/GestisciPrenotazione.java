@@ -31,7 +31,7 @@ public class GestisciPrenotazione implements ActionListener {
     private JDateChooser dateChooser;
     JSpinner orarioSpinner;
 
-
+    private JButton RimuoviTicket;
 
     private Medico medico = new Medico(nome, cognome, codicemedico);
 
@@ -47,6 +47,7 @@ public class GestisciPrenotazione implements ActionListener {
         welcomeLabel = new JLabel();
         medico.loadMedico();
         utentiPerRepartoPresidio = new HashMap<>();
+        RimuoviTicket = new JButton();// Inizializzazione del pulsante del reparto selezionato
         showGestisciPrenotazioneUI();
     }
 
@@ -56,7 +57,21 @@ public class GestisciPrenotazione implements ActionListener {
         frame.add(welcomeLabel);
         welcomeLabel.setBounds(30, 0, 400, 200);
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
-        welcomeLabel.setText("Ciaoooooooooooo " + nome);
+        welcomeLabel.setText("Ciao presidio " + nome);
+
+        RimuoviTicket = new JButton("Visualizza Ticket Prenotati");
+        RimuoviTicket.setBounds(75, 350, 200, 25);
+        RimuoviTicket.setFocusable(false);
+        frame.add(RimuoviTicket);
+
+        RimuoviTicket.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              new RimuoviTicket(utente);
+            }
+        });
+
+
 
         Utils.leggiPresidiDaFile("Presidio.txt");
         utentiPerRepartoPresidio= Utils.leggiVisitedalFile("Visita.txt");

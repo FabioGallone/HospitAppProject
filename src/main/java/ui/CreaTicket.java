@@ -117,9 +117,9 @@ public class CreaTicket implements ActionListener {
             Visita visita= HospitApp.getInstance().trovaVisita(nomeReparto,nomePresidio, utente.getCodiceFiscale());
             double costo= HospitApp.getInstance().calcolaCostoTotalePaziente(visita,Utils.calcolaEtaDaDataNascita(dataNascitaFormatted));
 
-            String informazioni = utente.getNome() + "," + utente.getCognome() + "," + utente.getCodiceFiscale() + "," +
-                    residenza + "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
-                    nomeReparto + "," + nazionalità + "," + dataNascitaFormatted + "," + costo;
+            String informazioni = utente.getNome() + "," + utente.getCognome() + "," + utente.getCodiceFiscale() +
+                    "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
+                    nomeReparto + "," + nazionalità + "," + residenza +","+ dataNascitaFormatted + "," + costo;
 
             new GestionePagamento(informazioni, utente);
             frame.dispose();

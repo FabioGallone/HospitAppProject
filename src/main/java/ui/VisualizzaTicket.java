@@ -16,14 +16,11 @@ public class VisualizzaTicket extends JFrame{
 
     private JFrame frame;
     private Utente utente;
-    private JPanel titlePanel;
-    private String[] nomiPresidi, nomiReparti, codFisc, OraGiornoVisita, StringaCompleta;
-    private JScrollPane scrollPanePrenotata;
-    private JButton backButton, rifiutaButton;
-    private JLabel titleLabel,title, messageLabel;
-    private JTable tableTicket;
 
-    HospitApp hospitapp = HospitApp.getInstance();
+    private JScrollPane scrollPanePrenotata;
+    private JButton backButton;
+    private JLabel  messageLabel;
+    private JTable tableTicket;
 
 
     public VisualizzaTicket(Utente utente) {

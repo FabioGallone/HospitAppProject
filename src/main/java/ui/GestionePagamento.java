@@ -53,11 +53,12 @@ public class GestionePagamento {
         aggiungiInformazione(infoPanel, "Nome", dettagli[0].trim());
         aggiungiInformazione(infoPanel, "Cognome", dettagli[1].trim());
         aggiungiInformazione(infoPanel, "Codice Fiscale", dettagli[2].trim());
-        aggiungiInformazione(infoPanel, "Residenza", dettagli[3].trim());
-        aggiungiInformazione(infoPanel, "Giorno Visita", dettagli[4].trim());
-        aggiungiInformazione(infoPanel, "Ora Visita", dettagli[5].trim());
-        aggiungiInformazione(infoPanel, "Nome Presidio", dettagli[6].trim());
-        aggiungiInformazione(infoPanel, "Nome Reparto", dettagli[7].trim());
+        aggiungiInformazione(infoPanel, "Giorno Visita", dettagli[3].trim());
+        aggiungiInformazione(infoPanel, "Ora Visita", dettagli[4].trim());
+        aggiungiInformazione(infoPanel, "Nome Presidio", dettagli[5].trim());
+        aggiungiInformazione(infoPanel, "Nome Reparto", dettagli[6].trim());
+        aggiungiInformazione(infoPanel, "Nazionalità", dettagli[7].trim());
+        aggiungiInformazione(infoPanel, "Residenza", dettagli[8].trim());
         aggiungiInformazione(infoPanel, "Data di Nascita", dettagli[9].trim());
 
         upperPanel.add(infoPanel, BorderLayout.CENTER);
@@ -91,11 +92,11 @@ public class GestionePagamento {
         prenotaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    //prenota ora
+                //prenota ora
                 if (!Utils.leggiTicketdalFile("Ticket.txt", informazioni)) {
                     Utils.writeOnFile("Ticket.txt", informazioni);
-                    Utils.rimuoviPrenotazioneDalFile(utente.getCodiceFiscale(), dettagli[4].trim(), dettagli[5].trim());
-                    HospitApp.getInstance().rimuoviVisitaAssociata(dettagli[7].trim(), dettagli[6].trim(), utente);
+                    Utils.rimuoviVisitaDalFile(utente.getCodiceFiscale(), dettagli[3].trim(), dettagli[4].trim());
+                    HospitApp.getInstance().rimuoviVisitaAssociata(dettagli[6].trim(), dettagli[5].trim(), utente);
                     frame.dispose();
                 }
                 else

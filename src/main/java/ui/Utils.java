@@ -231,17 +231,31 @@ public class Utils {
 
 
             Files.write(Paths.get(filePath), lines);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    protected static void rimuoviPrenotazioneDalFile(String codiceFiscale, String giornoVisita, String oraVisita) {
+    protected static void rimuoviVisitaDalFile(String codiceFiscale, String giornoVisita, String oraVisita) {
         try {
             //stringa della prenotazione da rimuovere
             String prenotazioneToRemove = String.format("%s,%s,%s", codiceFiscale, giornoVisita, oraVisita);
 
             Utils.rimuoviRigaDaFile("visita.txt", prenotazioneToRemove);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void rimuoviPrenotazioneDalFile(String codiceFiscale, String giornoVisita) {
+        try {
+
+
+            String prenotazioneToRemove = String.format("%s,%s", codiceFiscale, giornoVisita);
+
+            Utils.rimuoviRigaDaFile("ticket.txt", prenotazioneToRemove);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -291,7 +305,7 @@ public class Utils {
         List<String> elencoVisite=new ArrayList<>();
         // Verifica se il file è vuoto
         if (file.length() == 0) {
-            return null;
+            return elencoVisite;
         }
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -321,6 +335,53 @@ public class Utils {
 
 
                     }
+                }
+            }
+            return elencoVisite;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public static List<String> VisualizzaTuttiTicket(String filePath) {
+        File file = new File(filePath);
+        List<String> elencoVisite=new ArrayList<>();
+        // Verifica se il file è vuoto
+        if (file.length() == 0) {
+            return elencoVisite;
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length > 1) {
+
+                        String nome = data[0].trim();
+                        String cognome = data[1].trim();
+                        String codiceFiscale = data[2].trim();
+                        String giornoVisita = data[3].trim();
+                        String oraVisita = data[4].trim();
+                        String nomePresidio = data[5].trim();
+                        String nomeReparto = data[6].trim();
+                        String nazionalità=data[7].trim();
+                        String residenza = data[8].trim();
+                        String dataNascitaFormatted=data[9].trim();
+                    System.out.println("data nascita" + dataNascitaFormatted);
+                        String costo=data[10].trim();
+
+
+                        String informazioni = nome + "," + cognome + "," + codiceFiscale + "," +
+                                residenza + "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
+                                nomeReparto + "," + nazionalità + "," + dataNascitaFormatted + "," + costo;
+
+                        elencoVisite.add(informazioni);
+
+
+
                 }
             }
             return elencoVisite;

@@ -106,7 +106,7 @@ public class VisualizzaPrenotazione extends JFrame {
         String nomePresidio = getValueAfterEquals(nomiPresidi[selectedIndex]);
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
 
-        Utils.rimuoviPrenotazioneDalFile(codiceFisc, giorno, ora);
+        Utils.rimuoviVisitaDalFile(codiceFisc, giorno, ora);
         HospitApp.getInstance().rimuoviVisitaAssociata(nomeReparto, nomePresidio, utente);
 
         System.out.println("Rifiuto prenotazione per il valore: " + selectedValue);
