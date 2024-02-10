@@ -233,6 +233,52 @@ public class HospitApp {
         return tableModelPrenotata;
     }
 
+    public DefaultTableModel visualizzaVisitaPrenotataAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
+        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
+
+        tableModelPrenotata.addColumn("Prenotata");
+        tableModelPrenotata.addColumn("Presidio");
+        tableModelPrenotata.addColumn("Reparto");
+
+        List<String> codFiscUtente=codFisc;
+
+        for (String codiceFiscale: codFiscUtente) {
+
+            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
+
+            // Aggiungo una riga al modello di tabella
+            if(visita.isStato() == true)
+                tableModelPrenotata.addRow(new Object[]{codiceFiscale +":" + "Giorno:" + visita.getGiorno() + "-Ora:" + visita.getOra(), presidio.getNome(), reparto.getNome()});
+
+        }
+
+        return tableModelPrenotata;
+    }
+
+    public DefaultTableModel visualizzaVisitaDaPrenotareAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
+        DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
+
+        tableModeldaPrenotare.addColumn("Da Prenotare");
+        tableModeldaPrenotare.addColumn("Presidio");
+        tableModeldaPrenotare.addColumn("Reparto");
+
+        List<String> codFiscUtente=codFisc;
+
+
+
+        for (String codiceFiscale: codFiscUtente) {
+
+            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
+
+            // Aggiungo una riga al modello di tabella
+            if(visita.isStato() == false)
+                tableModeldaPrenotare.addRow(new Object[]{codiceFiscale, presidio.getNome(), reparto.getNome()});
+
+        }
+
+        return tableModeldaPrenotare;
+    }
+
     public DefaultTableModel visualizzaVisitaDaPrenotare(Utente utente) {
         DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
 
@@ -261,8 +307,15 @@ public class HospitApp {
 
         }
 
+
+
         return tableModeldaPrenotare;
     }
+
+
+
+
+
 
 
     public DefaultTableModel visualizzaPrenotazioneTicket(Utente utente) {

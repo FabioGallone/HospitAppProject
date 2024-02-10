@@ -189,14 +189,17 @@ public class Utils {
 
                         while ((line = file.readLine()) != null) {
                             String[] data = line.split(",");
-                            String presidio = data[0].trim();
-                            String reparto = data[1].trim();
-                            String utenteFromFile = data[2].trim();
+                            if (data.length >= 3) {
+                                String presidio = data[0].trim();
+                                String reparto = data[1].trim();
+                                String utenteFromFile = data[2].trim();
 
-                            if (presidio.equals(nomePresidio) && reparto.equals(nomeReparto) && utenteFromFile.equals(codiceFiscale)) {
-                                // Aggiorna la riga nel file con la nuova data e il nuovo orario
-                                line = presidio + "," + reparto + "," + utente + "," + nuovaData + "," + nuovoOrario +"," +isStato;
+                                if (presidio.equals(nomePresidio) && reparto.equals(nomeReparto) && utenteFromFile.equals(codiceFiscale)) {
+                                    // Aggiorna la riga nel file con la nuova data e il nuovo orario
+                                    line = presidio + "," + reparto + "," + utente + "," + nuovaData + "," + nuovoOrario + "," + isStato;
+                                }
                             }
+
 
                             inputBuffer.append(line);
                             inputBuffer.append('\n');

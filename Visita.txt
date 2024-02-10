@@ -1,4 +1,4 @@
 Garibaldi,Cardiologia,codfiscLello,25/01/2024,8:00,true
-Garibaldi,Ortopedia,LCFnuasbn323,26/01/2024,22,true
-Garibaldi,Ginecologia e Ostetricia,codfiscLello,null,null,false
-Garibaldi,Ortopedia,codfiscLello,27/01/2024,22,true
+Garibaldi,Cardiologia,cc,09/02/2024,18:18,true
+Garibaldi,Cardiologia,DRRCLD01L11C351K,09/02/2024,16:19,true
+

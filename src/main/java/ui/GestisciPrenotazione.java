@@ -1,6 +1,7 @@
 package ui;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,14 +15,15 @@ import domain.*;
 
 public class GestisciPrenotazione implements ActionListener {
     private JFrame frame;
+    String[] nomiReparti,nomiPresidi;
     private HospitApp hospitapp = HospitApp.getInstance();
     private String nome, cognome, email, codicefiscale, codicemedico;
     private Utente utente;
     private Reparto reparto;
-    private JLabel welcomeLabel, label, orarioLabel,dataLabel,dataSelezionataLabel;
+    private JLabel welcomeLabel, label, orarioLabel,dataLabel,dataSelezionataLabel, messageLabel;
     private JFrame riepilogoFrame, nuovaFrame;
     private JPanel mainPanel, visiteDaPrenotarePanel,visitePrenotatePanel,orarioDataPanel;
-    private  JButton visitaButton, confermaButton;
+    private  JButton visitaButton, confermaButton,prenotaButton,rifiutaButton;
     private String nomeutente;
     private List<Presidio> ListaPresidi;
     private JComboBox<String> repartoComboBox;
@@ -29,7 +31,10 @@ public class GestisciPrenotazione implements ActionListener {
     private JTextField orarioTextField;
     private JCalendar calendar;
     private JDateChooser dateChooser;
+    private JScrollPane scrollPanePrenotata, scrollPaneDaPrenotare;
     JSpinner orarioSpinner;
+
+    private JTable tablePrenotata, tableDaPrenotare;
 
     private JButton RimuoviTicket;
 
@@ -123,48 +128,44 @@ public class GestisciPrenotazione implements ActionListener {
             String nomeRepartoSelezionato = comboBox.getSelectedItem().toString();
             this.reparto = hospitapp.selezionaReparto(nomeRepartoSelezionato);
             riepilogoFrame = new JFrame("Visite del reparto: " + reparto.getNome());
-            riepilogoFrame.setSize(600, 400);
+            riepilogoFrame.setSize(700, 400);
             riepilogoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            mainPanel = new JPanel(new GridLayout(1, 2));
-
-            visiteDaPrenotarePanel = new JPanel();
-            visitePrenotatePanel = new JPanel();
-
-            visiteDaPrenotarePanel.setLayout(new BoxLayout(visiteDaPrenotarePanel, BoxLayout.Y_AXIS));
-            visitePrenotatePanel.setLayout(new BoxLayout(visitePrenotatePanel, BoxLayout.Y_AXIS));
 
 
             List<String> utentiAssociati = hospitapp.visualizzaPrenotazioni(reparto, presidio, utentiPerRepartoPresidio);
+            System.out.println("LISTA UTENTI ASSOCIATI: " + utentiAssociati);
 
 
-            boolean titoloVisiteDaPrenotareAggiunto = false;
-            boolean titoloVisitePrenotateAggiunto = false;
+
 
             if (utentiAssociati != null) {
-                for (String codiceFiscale : utentiAssociati) {
-                    visitaButton = new JButton("Prenotazione - CF: " + codiceFiscale);
+                DefaultTableModel tableModelDaPrenotare = HospitApp.getInstance().visualizzaVisitaDaPrenotareAdmin(utentiAssociati,reparto,presidio);
+                DefaultTableModel tableModelPrenotata = HospitApp.getInstance().visualizzaVisitaPrenotataAdmin(utentiAssociati,reparto,presidio);
 
-                    Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
+                if (tableModelDaPrenotare.getRowCount()==0) {
+                    messageLabel = new JLabel("Nessuna prenotazione da gestire.");
+                    messageLabel.setHorizontalAlignment(JLabel.CENTER);
+                    riepilogoFrame.add(messageLabel, BorderLayout.CENTER);
+                } else {
+                    tableDaPrenotare = new JTable(tableModelDaPrenotare);
+                    tableDaPrenotare.setRowHeight(30);
+                    scrollPaneDaPrenotare = new JScrollPane(tableDaPrenotare);
 
+                    int righeDaPrenotare = tableModelDaPrenotare.getRowCount();
 
-                    if (!visita.isStato()) {
-                        if (!titoloVisiteDaPrenotareAggiunto) {
-                            label = new JLabel("Visite da prenotare: ");
-                            visiteDaPrenotarePanel.add(label);
-                            titoloVisiteDaPrenotareAggiunto = true;
-                        }
-                        visiteDaPrenotarePanel.add(visitaButton);
-                    } else {
-                        if (!titoloVisitePrenotateAggiunto) {
-                            label = new JLabel("Visite prenotate: ");
-                            visitePrenotatePanel.add(label);
-                            titoloVisitePrenotateAggiunto = true;
-                        }
-                        visitePrenotatePanel.add(visitaButton);
+                    String[] righeTabellaDaPrenotare = new String[righeDaPrenotare];
+                    nomiPresidi = new String[righeDaPrenotare];
+                    nomiReparti = new String[righeDaPrenotare];
+
+                    for (int i = 0; i < righeDaPrenotare; i++) {
+                        righeTabellaDaPrenotare[i] = tableModelDaPrenotare.getValueAt(i, 0).toString(); // codice fiscale utente
+                        nomiPresidi[i] = tableModelDaPrenotare.getValueAt(i, 1).toString();
+                        nomiReparti[i] = tableModelDaPrenotare.getValueAt(i, 2).toString();
                     }
 
-                    visitaButton.addActionListener(new ActionListener() {
+                    JComboBox<String> azioniComboBox = new JComboBox<>(righeTabellaDaPrenotare);
+                    prenotaButton = new JButton("Conferma");
+                    prenotaButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             nuovaFrame = new JFrame("Inserisci Orario e Data");
@@ -214,8 +215,13 @@ public class GestisciPrenotazione implements ActionListener {
                                     System.out.println("Orario inserito: " + orarioInserito);
                                     System.out.println("Data selezionata: " + dataSelezionataFormattata);
 
+                                    String selectedValue = azioniComboBox.getSelectedItem().toString();
+
+                                    Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), selectedValue);
+
+
                                     hospitapp.confermaGestione(visita, dataSelezionataFormattata, orarioInserito);
-                                    Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), codiceFiscale, dataSelezionataFormattata, orarioInserito, utentiPerRepartoPresidio, visita.isStato());
+                                    Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), selectedValue, dataSelezionataFormattata, orarioInserito, utentiPerRepartoPresidio, visita.isStato());
 
                                     nuovaFrame.dispose();
                                 }
@@ -225,27 +231,46 @@ public class GestisciPrenotazione implements ActionListener {
                             nuovaFrame.add(orarioDataPanel);
                             nuovaFrame.setVisible(true);
 
+
                         }
                     });
+
+                    JPanel bottomPanelDaPrenotare = new JPanel(new FlowLayout());
+                    bottomPanelDaPrenotare.add(azioniComboBox);
+                    bottomPanelDaPrenotare.add(prenotaButton);
+
+                    JPanel southPanelDaPrenotare = new JPanel(new BorderLayout());
+                    southPanelDaPrenotare.add(scrollPaneDaPrenotare, BorderLayout.CENTER);
+                    southPanelDaPrenotare.add(bottomPanelDaPrenotare, BorderLayout.SOUTH);
+
+                    riepilogoFrame.add(southPanelDaPrenotare, BorderLayout.CENTER);
+
                 }
-            }
 
-            if (titoloVisiteDaPrenotareAggiunto) {
-                mainPanel.add(new JScrollPane(visiteDaPrenotarePanel));
-            }
-            if (titoloVisitePrenotateAggiunto) {
-                mainPanel.add(new JScrollPane(visitePrenotatePanel));
-            }
 
-            riepilogoFrame.add(mainPanel);
-            riepilogoFrame.setVisible(true);
+                tablePrenotata = new JTable(tableModelPrenotata);
+                tablePrenotata.setRowHeight(30);
+                scrollPanePrenotata = new JScrollPane(tablePrenotata);
+                riepilogoFrame.add(scrollPanePrenotata, BorderLayout.SOUTH);
+
+
+                riepilogoFrame.setSize(850,700);
+                riepilogoFrame.setLocationRelativeTo(null);
+                riepilogoFrame.setVisible(true);
+            }
+            else {
+                messageLabel = new JLabel("Nessuna prenotazione richiesta.");
+                messageLabel.setHorizontalAlignment(JLabel.CENTER);
+                riepilogoFrame.add(messageLabel, BorderLayout.CENTER);
+
+
+            }
         }
+
+
+
+            riepilogoFrame.setVisible(true);
     }
 
-
-
-
-
-
-
 }
+
