@@ -282,11 +282,11 @@ public class Utils {
                     String nome = data[0].trim();
                     String cognome = data[1].trim();
                     String codiceFiscale = data[2].trim();
-                    String residenza= data[3].trim();
-                    String giornoVisita= data[4].trim();
-                    String oraVisita= data[5].trim();
-                    String nomePresidio= data[6].trim();
-                    String nomeReparto= data[7].trim();
+                    String giornoVisita = data[3].trim();
+                    String oraVisita = data[4].trim();
+                    String nomePresidio = data[5].trim();
+                    String nomeReparto = data[6].trim();
+
 
                     if (riepilogo.contains(nome) && riepilogo.contains(cognome) && riepilogo.contains(codiceFiscale)
                             && riepilogo.contains(giornoVisita) && riepilogo.contains(oraVisita)
@@ -303,7 +303,7 @@ public class Utils {
 
     }
 
-    public static List<String> VisualizzaTicket(String filePath, Utente utente) {
+    public static List<String> VisualizzaTicketSpecifico(String filePath, Utente utente) {
         File file = new File(filePath);
         List<String> elencoVisite=new ArrayList<>();
         // Verifica se il file è vuoto
@@ -320,19 +320,21 @@ public class Utils {
                         String nome = data[0].trim();
                         String cognome = data[1].trim();
                         String codiceFiscale = data[2].trim();
-                        String residenza = data[3].trim();
-                        String giornoVisita = data[4].trim();
-                        String oraVisita = data[5].trim();
-                        String nomePresidio = data[6].trim();
-                        String nomeReparto = data[7].trim();
-                        String nazionalità=data[8].trim();
+                        String giornoVisita = data[3].trim();
+                        String oraVisita = data[4].trim();
+                        String nomePresidio = data[5].trim();
+                        String nomeReparto = data[6].trim();
+                        String nazionalità=data[7].trim();
+                        String residenza = data[8].trim();
                         String dataNascitaFormatted=data[9].trim();
                         String costo=data[10].trim();
 
 
                         String informazioni = nome + "," + cognome + "," + codiceFiscale + "," +
-                                residenza + "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
-                                nomeReparto + "," + nazionalità + "," + dataNascitaFormatted + "," + costo;
+                                giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
+                                nomeReparto + "," + nazionalità + "," + residenza+ "," + dataNascitaFormatted + "," + costo;
+
+                        System.out.println(informazioni);
 
                         elencoVisite.add(informazioni);
 
@@ -363,23 +365,24 @@ public class Utils {
                 String[] data = line.split(",");
                 if (data.length > 1) {
 
-                        String nome = data[0].trim();
-                        String cognome = data[1].trim();
-                        String codiceFiscale = data[2].trim();
-                        String giornoVisita = data[3].trim();
-                        String oraVisita = data[4].trim();
-                        String nomePresidio = data[5].trim();
-                        String nomeReparto = data[6].trim();
-                        String nazionalità=data[7].trim();
-                        String residenza = data[8].trim();
-                        String dataNascitaFormatted=data[9].trim();
-                    System.out.println("data nascita" + dataNascitaFormatted);
-                        String costo=data[10].trim();
+                    String nome = data[0].trim();
+                    String cognome = data[1].trim();
+                    String codiceFiscale = data[2].trim();
+                    String giornoVisita = data[3].trim();
+                    String oraVisita = data[4].trim();
+                    String nomePresidio = data[5].trim();
+                    String nomeReparto = data[6].trim();
+                    String nazionalità=data[7].trim();
+                    String residenza = data[8].trim();
+                    String dataNascitaFormatted=data[9].trim();
+                    String costo=data[10].trim();
 
 
                         String informazioni = nome + "," + cognome + "," + codiceFiscale + "," +
-                                residenza + "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
-                                nomeReparto + "," + nazionalità + "," + dataNascitaFormatted + "," + costo;
+                                giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
+                                nomeReparto + "," + nazionalità + "," + residenza+ "," + dataNascitaFormatted + "," + costo;
+
+                    System.out.println(informazioni);
 
                         elencoVisite.add(informazioni);
 

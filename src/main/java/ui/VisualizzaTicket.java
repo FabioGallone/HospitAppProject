@@ -28,7 +28,7 @@ public class VisualizzaTicket extends JFrame{
         initialize();
     }
     public void initialize() {
-        setTitle("Riepilogo Prenotazioni");
+        setTitle("Riepilogo Ticket");
         setLayout(new BorderLayout());
         DefaultTableModel tableModelTicket = HospitApp.getInstance().visualizzaPrenotazioneTicket(utente);
 

@@ -53,7 +53,7 @@ public class RimuoviTicket extends JFrame {
         add(searchPanel, BorderLayout.NORTH);
 
         // Inizializzazione della tabella
-        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTuttiTicket();
+        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTuttiTicket(utente);
 
         if (tableModelTicket == null) {
             messageLabel = new JLabel("Nessun Ticket disponibile");

@@ -5,3 +5,5 @@ Luca,Gallone,LCFnuasbn323,lucagallone@gmail.com,a665a45920422f9d417e4867efdc4fb8
 Giorgio,Di Bartolo,ABC123,giorgio@gmail.com,fd5cb51bafd60f6fdbedde6e62c473da6f247db271633e15919bab78a02ee9eb,false,false
 Claudio,derrr,DRRCLD01L11C351K,c@c.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
 cc,cc,cc,f@c.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
+Fabio ,Gallone,GLLFBA00S27C351D,fabio@gmail.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
+Cannizzaro,Cannizzaro,123dd,c@d.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,true

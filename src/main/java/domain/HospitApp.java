@@ -327,7 +327,7 @@ public class HospitApp {
         tableModelPrenotata.addColumn("Reparto");
         tableModelPrenotata.addColumn("Costo");
 
-        RiepilogoTicket=Utils.VisualizzaTicket("ticket.txt", utente);
+        RiepilogoTicket=Utils.VisualizzaTicketSpecifico("ticket.txt", utente);
         System.out.println(RiepilogoTicket);
 
         if (RiepilogoTicket.isEmpty()) {
@@ -344,7 +344,7 @@ public class HospitApp {
         return tableModelPrenotata;
     }
 
-    public DefaultTableModel VisualizzaTuttiTicket() {
+    public DefaultTableModel VisualizzaTuttiTicket(Utente utente) {
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
 
         tableModelPrenotata.addColumn("Utente");
@@ -353,7 +353,7 @@ public class HospitApp {
         tableModelPrenotata.addColumn("Reparto");
         tableModelPrenotata.addColumn("Costo");
 
-        RiepilogoTicket=Utils.VisualizzaTuttiTicket("ticket.txt");
+        RiepilogoTicket=Utils.VisualizzaTuttiTicket("Ticket.txt");
 
 
         if (RiepilogoTicket.isEmpty()) {
@@ -363,8 +363,12 @@ public class HospitApp {
 
         for (String ticket : RiepilogoTicket) {
 
+
             String[] ticketData = ticket.split(",");
-            tableModelPrenotata.addRow(new Object[]{ticketData[2],ticketData[3]+","+ticketData[4],ticketData[5],ticketData[6],ticketData[10]});
+
+                if(utente.getNome().equals(ticketData[5])) //verifico che il presidio sia quello in cui ho richiesto i ticket
+                    tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
+
 
         }
         return tableModelPrenotata;

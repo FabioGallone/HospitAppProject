@@ -30,7 +30,7 @@ public class VisualizzaPrenotazione extends JFrame {
         DefaultTableModel tableModelPrenotata = HospitApp.getInstance().visualizzaVisitaPrenotata(utente);
         DefaultTableModel tableModelDaPrenotare = HospitApp.getInstance().visualizzaVisitaDaPrenotare(utente);
 
-        if (tableModelPrenotata.getRowCount()==0) {
+        if (tableModelPrenotata==null || tableModelPrenotata.getRowCount()==0) {
             messageLabel = new JLabel("Nessuna prenotazione disponibile per l'utente. Per prenotare una visita selezionare presidio e reparto e mandare la richiesta.");
             messageLabel.setHorizontalAlignment(JLabel.CENTER);
             add(messageLabel, BorderLayout.CENTER);
