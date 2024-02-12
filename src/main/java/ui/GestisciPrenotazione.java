@@ -29,7 +29,6 @@ public class GestisciPrenotazione implements ActionListener {
     private JComboBox<String> repartoComboBox;
     private JComboBox<?> comboBox;
     private JTextField orarioTextField;
-    private JCalendar calendar;
     private JDateChooser dateChooser;
     private JScrollPane scrollPanePrenotata, scrollPaneDaPrenotare;
     JSpinner orarioSpinner;
