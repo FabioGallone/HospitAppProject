@@ -11,13 +11,12 @@ public class HospitApp {
     private static HospitApp hospitapp;
     private Map<String, Visita> visiteAssociations;
 
-
     private Presidio presidioCorrente;
-    private Visita visitacorrente;
-
     private Map<String, Presidio> elencoPresidi;
     private Map<String, Reparto> reparti; //tutti i reparti
-    private List<String> RiepilogoTicket= new ArrayList<>();
+    private List<String> TuttiTicket = new ArrayList<>();
+    private List<String> TicketSpecifici = new ArrayList<>();
+
 
     public HospitApp() {
         this.elencoPresidi = new HashMap<>();
@@ -141,10 +140,8 @@ public class HospitApp {
         } else {
             System.out.println("Presidio non trovato: " + nomePresidio);
         }
-
-
-
     }
+
 
     //prima si chiamava getElencoRepartiDelPresidio
     public List<Reparto> mostraReparti(Presidio presidio) {
@@ -211,7 +208,7 @@ public class HospitApp {
         tableModelPrenotata.addColumn("Reparto");
 
         Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
-        System.out.println(RiepilogoVisiteUtente);
+        System.out.println("Riepilogo visite dell'utente: "+ RiepilogoVisiteUtente);
 
         if (RiepilogoVisiteUtente.isEmpty()) {
             System.out.println("Nessuna prenotazione trovata.");
@@ -279,7 +276,7 @@ public class HospitApp {
         return tableModeldaPrenotare;
     }
 
-    public DefaultTableModel visualizzaVisitaDaPrenotare(Utente utente) {
+    public DefaultTableModel visualizzaVisitaDaPrenotareUtente(Utente utente) {
         DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
 
         tableModeldaPrenotare.addColumn("Da Prenotare");
@@ -287,7 +284,8 @@ public class HospitApp {
         tableModeldaPrenotare.addColumn("Reparto");
 
         Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
-        System.out.println(RiepilogoVisiteUtente);
+        System.out.println("Riepilogo visite dell'utente: "+ RiepilogoVisiteUtente);
+
 
         if (RiepilogoVisiteUtente.isEmpty()) {
             System.out.println("Nessuna prenotazione trovata.");
@@ -307,18 +305,12 @@ public class HospitApp {
 
         }
 
-
-
         return tableModeldaPrenotare;
     }
 
 
 
-
-
-
-
-    public DefaultTableModel visualizzaPrenotazioneTicket(Utente utente) {
+    public DefaultTableModel visualizzaTicketUtente(Utente utente) {
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
 
         tableModelPrenotata.addColumn("Utente");
@@ -327,15 +319,16 @@ public class HospitApp {
         tableModelPrenotata.addColumn("Reparto");
         tableModelPrenotata.addColumn("Costo");
 
-        RiepilogoTicket=Utils.VisualizzaTicketSpecifico("ticket.txt", utente);
-        System.out.println(RiepilogoTicket);
+        TicketSpecifici =Utils.VisualizzaTicketSpecifico("ticket.txt", utente);
+        System.out.println("Ticket per l'utente  "+ utente.getCodiceFiscale()+ ": "+  TicketSpecifici);
 
-        if (RiepilogoTicket.isEmpty()) {
+
+        if (TicketSpecifici.isEmpty()) {
             System.out.println("Nessun Ticket trovato.");
             return null;
         }
 
-        for (String ticket : RiepilogoTicket) {
+        for (String ticket : TicketSpecifici) {
 
             String[] ticketData = ticket.split(",");
             tableModelPrenotata.addRow(new Object[]{ticketData[2],ticketData[3]+","+ticketData[4],ticketData[5],ticketData[6],ticketData[10]});
@@ -353,15 +346,18 @@ public class HospitApp {
         tableModelPrenotata.addColumn("Reparto");
         tableModelPrenotata.addColumn("Costo");
 
-        RiepilogoTicket=Utils.VisualizzaTuttiTicket("Ticket.txt");
+
+        //nel caso in cui esiste un file, altrimenti legge da memoria tranquillamente
+        //nel secondo caso(memoria) rimuovere questa riga.
+        TuttiTicket =Utils.VisualizzaTuttiTicket("Ticket.txt");
 
 
-        if (RiepilogoTicket.isEmpty()) {
+        if (TuttiTicket.isEmpty()) {
             System.out.println("Nessun Ticket trovato.");
             return null;
         }
 
-        for (String ticket : RiepilogoTicket) {
+        for (String ticket : TuttiTicket) {
 
 
             String[] ticketData = ticket.split(",");
@@ -372,6 +368,13 @@ public class HospitApp {
 
         }
         return tableModelPrenotata;
+    }
+
+    public  void aggiungiTicket(String nuovoTicket) {
+        if(!TuttiTicket.contains(nuovoTicket))
+        TuttiTicket.add(nuovoTicket);
+        else
+            System.out.println("Ticket già esistente in lista");
     }
 
 

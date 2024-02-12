@@ -23,8 +23,6 @@ public class InserisciPresidio implements ActionListener {
     private JButton quitButton;
     private JButton addButton;
     private String nome;
-    private String codicefiscale;
-
     HospitApp hospitapp = HospitApp.getInstance();
     private String email;
     private boolean isAdministrator, isPresidio;
@@ -34,7 +32,7 @@ public class InserisciPresidio implements ActionListener {
         this.utente = utente;
         this.nome = utente.getNome();
         this.email = utente.getEmail();
-        this.codicefiscale = utente.getCodiceFiscale();
+
         this.isAdministrator = utente.isAdministrator(email);
         this.isPresidio= utente.isPresidio();
 
@@ -85,11 +83,11 @@ public class InserisciPresidio implements ActionListener {
             frame.add(addButton);
 
         } else if(!this.isAdministrator && !this.isPresidio) {
-            PrenotaVisita prenotaVisita = new PrenotaVisita(frame, utente);
+          new PrenotaVisita(frame, utente);
 
         }else{
 
-            GestisciPrenotazione medicoclass= new GestisciPrenotazione(frame, utente);
+           new GestisciPrenotazione(frame, utente);
         }
 
         quitButton.setBounds(125, 165, 100, 25);

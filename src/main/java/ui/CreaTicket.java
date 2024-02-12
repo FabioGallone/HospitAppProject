@@ -14,7 +14,7 @@ import java.util.Date;
 
 public class CreaTicket implements ActionListener {
     Utente utente;
-    String oraVisita, giornoVisita, stato, nomePresidio, nomeReparto;
+    String oraVisita, giornoVisita, nomePresidio, nomeReparto;
 
     protected JFrame frame;
     private JPanel ticketPanel;
@@ -22,7 +22,7 @@ public class CreaTicket implements ActionListener {
     private String residenza, nazionalità;
     private JLabel title, annoLabel, residenzaLabel, nazionalitaLabel, riepilogoLabel1, riepilogoLabel2;
     private JDateChooser dateChooser; // Utilizza JDateChooser per la data
-
+    HospitApp hospitapp = HospitApp.getInstance();
     private JTextField residenzaField, nazionalitaField;
     private JButton confermaButton, backButton;
 
@@ -114,8 +114,8 @@ public class CreaTicket implements ActionListener {
             // Formattazione della data in dd/MM/yyyy
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String dataNascitaFormatted = dateFormat.format(dataNascita);
-            Visita visita= HospitApp.getInstance().trovaVisita(nomeReparto,nomePresidio, utente.getCodiceFiscale());
-            double costo= HospitApp.getInstance().calcolaCostoTotalePaziente(visita,Utils.calcolaEtaDaDataNascita(dataNascitaFormatted));
+            Visita visita= hospitapp.trovaVisita(nomeReparto,nomePresidio, utente.getCodiceFiscale());
+            double costo= hospitapp.calcolaCostoTotalePaziente(visita,Utils.calcolaEtaDaDataNascita(dataNascitaFormatted));
 
             String informazioni = utente.getNome() + "," + utente.getCognome() + "," + utente.getCodiceFiscale() +
                     "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +

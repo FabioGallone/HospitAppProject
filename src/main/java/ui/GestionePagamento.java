@@ -15,6 +15,7 @@ public class GestionePagamento {
     private JFrame frame;
     private JPanel titlePanel,upperPanel,infoPanel,bottomPanel,buttonsPanel,imagePanel;
     private JLabel titleLabel,logoLabel,importoLabel,valueLabel;
+    HospitApp hospitapp = HospitApp.getInstance();
     private ImageIcon logoIcon,resizedLogoIcon;
     private Image logoImage;
     private JButton prenotaButton,indietroButton;
@@ -95,8 +96,9 @@ public class GestionePagamento {
                 //prenota ora
                 if (!Utils.leggiTicketdalFile("Ticket.txt", informazioni)) {
                     Utils.writeOnFile("Ticket.txt", informazioni);
+                    hospitapp.aggiungiTicket(informazioni);
                     Utils.rimuoviVisitaDalFile(utente.getCodiceFiscale(), dettagli[3].trim(), dettagli[4].trim());
-                    HospitApp.getInstance().rimuoviVisitaAssociata(dettagli[6].trim(), dettagli[5].trim(), utente);
+                    hospitapp.rimuoviVisitaAssociata(dettagli[6].trim(), dettagli[5].trim(), utente);
                     frame.dispose();
                 }
                 else

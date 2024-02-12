@@ -1,20 +1,17 @@
 package ui;
 
 import domain.HospitApp;
-import domain.Presidio;
-import domain.Reparto;
 import domain.Utente;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
+
 
 public class VisualizzaTicket extends JFrame{
 
-    private JFrame frame;
+    HospitApp hospitapp = HospitApp.getInstance();
+
     private Utente utente;
 
     private JScrollPane scrollPanePrenotata;
@@ -30,7 +27,7 @@ public class VisualizzaTicket extends JFrame{
     public void initialize() {
         setTitle("Riepilogo Ticket");
         setLayout(new BorderLayout());
-        DefaultTableModel tableModelTicket = HospitApp.getInstance().visualizzaPrenotazioneTicket(utente);
+        DefaultTableModel tableModelTicket = hospitapp.visualizzaTicketUtente(utente);
 
 
         if (tableModelTicket == null) {
@@ -42,30 +39,11 @@ public class VisualizzaTicket extends JFrame{
             tableTicket.setRowHeight(30);
             scrollPanePrenotata = new JScrollPane(tableTicket);
 
-//            int righePrenotate = tableModelTicket.getRowCount();
 
-
-//            codFisc = new String[righePrenotate];
-//            OraGiornoVisita = new String[righePrenotate];
-//            nomiPresidi = new String[righePrenotate];
-//            nomiReparti = new String[righePrenotate];
-//            StringaCompleta= new String[righePrenotate];
-//
-//            for (int i = 0; i < righePrenotate; i++) {
-//                codFisc[i] = tableModelTicket.getValueAt(i, 0).toString();
-//                OraGiornoVisita[i] = tableModelTicket.getValueAt(i, 1).toString();
-//                nomiPresidi[i] = tableModelTicket.getValueAt(i, 2).toString();
-//                nomiReparti[i] = tableModelTicket.getValueAt(i, 3).toString();
-//                StringaCompleta[i]= OraGiornoVisita[i]+","+  nomiPresidi[i]+","+nomiReparti[i] ;
-//
-//
-//            }
-
-//            JComboBox<String> azioniComboBox = new JComboBox<>(StringaCompleta);
             backButton = new JButton("indietro");
 
             JPanel bottomPanelPrenotata = new JPanel(new FlowLayout());
-//            bottomPanelPrenotata.add(azioniComboBox);
+
             bottomPanelPrenotata.add(backButton);
 
 

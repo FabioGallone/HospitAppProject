@@ -17,19 +17,18 @@ public class GestisciPrenotazione implements ActionListener {
     private JFrame frame;
     String[] nomiReparti,nomiPresidi;
     private HospitApp hospitapp = HospitApp.getInstance();
-    private String nome, cognome, email, codicefiscale, codicemedico;
+    private String nome;
     private Utente utente;
     private Reparto reparto;
-    private JLabel welcomeLabel, label, orarioLabel,dataLabel,dataSelezionataLabel, messageLabel;
+    private JLabel welcomeLabel, label, orarioLabel,dataLabel, messageLabel;
     private JFrame riepilogoFrame, nuovaFrame;
-    private JPanel mainPanel, visiteDaPrenotarePanel,visitePrenotatePanel,orarioDataPanel;
-    private  JButton visitaButton, confermaButton,prenotaButton,rifiutaButton;
-    private String nomeutente;
+    private JPanel orarioDataPanel;
+    private  JButton  confermaButton,prenotaButton;
+
     private List<Presidio> ListaPresidi;
     private JComboBox<String> repartoComboBox;
     private JComboBox<?> comboBox;
-    private JTextField orarioTextField;
-    private JCalendar calendar;
+
     private JDateChooser dateChooser;
     private JScrollPane scrollPanePrenotata, scrollPaneDaPrenotare;
     JSpinner orarioSpinner;
@@ -38,7 +37,7 @@ public class GestisciPrenotazione implements ActionListener {
 
     private JButton RimuoviTicket;
 
-    private Medico medico = new Medico(nome, cognome, codicemedico);
+
 
     private Map<String, List<String>> utentiPerRepartoPresidio;
 
@@ -46,11 +45,7 @@ public class GestisciPrenotazione implements ActionListener {
         this.frame = frame;
         this.utente = utente;
         this.nome = utente.getNome();
-        this.cognome = utente.getCognome();
-        this.email = utente.getEmail();
-        this.codicefiscale = utente.getCodiceFiscale();
         welcomeLabel = new JLabel();
-        medico.loadMedico();
         utentiPerRepartoPresidio = new HashMap<>();
         RimuoviTicket = new JButton();// Inizializzazione del pulsante del reparto selezionato
         showGestisciPrenotazioneUI();
@@ -81,7 +76,7 @@ public class GestisciPrenotazione implements ActionListener {
         Utils.leggiPresidiDaFile("Presidio.txt");
         utentiPerRepartoPresidio= Utils.leggiVisitedalFile("Visita.txt");
         ListaPresidi = hospitapp.getElencoPresidi();
-        System.out.println(ListaPresidi);
+        System.out.println("Stampo tutti i presidi al momoento disponibili:" + ListaPresidi);
 
         int comboBoxXPosition = 100;
         int comboBoxYPosition = 250;
@@ -136,11 +131,9 @@ public class GestisciPrenotazione implements ActionListener {
             System.out.println("LISTA UTENTI ASSOCIATI: " + utentiAssociati);
 
 
-
-
             if (utentiAssociati != null) {
-                DefaultTableModel tableModelDaPrenotare = HospitApp.getInstance().visualizzaVisitaDaPrenotareAdmin(utentiAssociati,reparto,presidio);
-                DefaultTableModel tableModelPrenotata = HospitApp.getInstance().visualizzaVisitaPrenotataAdmin(utentiAssociati,reparto,presidio);
+                DefaultTableModel tableModelDaPrenotare = hospitapp.visualizzaVisitaDaPrenotareAdmin(utentiAssociati,reparto,presidio);
+                DefaultTableModel tableModelPrenotata =hospitapp.visualizzaVisitaPrenotataAdmin(utentiAssociati,reparto,presidio);
 
                 if (tableModelDaPrenotare.getRowCount()==0) {
                     messageLabel = new JLabel("Nessuna prenotazione da gestire.");

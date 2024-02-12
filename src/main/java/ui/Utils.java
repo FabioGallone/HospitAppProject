@@ -382,7 +382,7 @@ public class Utils {
                                 giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
                                 nomeReparto + "," + nazionalità + "," + residenza+ "," + dataNascitaFormatted + "," + costo;
 
-                    System.out.println(informazioni);
+
 
                         elencoVisite.add(informazioni);
 

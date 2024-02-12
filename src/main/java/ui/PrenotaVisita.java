@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PrenotaVisita implements ActionListener {
     private JFrame frame;
-    private String nome, cognome, email, codicefiscale;
+    private String nome, email;
     private Reparto reparto;
     private List<Presidio> ListaPresidi;
     private Utente utente;
@@ -29,9 +29,7 @@ public class PrenotaVisita implements ActionListener {
         this.frame = frame;
         this.utente = utente;
         this.nome = utente.getNome();
-        this.cognome = utente.getCognome();
         this.email = utente.getEmail();
-        this.codicefiscale = utente.getCodiceFiscale();
         welcomeLabel = new JLabel();
         titoloLabel = new JLabel();
         presidioComboBox = new JComboBox<>();

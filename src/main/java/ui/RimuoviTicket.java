@@ -6,14 +6,6 @@ import domain.Utente;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class RimuoviTicket extends JFrame {
 
@@ -101,7 +93,7 @@ public class RimuoviTicket extends JFrame {
         String codiceFiscaleCercato = searchField.getText().trim();
 
         if (!codiceFiscaleCercato.isEmpty()) {
-            DefaultTableModel tableModelTicket = hospitapp.visualizzaPrenotazioneTicket(Utente.getUserFromCF(codiceFiscaleCercato));
+            DefaultTableModel tableModelTicket = hospitapp.visualizzaTicketUtente(Utente.getUserFromCF(codiceFiscaleCercato));
 
             if (tableModelTicket != null) {
                 tableTicket.setModel(tableModelTicket);

@@ -17,7 +17,6 @@ public class Utente {
     private boolean isAdministrator;
 
     private boolean isPresidio;
-    private List<Visita> visite;
 
     private Map<String, Visita> VisitaRepartoPresidioUtente;
 
@@ -35,8 +34,6 @@ public class Utente {
         this.hashedPassword = hashedPassword;
         this.isAdministrator=isAdministrator;
         this.isPresidio=isPresidio;
-
-        this.visite = new ArrayList<>();
         this.VisitaRepartoPresidioUtente=new HashMap<>();
         utentiList.add(this);
 

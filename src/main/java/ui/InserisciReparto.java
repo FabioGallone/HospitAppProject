@@ -26,11 +26,8 @@ public class InserisciReparto implements ActionListener {
     public JTextField orarioField;
     public JButton addButton;
     public JButton backtoInserisciPresidio;
-    private String email;
-    private final String nome;
-    private final String cognome;
-    private final String fiscalCode;
-    private boolean isAdministrator;
+
+    HospitApp hospitapp = HospitApp.getInstance();
     private String[] nomiReparti;
     private JCheckBox[] repartoCheckBoxes;
 
@@ -39,11 +36,6 @@ public class InserisciReparto implements ActionListener {
 
     public InserisciReparto(Utente utente) {
         this.utente=utente;
-        this.nome=utente.getNome();
-        this.email = utente.getEmail();
-        this.cognome=utente.getCognome();
-        this.fiscalCode=utente.getCodiceFiscale();
-        this.isAdministrator =utente.isAdministrator(email);
         initialize();
     }
 
@@ -68,7 +60,7 @@ public class InserisciReparto implements ActionListener {
         addMessageLabel.setFont(new Font(null, Font.ITALIC, 15));
         addPanel.add(addMessageLabel);
 
-        nomiReparti = HospitApp.getInstance().getNomiReparti();
+        nomiReparti = hospitapp.getNomiReparti();
         repartoCheckBoxes = new JCheckBox[nomiReparti.length];
 
         for (int i = 0; i < nomiReparti.length; i++) {
@@ -129,7 +121,7 @@ public class InserisciReparto implements ActionListener {
             String orario = orarioField.getText();
 
 
-            HospitApp hospitapp= HospitApp.getInstance();
+
             if (nome.isEmpty() || indirizzo.isEmpty() || orario.isEmpty()) {
                 addMessageLabel.setForeground(Color.RED);
                 addMessageLabel.setText("Compila tutti i campi!");

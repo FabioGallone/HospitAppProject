@@ -12,10 +12,12 @@ public class VisualizzaPrenotazione extends JFrame {
     private Utente utente;
     private String[] nomiPresidi;
     private String[] nomiReparti;
-    private JLabel messageLabel, messageLabel2;
+    private JLabel messageLabel;
+    HospitApp hospitapp = HospitApp.getInstance();
     private JTable tablePrenotata, tableDaPrenotare;
     private JScrollPane scrollPanePrenotata, scrollPaneDaPrenotare;
     private JButton confermaButton, rifiutaButton;
+    JComboBox<String> azioniComboBox;
 
     public VisualizzaPrenotazione(Utente utente) {
         this.utente = utente;
@@ -27,13 +29,14 @@ public class VisualizzaPrenotazione extends JFrame {
         setTitle("Riepilogo Prenotazioni");
         setLayout(new BorderLayout());
 
-        DefaultTableModel tableModelPrenotata = HospitApp.getInstance().visualizzaVisitaPrenotata(utente);
-        DefaultTableModel tableModelDaPrenotare = HospitApp.getInstance().visualizzaVisitaDaPrenotare(utente);
+        DefaultTableModel tableModelPrenotata = hospitapp.visualizzaVisitaPrenotata(utente);
+        DefaultTableModel tableModelDaPrenotare = hospitapp.visualizzaVisitaDaPrenotareUtente(utente);
 
         if (tableModelPrenotata==null || tableModelPrenotata.getRowCount()==0) {
             messageLabel = new JLabel("Nessuna prenotazione disponibile per l'utente. Per prenotare una visita selezionare presidio e reparto e mandare la richiesta.");
             messageLabel.setHorizontalAlignment(JLabel.CENTER);
             add(messageLabel, BorderLayout.CENTER);
+
         } else {
             tablePrenotata = new JTable(tableModelPrenotata);
             tablePrenotata.setRowHeight(30);
@@ -51,7 +54,7 @@ public class VisualizzaPrenotazione extends JFrame {
                 nomiReparti[i] = tableModelPrenotata.getValueAt(i, 2).toString();
             }
 
-            JComboBox<String> azioniComboBox = new JComboBox<>(righeTabellaPrenotate);
+            azioniComboBox = new JComboBox<>(righeTabellaPrenotate);
             confermaButton = new JButton("Conferma");
             rifiutaButton = new JButton("Rifiuta");
 
@@ -107,7 +110,7 @@ public class VisualizzaPrenotazione extends JFrame {
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
 
         Utils.rimuoviVisitaDalFile(codiceFisc, giorno, ora);
-        HospitApp.getInstance().rimuoviVisitaAssociata(nomeReparto, nomePresidio, utente);
+        hospitapp.rimuoviVisitaAssociata(nomeReparto, nomePresidio, utente);
 
         System.out.println("Rifiuto prenotazione per il valore: " + selectedValue);
         mostraMessaggio("Prenotazione cancellata con successo");

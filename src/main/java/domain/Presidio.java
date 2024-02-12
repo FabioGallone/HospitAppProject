@@ -11,7 +11,7 @@ public class Presidio {
     private String nome;
     private String indirizzo;
     private String orario;
-    private List<Visita> elencoVisite;
+
     private Map<String, Reparto> elencoReparti;
 
     private Map<String, Visita> visiteperutenterepartopresidio;
@@ -21,7 +21,6 @@ public class Presidio {
         this.indirizzo = indirizzo;
         this.orario = orario;
         this.elencoReparti = new HashMap<>();
-        this.elencoVisite = new ArrayList<>();
         this.visiteperutenterepartopresidio=new HashMap<>();
     }
 
