@@ -2,6 +2,7 @@ package ui;
 
 
 
+import domain.HospitApp;
 import domain.Utente;
 
 import javax.swing.*;
@@ -34,14 +35,14 @@ public class LoginGUI implements ActionListener {
     private JButton registerButton;
     private JButton backToLoginButton;
     public JButton signUpButton;
-
+  //  private HospitApp hospitapp;
 
 
 
 
     public LoginGUI() {
         Utils.populateUtentiListFromFile("Users.txt");
-
+      //  hospitapp= HospitApp.getInstance();
 
         initialize();
     }

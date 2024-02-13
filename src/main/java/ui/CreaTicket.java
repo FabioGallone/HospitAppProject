@@ -1,9 +1,7 @@
 package ui;
 
 import com.toedter.calendar.JDateChooser;
-import domain.HospitApp;
-import domain.Utente;
-import domain.Visita;
+import domain.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -115,7 +113,10 @@ public class CreaTicket implements ActionListener {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String dataNascitaFormatted = dateFormat.format(dataNascita);
             Visita visita= hospitapp.trovaVisita(nomeReparto,nomePresidio, utente.getCodiceFiscale());
-            double costo= hospitapp.calcolaCostoTotalePaziente(visita,Utils.calcolaEtaDaDataNascita(dataNascitaFormatted));
+            int eta=Utils.calcolaEtaDaDataNascita(dataNascitaFormatted);
+            ScontoStrategyFactory fs = ScontoStrategyFactory.getInstance();
+            ScontoStrategyInterface st = fs.getScontoStrategy();
+            float costo = st.applicaSconto(visita.getCosto(), eta);
 
             String informazioni = utente.getNome() + "," + utente.getCognome() + "," + utente.getCodiceFiscale() +
                     "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +

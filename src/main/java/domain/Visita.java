@@ -10,21 +10,21 @@ public class Visita {
     private String giorno;
 
     private boolean stato;
-    private double costo;
+    private float costo;
 
 
-    public Visita(String ora, String giorno, boolean stato, double costo) {
+    public Visita(String ora, String giorno, boolean stato, float costo) {
         this.ora = ora;
         this.giorno = giorno;
         this.stato=stato;
         this.costo=costo;
     }
 
-    public double getCosto() {
+    public float getCosto() {
         return costo;
     }
 
-    public void setCosto(double costo) {
+    public void setCosto(float costo) {
         this.costo = costo;
     }
 

@@ -92,20 +92,6 @@ public class HospitAppTest {
         assertNull(hospitApp.trovaVisita("Cardiologia", "TestPresidio", "TestCodiceFiscale"));
     }
 
-    @Test
-    public void testCalcolaCostoTotalePaziente() {
-        Visita visita = new Visita(null, null, false, 50);
-        double costoTotale = hospitApp.calcolaCostoTotalePaziente(visita, 25);
-        assertEquals(50.0, costoTotale, 0.001);
-    }
-
-    @Test
-    public void testCalcolaScontoInBaseAllEta() {
-        assertEquals(1.0, hospitApp.calcolaScontoInBaseAllEta(5), 0.001);
-        assertEquals(0.5, hospitApp.calcolaScontoInBaseAllEta(15), 0.001);
-        assertEquals(0.7, hospitApp.calcolaScontoInBaseAllEta(70), 0.001);
-        assertEquals(0.0, hospitApp.calcolaScontoInBaseAllEta(30), 0.001);
-    }
 
 
 
