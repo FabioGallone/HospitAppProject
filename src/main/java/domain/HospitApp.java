@@ -39,7 +39,6 @@ public class HospitApp {
 
     public Presidio InserisciNuovoPresidio(String nome, String indirizzo, String orario){
         this.presidioCorrente=new Presidio(nome, indirizzo, orario);
-        System.out.println("Presidio inserito");
         return presidioCorrente;
     }
 
@@ -47,8 +46,10 @@ public class HospitApp {
 
     public void confermaInserimento() {
         if (presidioCorrente != null) {
-            this.elencoPresidi.put(presidioCorrente.getNome(), presidioCorrente);
-            System.out.println("Operazione Inserimento Presidio Conclusa");
+            if(!elencoPresidi.containsKey(presidioCorrente.getNome())){
+                this.elencoPresidi.put(presidioCorrente.getNome(), presidioCorrente);
+                System.out.println("Operazione Inserimento Presidio Conclusa");
+            }
         }
 
     }
@@ -208,7 +209,7 @@ public class HospitApp {
         tableModelPrenotata.addColumn("Reparto");
 
         Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
-        System.out.println("Riepilogo visite dell'utente: "+ RiepilogoVisiteUtente);
+
 
         if (RiepilogoVisiteUtente.isEmpty()) {
             System.out.println("Nessuna prenotazione trovata.");
@@ -284,7 +285,7 @@ public class HospitApp {
         tableModeldaPrenotare.addColumn("Reparto");
 
         Map<String, Visita> RiepilogoVisiteUtente = utente.getVisitaRepartoPresidioUtente();
-        System.out.println("Riepilogo visite dell'utente: "+ RiepilogoVisiteUtente);
+
 
 
         if (RiepilogoVisiteUtente.isEmpty()) {
