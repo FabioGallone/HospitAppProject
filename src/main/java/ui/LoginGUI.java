@@ -35,14 +35,15 @@ public class LoginGUI implements ActionListener {
     private JButton registerButton;
     private JButton backToLoginButton;
     public JButton signUpButton;
-  //  private HospitApp hospitapp;
+    private HospitApp hospitapp;
 
 
 
 
-    public LoginGUI() {
+    public LoginGUI(HospitApp h) {
         Utils.populateUtentiListFromFile("Users.txt");
-      //  hospitapp= HospitApp.getInstance();
+        this.hospitapp=h;
+
 
         initialize();
     }
@@ -190,7 +191,7 @@ public class LoginGUI implements ActionListener {
                 loginMessageLabel.setText("Login avvenuto con successo!");
 
                 frame.dispose();
-                InserisciPresidio inseriscipresidio = new InserisciPresidio(Utente.getUserFromEmail(email));
+                new InserisciPresidio(Utente.getUserFromEmail(email),hospitapp);
             } else {
                 loginMessageLabel.setForeground(Color.RED);
                 loginMessageLabel.setText("Password o email non corrispondono");
@@ -221,7 +222,7 @@ public class LoginGUI implements ActionListener {
                     registerMessageLabel.setForeground(Color.GREEN);
                     registerMessageLabel.setText("Utente registrato con successo!");
                     frame.dispose();
-                    InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
+                    new InserisciPresidio(utente, hospitapp);
                 } else if (Utils.isEmailAlreadyUsed(email)) {
                     registerMessageLabel.setForeground(Color.RED);
                     registerMessageLabel.setText("Email gia in uso");
@@ -234,15 +235,7 @@ public class LoginGUI implements ActionListener {
     }
 
 
-    public static void main(String args[]) {
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                LoginGUI appGUI = new LoginGUI();
-                appGUI.frame.setVisible(true);
-            }
-        });
-    }
 
 
 }

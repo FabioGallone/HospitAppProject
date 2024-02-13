@@ -20,12 +20,13 @@ public class CreaTicket implements ActionListener {
     private String residenza, nazionalità;
     private JLabel title, annoLabel, residenzaLabel, nazionalitaLabel, riepilogoLabel1, riepilogoLabel2;
     private JDateChooser dateChooser; // Utilizza JDateChooser per la data
-    HospitApp hospitapp = HospitApp.getInstance();
+    private HospitApp hospitapp;
     private JTextField residenzaField, nazionalitaField;
     private JButton confermaButton, backButton;
 
-    public CreaTicket(Utente utente, String oraVisita, String giornoVisita, String nomePresidio, String nomeReparto) {
+    public CreaTicket(Utente utente, String oraVisita, String giornoVisita, String nomePresidio, String nomeReparto, HospitApp h) {
         this.utente = utente;
+        this.hospitapp=h;
         this.oraVisita = oraVisita;
         this.giornoVisita = giornoVisita;
         this.nomePresidio = nomePresidio;
@@ -122,12 +123,12 @@ public class CreaTicket implements ActionListener {
                     "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
                     nomeReparto + "," + nazionalità + "," + residenza +","+ dataNascitaFormatted + "," + costo;
 
-            new GestionePagamento(informazioni, utente);
+            new GestionePagamento(informazioni, utente,hospitapp);
             frame.dispose();
 
         }
         else {
-            new VisualizzaPrenotazione(utente);
+            new VisualizzaPrenotazione(utente,hospitapp);
             frame.dispose();
 
         }

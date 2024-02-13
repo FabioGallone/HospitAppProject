@@ -2,6 +2,8 @@ package TestHospitApp;
 
 
 import java.awt.event.ActionEvent;
+
+import domain.HospitApp;
 import ui.LoginGUI;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +14,7 @@ class TestLogin {
 
     @Test
     void testRegistration() {
-        LoginGUI loginGUI = new LoginGUI();
+        LoginGUI loginGUI = new LoginGUI(HospitApp.getInstance());
 
 
         String existingEmail = "c@m.com"; //email già esistente (utente già registrato)
@@ -49,7 +51,7 @@ class TestLogin {
 
     @Test
     void testLogin() {
-        LoginGUI loginGUI = new LoginGUI();
+        LoginGUI loginGUI = new LoginGUI(HospitApp.getInstance());
 
 
         String validEmail = "m@c.com";

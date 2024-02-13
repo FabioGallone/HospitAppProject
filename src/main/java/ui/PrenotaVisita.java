@@ -23,10 +23,11 @@ public class PrenotaVisita implements ActionListener {
     private JButton visualizzaPrenotazione, visualizzaTicket;  // Aggiunta dichiarazione del pulsante del reparto selezionato
     private Presidio presidioCorrente;
     private String nomepresidioSelezionato, nomeRepartoSelezionato;
-    HospitApp hospitapp = HospitApp.getInstance();
+    private HospitApp hospitapp;
 
-    public PrenotaVisita(JFrame frame, Utente utente) {
+    public PrenotaVisita(JFrame frame, Utente utente,HospitApp h) {
         this.frame = frame;
+        this.hospitapp=h;
         this.utente = utente;
         this.nome = utente.getNome();
         this.email = utente.getEmail();
@@ -90,7 +91,7 @@ public class PrenotaVisita implements ActionListener {
         visualizzaPrenotazione.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VisualizzaPrenotazione visualizzaPrenotazione= new VisualizzaPrenotazione(utente);
+                VisualizzaPrenotazione visualizzaPrenotazione= new VisualizzaPrenotazione(utente, hospitapp);
             }
         });
 
@@ -100,7 +101,7 @@ public class PrenotaVisita implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                new VisualizzaTicket(utente);
+                new VisualizzaTicket(utente,hospitapp);
 
             }
         });
@@ -202,7 +203,7 @@ public class PrenotaVisita implements ActionListener {
                 Visita visita = hospitapp.confermaPrenotazione(reparto, presidioCorrente, utente);
                 Utils.ScrivisuFileVisita(reparto, presidioCorrente, utente, visita);
                 mostraMessaggio("Visita prenotata con successo!");
-                InserisciPresidio inserisciPresidio = new InserisciPresidio(utente);
+                InserisciPresidio inserisciPresidio = new InserisciPresidio(utente, hospitapp);
                 frame.dispose();
             }
         });
@@ -214,7 +215,7 @@ public class PrenotaVisita implements ActionListener {
         backtoInserisciPresidio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InserisciPresidio inserisciPresidio = new InserisciPresidio(utente);
+                new InserisciPresidio(utente,hospitapp);
                 frame.dispose();
             }
         });

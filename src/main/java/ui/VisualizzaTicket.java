@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class VisualizzaTicket extends JFrame{
 
-    HospitApp hospitapp = HospitApp.getInstance();
+    private HospitApp hospitapp;
 
     private Utente utente;
 
@@ -20,8 +20,9 @@ public class VisualizzaTicket extends JFrame{
     private JTable tableTicket;
 
 
-    public VisualizzaTicket(Utente utente) {
+    public VisualizzaTicket(Utente utente, HospitApp h) {
         this.utente = utente;
+        this.hospitapp=h;
         initialize();
     }
     public void initialize() {

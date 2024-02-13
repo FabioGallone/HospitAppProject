@@ -16,7 +16,7 @@ import domain.*;
 public class GestisciPrenotazione implements ActionListener {
     private JFrame frame;
     String[] nomiReparti,nomiPresidi;
-    private HospitApp hospitapp = HospitApp.getInstance();
+    private HospitApp hospitapp;
     private String nome, cognome, email, codicefiscale, codicemedico;
     private Utente utente;
     private Reparto reparto;
@@ -42,8 +42,9 @@ public class GestisciPrenotazione implements ActionListener {
 
     private Map<String, List<String>> utentiPerRepartoPresidio;
 
-    public GestisciPrenotazione(JFrame frame, Utente utente) {
+    public GestisciPrenotazione(JFrame frame, Utente utente, HospitApp h) {
         this.frame = frame;
+        this.hospitapp=h;
         this.utente = utente;
         this.nome = utente.getNome();
         this.cognome = utente.getCognome();
@@ -64,7 +65,7 @@ public class GestisciPrenotazione implements ActionListener {
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
         welcomeLabel.setText("Ciao presidio " + nome);
 
-        RimuoviTicket = new JButton("Visualizza Ticket Prenotati");
+        RimuoviTicket = new JButton("Visualizza Ticket Accettati");
         RimuoviTicket.setBounds(75, 350, 200, 25);
         RimuoviTicket.setFocusable(false);
         frame.add(RimuoviTicket);
@@ -72,14 +73,14 @@ public class GestisciPrenotazione implements ActionListener {
         RimuoviTicket.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              new RimuoviTicket(utente);
+              new RimuoviTicket(utente,hospitapp);
             }
         });
 
 
 
-        Utils.leggiPresidiDaFile("Presidio.txt");
-        utentiPerRepartoPresidio= Utils.leggiVisitedalFile("Visita.txt");
+        Utils.leggiPresidiDaFile("Presidio.txt", hospitapp);
+        utentiPerRepartoPresidio= Utils.leggiVisitedalFile("Visita.txt", hospitapp);
         ListaPresidi = hospitapp.getElencoPresidi();
         System.out.println(ListaPresidi);
 
@@ -139,8 +140,8 @@ public class GestisciPrenotazione implements ActionListener {
 
 
             if (utentiAssociati != null) {
-                DefaultTableModel tableModelDaPrenotare = HospitApp.getInstance().visualizzaVisitaDaPrenotareAdmin(utentiAssociati,reparto,presidio);
-                DefaultTableModel tableModelPrenotata = HospitApp.getInstance().visualizzaVisitaPrenotataAdmin(utentiAssociati,reparto,presidio);
+                DefaultTableModel tableModelDaPrenotare = hospitapp.visualizzaVisitaDaPrenotareAdmin(utentiAssociati,reparto,presidio);
+                DefaultTableModel tableModelPrenotata = hospitapp.visualizzaVisitaPrenotataAdmin(utentiAssociati,reparto,presidio);
 
                 if (tableModelDaPrenotare.getRowCount()==0) {
                     messageLabel = new JLabel("Nessuna prenotazione da gestire.");

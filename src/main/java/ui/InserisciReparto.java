@@ -27,15 +27,16 @@ public class InserisciReparto implements ActionListener {
     public JButton addButton;
     public JButton backtoInserisciPresidio;
 
-    HospitApp hospitapp = HospitApp.getInstance();
+    private  HospitApp hospitapp;
     private String[] nomiReparti;
     private JCheckBox[] repartoCheckBoxes;
 
 
 
 
-    public InserisciReparto(Utente utente) {
+    public InserisciReparto(Utente utente, HospitApp h) {
         this.utente=utente;
+        this.hospitapp=h;
         initialize();
     }
 
@@ -154,7 +155,7 @@ public class InserisciReparto implements ActionListener {
                 addMessageLabel.setText("Presidio registrato con successo!");
                 frame.dispose();
 
-                InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
+                InserisciPresidio inseriscipresidio = new InserisciPresidio(utente,hospitapp);
                 inseriscipresidio.frame.setVisible(true);
 
 
@@ -162,7 +163,7 @@ public class InserisciReparto implements ActionListener {
         } else if (e.getSource() == backtoInserisciPresidio) {
             frame.dispose();
 
-            InserisciPresidio inseriscipresidio = new InserisciPresidio(utente);
+            InserisciPresidio inseriscipresidio = new InserisciPresidio(utente,hospitapp);
             inseriscipresidio.frame.setVisible(true);
         }
 

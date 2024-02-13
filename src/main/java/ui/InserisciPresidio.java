@@ -23,15 +23,16 @@ public class InserisciPresidio implements ActionListener {
     private JButton quitButton;
     private JButton addButton;
     private String nome;
-    HospitApp hospitapp = HospitApp.getInstance();
     private String email;
     private boolean isAdministrator, isPresidio;
     private List<Presidio> ListaPresidi;
+    private HospitApp hospitapp;
 
-    public InserisciPresidio(Utente utente) {
+    public InserisciPresidio(Utente utente, HospitApp h) {
         this.utente = utente;
         this.nome = utente.getNome();
         this.email = utente.getEmail();
+        this.hospitapp=h;
 
         this.isAdministrator = utente.isAdministrator(email);
         this.isPresidio= utente.isPresidio();
@@ -44,6 +45,7 @@ public class InserisciPresidio implements ActionListener {
     }
 
     public void LogOut() {
+
         email = null;
     }
 
@@ -55,7 +57,7 @@ public class InserisciPresidio implements ActionListener {
 
         if (this.isAdministrator) {
             welcomeLabel.setText("Ciao amministratore " + nome);
-            Utils.leggiPresidiDaFile("presidio.txt");
+            Utils.leggiPresidiDaFile("presidio.txt",hospitapp);
             ListaPresidi = hospitapp.getElencoPresidi();
 
             int buttonYPosition = 250;
@@ -83,11 +85,11 @@ public class InserisciPresidio implements ActionListener {
             frame.add(addButton);
 
         } else if(!this.isAdministrator && !this.isPresidio) {
-          new PrenotaVisita(frame, utente);
+          new PrenotaVisita(frame, utente,hospitapp);
 
         }else{
 
-           new GestisciPrenotazione(frame, utente);
+           new GestisciPrenotazione(frame, utente, hospitapp);
         }
 
         quitButton.setBounds(125, 165, 100, 25);
@@ -109,11 +111,11 @@ public class InserisciPresidio implements ActionListener {
             frame.dispose();
             this.LogOut();
 
-            LoginGUI login = new LoginGUI();
+            LoginGUI login = new LoginGUI(hospitapp);
             login.frame.setVisible(true);
         } else if (e.getSource() == addButton) {
             frame.dispose();
-            InserisciReparto inseriscireparto = new InserisciReparto(utente);
+            InserisciReparto inseriscireparto = new InserisciReparto(utente,hospitapp);
             inseriscireparto.frame.setVisible(true);
         } else if(this.isAdministrator) {
             for (Presidio presidio : ListaPresidi) {

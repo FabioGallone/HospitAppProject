@@ -15,10 +15,11 @@ public class RimuoviTicket extends JFrame {
     private JLabel  messageLabel;
     private JTable tableTicket;
     private JTextField searchField;
-    private HospitApp hospitapp = HospitApp.getInstance();
+    private HospitApp hospitapp;
 
-    public RimuoviTicket(Utente utente) {
+    public RimuoviTicket(Utente utente, HospitApp h) {
         this.utente = utente;
+        this.hospitapp=h;
         initialize();
     }
 

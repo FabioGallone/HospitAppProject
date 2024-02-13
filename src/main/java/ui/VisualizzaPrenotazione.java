@@ -13,15 +13,16 @@ public class VisualizzaPrenotazione extends JFrame {
     private String[] nomiPresidi;
     private String[] nomiReparti;
     private JLabel messageLabel;
-    HospitApp hospitapp = HospitApp.getInstance();
+    private HospitApp hospitapp;
     private JTable tablePrenotata, tableDaPrenotare;
     private JScrollPane scrollPanePrenotata, scrollPaneDaPrenotare;
     private JButton confermaButton, rifiutaButton;
     JComboBox<String> azioniComboBox;
 
-    public VisualizzaPrenotazione(Utente utente) {
+    public VisualizzaPrenotazione(Utente utente, HospitApp h) {
         this.utente = utente;
-        Utils.leggiVisitedalFile("visita.txt");
+        this.hospitapp=h;
+        Utils.leggiVisitedalFile("visita.txt", hospitapp);
         initializeUI();
     }
 
@@ -93,7 +94,7 @@ public class VisualizzaPrenotazione extends JFrame {
         String giorno = getValueAfterEquals(parts[1]);
         String nomePresidio = getValueAfterEquals(nomiPresidi[selectedIndex]);
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
-        new CreaTicket(utente, ora, giorno, nomePresidio, nomeReparto);
+        new CreaTicket(utente, ora, giorno, nomePresidio, nomeReparto,hospitapp);
         dispose();
     }
 

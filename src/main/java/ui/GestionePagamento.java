@@ -15,12 +15,13 @@ public class GestionePagamento {
     private JFrame frame;
     private JPanel titlePanel,upperPanel,infoPanel,bottomPanel,buttonsPanel,imagePanel;
     private JLabel titleLabel,logoLabel,importoLabel,valueLabel;
-    HospitApp hospitapp = HospitApp.getInstance();
+    private HospitApp hospitapp;
     private ImageIcon logoIcon,resizedLogoIcon;
     private Image logoImage;
     private JButton prenotaButton,indietroButton;
-    public GestionePagamento(String informazioni, Utente utente) {
+    public GestionePagamento(String informazioni, Utente utente,HospitApp h) {
         this.informazioni = informazioni;
+        this.hospitapp=h;
         this.utente = utente;
         initialize();
     }
@@ -112,7 +113,7 @@ public class GestionePagamento {
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CreaTicket(utente,dettagli[5].trim(),dettagli[4].trim(),dettagli[6].trim(),dettagli[7].trim());
+                new CreaTicket(utente,dettagli[4].trim(),dettagli[3].trim(),dettagli[5].trim(),dettagli[6].trim(),hospitapp);
                 frame.dispose();
             }
         });

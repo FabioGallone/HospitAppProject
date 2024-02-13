@@ -93,8 +93,7 @@ public class Utils {
     }
 
 
-    public static void leggiPresidiDaFile(String filePath) {
-        HospitApp hospitapp= HospitApp.getInstance();
+    public static void leggiPresidiDaFile(String filePath, HospitApp hospitapp) {
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -126,8 +125,8 @@ public class Utils {
 
     }
 
-    public static Map<String, List<String>> leggiVisitedalFile(String filePath) {
-        HospitApp hospitapp= HospitApp.getInstance();
+    public static Map<String, List<String>> leggiVisitedalFile(String filePath, HospitApp hospitapp) {
+
         Map<String, List<String>> utentiPerRepartoPresidio=new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
