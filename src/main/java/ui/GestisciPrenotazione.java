@@ -8,8 +8,8 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
+import java.util.Observer;
 
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import domain.*;
 
@@ -199,6 +199,7 @@ public class GestisciPrenotazione implements ActionListener {
                             confermaButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
+
                                     Date orarioSelezionato = (Date) orarioSpinner.getValue();
                                     java.util.Date dataSelezionata = dateChooser.getDate();
 
@@ -215,8 +216,25 @@ public class GestisciPrenotazione implements ActionListener {
 
                                     Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), selectedValue);
 
+                                    // Creo un'istanza di ObservableVisita
+                                    ObservableVisita visitaAggiornamento = new ObservableVisita(visita);
+
+                                    // Creo due istanze di ObserverVisita
+                                    VisualizzaPrenotazione observer1 = new VisualizzaPrenotazione("0");
+
+                                    // Aggiungo gli osservatori all'oggetto Observable
+                                    visitaAggiornamento.addObserver(observer1);
+
+
+
+
 
                                     hospitapp.confermaGestione(visita, dataSelezionataFormattata, orarioInserito);
+
+                                    //L'observer setta la visita true.
+                                    visitaAggiornamento.setVisitaStato(true, visita);
+                                    visitaAggiornamento.notifyObservers(true);
+
                                     Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), selectedValue, dataSelezionataFormattata, orarioInserito, utentiPerRepartoPresidio, visita.isStato());
 
                                     nuovaFrame.dispose();

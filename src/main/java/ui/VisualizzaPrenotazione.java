@@ -1,13 +1,15 @@
 package ui;
 
-import domain.HospitApp;
-import domain.Utente;
+import domain.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class VisualizzaPrenotazione extends JFrame {
+
+public class VisualizzaPrenotazione extends JFrame implements Observer {
 
     private Utente utente;
     private String[] nomiPresidi;
@@ -18,13 +20,20 @@ public class VisualizzaPrenotazione extends JFrame {
     private JScrollPane scrollPanePrenotata, scrollPaneDaPrenotare;
     private JButton confermaButton, rifiutaButton;
     JComboBox<String> azioniComboBox;
+    private String id;
 
     public VisualizzaPrenotazione(Utente utente, HospitApp h) {
         this.utente = utente;
         this.hospitapp=h;
         Utils.leggiVisitedalFile("visita.txt", hospitapp);
+
         initializeUI();
     }
+
+    public VisualizzaPrenotazione(String id) {
+        this.id = id;
+    }
+
 
     private void initializeUI() {
         setTitle("Riepilogo Prenotazioni");
@@ -39,6 +48,8 @@ public class VisualizzaPrenotazione extends JFrame {
             add(messageLabel, BorderLayout.CENTER);
 
         } else {
+
+
             tablePrenotata = new JTable(tableModelPrenotata);
             tablePrenotata.setRowHeight(30);
             scrollPanePrenotata = new JScrollPane(tablePrenotata);
@@ -129,4 +140,12 @@ public class VisualizzaPrenotazione extends JFrame {
     private void mostraMessaggio(String messaggio) {
         JOptionPane.showMessageDialog(this, messaggio, "Messaggio", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        // Implementa il comportamento di aggiornamento
+        System.out.println("(observer-" + id + ") stato della visita: " + (boolean) arg);
+    }
+
+
 }

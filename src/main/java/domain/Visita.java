@@ -20,6 +20,8 @@ public class Visita {
         this.costo=costo;
     }
 
+
+
     public float getCosto() {
         return costo;
     }
