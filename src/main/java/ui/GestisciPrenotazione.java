@@ -219,21 +219,17 @@ public class GestisciPrenotazione implements ActionListener {
                                     // Creo un'istanza di ObservableVisita
                                     ObservableVisita visitaAggiornamento = new ObservableVisita(visita);
 
-                                    // Creo due istanze di ObserverVisita
-                                    VisualizzaPrenotazione observer1 = new VisualizzaPrenotazione("0");
+                                   VisualizzaPrenotazione observer1 = new VisualizzaPrenotazione("0", Utente.getUserFromCF(selectedValue));
 
-                                    // Aggiungo gli osservatori all'oggetto Observable
+                                    //aggiungo un observer
                                     visitaAggiornamento.addObserver(observer1);
-
-
-
 
 
                                     hospitapp.confermaGestione(visita, dataSelezionataFormattata, orarioInserito);
 
                                     //L'observer setta la visita true.
                                     visitaAggiornamento.setVisitaStato(true, visita);
-                                    visitaAggiornamento.notifyObservers(true);
+
 
                                     Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), selectedValue, dataSelezionataFormattata, orarioInserito, utentiPerRepartoPresidio, visita.isStato());
 

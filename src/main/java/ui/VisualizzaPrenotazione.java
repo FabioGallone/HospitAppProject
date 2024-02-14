@@ -30,8 +30,9 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
         initializeUI();
     }
 
-    public VisualizzaPrenotazione(String id) {
-        this.id = id;
+    public VisualizzaPrenotazione(String id, Utente utente) {
+              this.id=id;
+              this.utente=utente;
     }
 
 
@@ -49,6 +50,11 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
 
         } else {
 
+
+            if(Utils.LeggiFileStatoVisita("StatoVisitaCambiato.txt", utente).equals("VERO")){
+                mostraMessaggio("Complimenti, una o più visite sono state aggiornate dall'amministratore!");
+                Utils.rimuoviRigaDaFile("StatoVisitaCambiato.txt", "VERO");
+            }
 
             tablePrenotata = new JTable(tableModelPrenotata);
             tablePrenotata.setRowHeight(30);
@@ -145,6 +151,11 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         // Implementa il comportamento di aggiornamento
         System.out.println("(observer-" + id + ") stato della visita: " + (boolean) arg);
+
+        if((boolean) arg && utente!=null) {
+            String state="VERO"+","+utente.getCodiceFiscale();
+            Utils.writeOnFile("StatoVisitaCambiato.txt", state);
+        }
     }
 
 

@@ -423,4 +423,30 @@ public class Utils {
         }
     }
 
+    public static String LeggiFileStatoVisita(String fileName, Utente utente) {
+        List<Utente> utentiList = new ArrayList<>();
+        String state="FALSE";
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(",");
+                //Ricordiamo che il file StatoVisitaCambiato.txt contiene "VERO"+codicefiscale
+                if (userDetails.length == 2) {
+                    if(utente.getCodiceFiscale().equals(userDetails[1])) {
+                        state = userDetails[0]; //Questo sarà "VERO"
+
+
+                        return state;
+                    }
+
+
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return state;
+    }
+
 }
