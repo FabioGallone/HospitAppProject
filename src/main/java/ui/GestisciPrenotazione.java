@@ -17,19 +17,17 @@ public class GestisciPrenotazione implements ActionListener {
     private JFrame frame;
     String[] nomiReparti,nomiPresidi;
     private HospitApp hospitapp;
-    private String nome, cognome, email, codicefiscale, codicemedico;
+    private String nome;
     private Utente utente;
     private Reparto reparto;
-    private JLabel welcomeLabel, label, orarioLabel,dataLabel,dataSelezionataLabel, messageLabel;
+    private JLabel welcomeLabel,orarioLabel,dataLabel, messageLabel;
     private JFrame riepilogoFrame, nuovaFrame;
-    private JPanel mainPanel, visiteDaPrenotarePanel,visitePrenotatePanel,orarioDataPanel;
-    private  JButton visitaButton, confermaButton,prenotaButton,rifiutaButton;
-    private String nomeutente;
+    private JPanel orarioDataPanel;
+    private  JButton  confermaButton,prenotaButton;
+
     private List<Presidio> ListaPresidi;
     private JComboBox<String> repartoComboBox;
     private JComboBox<?> comboBox;
-    private JTextField orarioTextField;
-    private JCalendar calendar;
     private JDateChooser dateChooser;
     private JScrollPane scrollPanePrenotata, scrollPaneDaPrenotare;
     JSpinner orarioSpinner;
@@ -47,9 +45,6 @@ public class GestisciPrenotazione implements ActionListener {
         this.hospitapp=h;
         this.utente = utente;
         this.nome = utente.getNome();
-        this.cognome = utente.getCognome();
-        this.email = utente.getEmail();
-        this.codicefiscale = utente.getCodiceFiscale();
         welcomeLabel = new JLabel();
 
         utentiPerRepartoPresidio = new HashMap<>();

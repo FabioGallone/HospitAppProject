@@ -107,13 +107,11 @@ public class RimuoviTicket extends JFrame {
                 if (tableModelTicket != null && tableModelTicket.getRowCount() > 0) {
                     tableTicket.setModel(tableModelTicket);
                 } else {
-                    mostraMessaggio("Nessun codice fiscale combacia con i ticket richiesti");
-                    // Puoi decidere di resettare la tabella qui, se necessario
-                    // tableTicket.setModel(new DefaultTableModel());
+                    mostraMessaggio("L'utente cercato non ha prenotato nessun Ticket");
                 }
             } else {
                 // Se l'utente è null, mostra un messaggio di errore
-                mostraMessaggio("Nessun utente trovato con il codice fiscale inserito."); //QUESTO LO STAMPA SE IL CODFISCALE CHE VUOI CERCARE NON ESISTE COMPLETAMENTE (SE METTI ABC123 STAMPA "Nessun codice fiscale combacia con i ticket richiesti" PERCHE NON E' IN TABELLA)
+                mostraMessaggio("Utente non registrato su HospitApp"); //QUESTO LO STAMPA SE IL CODFISCALE CHE VUOI CERCARE NON ESISTE COMPLETAMENTE (SE METTI ABC123 STAMPA "Nessun codice fiscale combacia con i ticket richiesti" PERCHE NON E' IN TABELLA)
             }
         } else {
             mostraMessaggio("Inserisci un codice fiscale da cercare.");
