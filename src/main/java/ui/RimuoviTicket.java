@@ -98,18 +98,28 @@ public class RimuoviTicket extends JFrame {
         String codiceFiscaleCercato = searchField.getText().trim();
 
         if (!codiceFiscaleCercato.isEmpty()) {
-            DefaultTableModel tableModelTicket = hospitapp.visualizzaTicketUtente(Utente.getUserFromCF(codiceFiscaleCercato));
+            // Ottieni l'utente dal codice fiscale, e controlla se è null
+            Utente utenteCercato = Utente.getUserFromCF(codiceFiscaleCercato);
+            if (utenteCercato != null) {
+                // Se l'utente non è null, procedi con la visualizzazione dei ticket
+                DefaultTableModel tableModelTicket = hospitapp.visualizzaTicketUtente(utenteCercato);
 
-            if (tableModelTicket != null) {
-                tableTicket.setModel(tableModelTicket);
-
+                if (tableModelTicket != null && tableModelTicket.getRowCount() > 0) {
+                    tableTicket.setModel(tableModelTicket);
+                } else {
+                    mostraMessaggio("Nessun codice fiscale combacia con i ticket richiesti");
+                    // Puoi decidere di resettare la tabella qui, se necessario
+                    // tableTicket.setModel(new DefaultTableModel());
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Nessun Ticket trovato per il codice fiscale inserito.");
+                // Se l'utente è null, mostra un messaggio di errore
+                mostraMessaggio("Nessun utente trovato con il codice fiscale inserito."); //QUESTO LO STAMPA SE IL CODFISCALE CHE VUOI CERCARE NON ESISTE COMPLETAMENTE (SE METTI ABC123 STAMPA "Nessun codice fiscale combacia con i ticket richiesti" PERCHE NON E' IN TABELLA)
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Inserisci un codice fiscale da cercare.");
+            mostraMessaggio("Inserisci un codice fiscale da cercare.");
         }
     }
+
 
     private void rimuoviTicketSelezionato() {
         int selectedRow = tableTicket.getSelectedRow();
@@ -127,5 +137,9 @@ public class RimuoviTicket extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Seleziona un ticket prima di cliccare su Rimuovi.");
         }
+    }
+
+    private void mostraMessaggio(String messaggio) {
+        JOptionPane.showMessageDialog(this, messaggio, "Messaggio", JOptionPane.INFORMATION_MESSAGE);
     }
 }

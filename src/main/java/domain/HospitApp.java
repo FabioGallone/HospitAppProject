@@ -326,7 +326,7 @@ public class HospitApp {
 
         if (TicketSpecifici.isEmpty()) {
             System.out.println("Nessun Ticket trovato.");
-            return null;
+
         }
 
         for (String ticket : TicketSpecifici) {
