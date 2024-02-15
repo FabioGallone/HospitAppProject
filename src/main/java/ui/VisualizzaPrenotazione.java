@@ -53,7 +53,7 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
 
             if(Utils.LeggiFileStatoVisita("StatoVisitaCambiato.txt", utente).equals("VERO")){
                 mostraMessaggio("Complimenti, una o più visite sono state aggiornate dall'amministratore!");
-                Utils.rimuoviRigaDaFile("StatoVisitaCambiato.txt", "VERO");
+                Utils.rimuoviRigaDaFileStato("StatoVisitaCambiato.txt", "VERO",utente);
             }
 
             tablePrenotata = new JTable(tableModelPrenotata);

@@ -239,6 +239,22 @@ public class Utils {
         }
     }
 
+    public static void rimuoviRigaDaFileStato(String filePath, String lineToRemove,Utente utente) {
+        try {
+
+
+            List<String> lines = Files.readAllLines(Paths.get(filePath));
+
+            lines.removeIf(line -> line.contains(lineToRemove) && line.contains(utente.getCodiceFiscale()));
+
+
+            Files.write(Paths.get(filePath), lines);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     protected static void rimuoviVisitaDalFile(String codiceFiscale, String giornoVisita, String oraVisita) {
         try {
             //stringa della prenotazione da rimuovere
