@@ -40,6 +40,10 @@ public class ObservableVisita extends Observable {
         }
     }
 
+    public int countMyObservers() {
+        return ListaOsservatori.size();
+    }
+
 
 
 }
