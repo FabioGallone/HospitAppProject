@@ -38,7 +38,7 @@ public class GestionePagamento {
         titlePanel = new JPanel();
         titlePanel.setBackground(Color.WHITE);
 
-        titleLabel = new JLabel("RIEPILOGO TICKET");
+        titleLabel = new JLabel("VISUALIZZA TICKET");
         titleLabel.setFont(new Font(null, Font.BOLD, 20));
         titlePanel.add(titleLabel);
 
@@ -99,7 +99,7 @@ public class GestionePagamento {
                     Utils.writeOnFile("Ticket.txt", informazioni);
                     hospitapp.aggiungiTicket(informazioni);
                     Utils.rimuoviVisitaDalFile(utente.getCodiceFiscale(), dettagli[3].trim(), dettagli[4].trim());
-                    hospitapp.rimuoviVisitaAssociata(dettagli[6].trim(), dettagli[5].trim(), utente);
+                    hospitapp.rimuoviVisita(dettagli[6].trim(), dettagli[5].trim(), utente);
                     frame.dispose();
                 }
                 else

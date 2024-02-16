@@ -156,9 +156,6 @@ public class HospitApp {
 
             Visita visita = new Visita(null, null, false, 50);
 
-            presidio.aggiungiVisita(visita, reparto.getNome(), utente.getNome());
-
-            reparto.aggiungiVisita(visita, presidio.getNome(), utente.getNome());
 
             utente.prenotaVisita(visita, presidio.getNome(), reparto.getNome());
 
@@ -201,7 +198,7 @@ public class HospitApp {
         visita.setStato(true);
     }
 
-    public DefaultTableModel visualizzaVisitaPrenotata(Utente utente) {
+    public DefaultTableModel visualizzaVisitaPrenotataUtente(Utente utente) {
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
 
         tableModelPrenotata.addColumn("Prenotata");
@@ -229,52 +226,6 @@ public class HospitApp {
         }
 
         return tableModelPrenotata;
-    }
-
-    public DefaultTableModel visualizzaVisitaPrenotataAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
-        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
-
-        tableModelPrenotata.addColumn("Prenotata");
-        tableModelPrenotata.addColumn("Presidio");
-        tableModelPrenotata.addColumn("Reparto");
-
-        List<String> codFiscUtente=codFisc;
-
-        for (String codiceFiscale: codFiscUtente) {
-
-            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
-
-            // Aggiungo una riga al modello di tabella
-            if(visita.isStato() == true)
-                tableModelPrenotata.addRow(new Object[]{codiceFiscale +":" + "Giorno:" + visita.getGiorno() + "-Ora:" + visita.getOra(), presidio.getNome(), reparto.getNome()});
-
-        }
-
-        return tableModelPrenotata;
-    }
-
-    public DefaultTableModel visualizzaVisitaDaPrenotareAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
-        DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
-
-        tableModeldaPrenotare.addColumn("Da Prenotare");
-        tableModeldaPrenotare.addColumn("Presidio");
-        tableModeldaPrenotare.addColumn("Reparto");
-
-        List<String> codFiscUtente=codFisc;
-
-
-
-        for (String codiceFiscale: codFiscUtente) {
-
-            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
-
-            // Aggiungo una riga al modello di tabella
-            if(visita.isStato() == false)
-                tableModeldaPrenotare.addRow(new Object[]{codiceFiscale, presidio.getNome(), reparto.getNome()});
-
-        }
-
-        return tableModeldaPrenotare;
     }
 
     public DefaultTableModel visualizzaVisitaDaPrenotareUtente(Utente utente) {
@@ -307,6 +258,88 @@ public class HospitApp {
         }
 
         return tableModeldaPrenotare;
+    }
+    public DefaultTableModel visualizzaVisitaPrenotataAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
+        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
+
+        tableModelPrenotata.addColumn("Prenotata");
+        tableModelPrenotata.addColumn("Presidio");
+        tableModelPrenotata.addColumn("Reparto");
+
+        List<String> codFiscUtente=codFisc;
+
+        for (String codiceFiscale: codFiscUtente) {
+
+            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
+
+            // Aggiungo una riga al modello di tabella
+            if(visita.isStato() == true)
+                tableModelPrenotata.addRow(new Object[]{codiceFiscale +":" + "Giorno:" + visita.getGiorno() + "-Ora:" + visita.getOra(), presidio.getNome(), reparto.getNome()});
+
+        }
+
+        return tableModelPrenotata;
+    }
+
+
+    public DefaultTableModel visualizzaVisitaDaPrenotareAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
+        DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
+
+        tableModeldaPrenotare.addColumn("Da Prenotare");
+        tableModeldaPrenotare.addColumn("Presidio");
+        tableModeldaPrenotare.addColumn("Reparto");
+
+        List<String> codFiscUtente=codFisc;
+
+
+
+        for (String codiceFiscale: codFiscUtente) {
+
+            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
+
+            // Aggiungo una riga al modello di tabella
+            if(visita.isStato() == false)
+                tableModeldaPrenotare.addRow(new Object[]{codiceFiscale, presidio.getNome(), reparto.getNome()});
+
+        }
+
+        return tableModeldaPrenotare;
+    }
+
+    public List<String> visualizzaVisiteUtente(Utente utente) {
+        List<String> tutteLeVisite = new ArrayList<>();
+
+        for (Map.Entry<String, Visita> entry : visiteAssociations.entrySet()) {
+            String key = entry.getKey();
+            Visita visita = entry.getValue();
+
+            String[] parts = key.split("_");
+            String codiceFiscale = parts[2];
+
+            if (codiceFiscale.equals(utente.getCodiceFiscale())) {
+                if(visita.isStato()) {
+                    String infoVisita = "Reparto: " + parts[0] + ", Presidio: " + parts[1] + ", Stato: " + visita.isStato();
+                    tutteLeVisite.add(infoVisita);
+                }
+            }
+        }
+
+        return tutteLeVisite;
+    }
+
+
+    //La mappa visiteAssociations contiene come key nomeReparto + "_" + nomePresidio + "_" + codiceFiscale e come value la visita.
+    public void rimuoviVisita(String nomeReparto, String nomePresidio, Utente utente) {
+
+        String codiceFiscale=utente.getCodiceFiscale();
+        String key = nomeReparto + "_" + nomePresidio + "_" + codiceFiscale;
+        visiteAssociations.remove(key);
+        utente.rimuoviVisitaUtente(nomeReparto,nomePresidio);
+
+    }
+
+    public void confermaVisita(){
+        System.out.println("Ho prenotato la visita");
     }
 
 
@@ -380,19 +413,6 @@ public class HospitApp {
 
 
 
-//La mappa visiteAssociations contiene come key nomeReparto + "_" + nomePresidio + "_" + codiceFiscale e come value la visita.
-    public void rimuoviVisitaAssociata(String nomeReparto, String nomePresidio, Utente utente) {
-        Presidio p=this.selezionaPresidio(nomePresidio);
-
-        Reparto r=this.selezionaReparto(nomeReparto);
-
-        String codiceFiscale=utente.getCodiceFiscale();
-        String key = nomeReparto + "_" + nomePresidio + "_" + codiceFiscale;
-        visiteAssociations.remove(key);
-        utente.rimuoviVisita(nomeReparto,nomePresidio);
-        p.rimuoviVisita(nomeReparto, utente.getNome());
-        r.rimuoviVisita(nomePresidio,utente.getNome());
-    }
 
 
 

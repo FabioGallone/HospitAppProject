@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
-
+import java.util.List;
 
 public class VisualizzaPrenotazione extends JFrame implements Observer {
 
@@ -22,36 +22,30 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
     JComboBox<String> azioniComboBox;
     private String id;
 
+    public VisualizzaPrenotazione(String id, Utente utente) {
+        this.id=id;
+        this.utente=utente;
+    }
+
+
     public VisualizzaPrenotazione(Utente utente, HospitApp h) {
         this.utente = utente;
-        this.hospitapp=h;
+        this.hospitapp = h;
         Utils.leggiVisitedalFile("visita.txt", hospitapp);
 
-        initializeUI();
-    }
-
-    public VisualizzaPrenotazione(String id, Utente utente) {
-              this.id=id;
-              this.utente=utente;
-    }
-
-
-    private void initializeUI() {
         setTitle("Riepilogo Prenotazioni");
         setLayout(new BorderLayout());
 
-        DefaultTableModel tableModelPrenotata = hospitapp.visualizzaVisitaPrenotata(utente);
+        DefaultTableModel tableModelPrenotata = hospitapp.visualizzaVisitaPrenotataUtente(utente);
         DefaultTableModel tableModelDaPrenotare = hospitapp.visualizzaVisitaDaPrenotareUtente(utente);
 
-        if (tableModelPrenotata==null || tableModelPrenotata.getRowCount()==0) {
+        if (tableModelPrenotata == null || tableModelPrenotata.getRowCount() == 0) {
             messageLabel = new JLabel("Nessuna prenotazione disponibile per l'utente. Per prenotare una visita selezionare presidio e reparto e mandare la richiesta.");
             messageLabel.setHorizontalAlignment(JLabel.CENTER);
             add(messageLabel, BorderLayout.CENTER);
 
         } else {
-
-
-            if(Utils.LeggiFileStatoVisita("StatoVisitaCambiato.txt", utente).equals("VERO")){
+            if (Utils.LeggiFileStatoVisita("StatoVisitaCambiato.txt", utente).equals("VERO")) {
                 mostraMessaggio("Complimenti, una o più visite sono state aggiornate dall'amministratore!");
                 Utils.rimuoviRigaDaFile("StatoVisitaCambiato.txt", "VERO");
             }
@@ -91,34 +85,47 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
             rifiutaButton.addActionListener(e -> rifiutaPrenotazione(tablePrenotata, azioniComboBox));
         }
 
-            tableDaPrenotare = new JTable(tableModelDaPrenotare);
-            tableDaPrenotare.setRowHeight(30);
-            scrollPaneDaPrenotare = new JScrollPane(tableDaPrenotare);
-            add(scrollPaneDaPrenotare, BorderLayout.SOUTH);
+        tableDaPrenotare = new JTable(tableModelDaPrenotare);
+        tableDaPrenotare.setRowHeight(30);
+        scrollPaneDaPrenotare = new JScrollPane(tableDaPrenotare);
+        add(scrollPaneDaPrenotare, BorderLayout.SOUTH);
 
+        visualizzaTutteLeVisiteUtente(utente);
 
-        setSize(850,700);
+        setSize(850, 700);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
+    private void visualizzaTutteLeVisiteUtente(Utente utente) {
+        List<String> tutteLeVisite = hospitapp.visualizzaVisiteUtente(utente);
+
+        if (!tutteLeVisite.isEmpty()) {
+            System.out.println("Tutte le visite dell'utente:");
+            for (String visitaInfo : tutteLeVisite) {
+                System.out.println(visitaInfo);
+            }
+        } else {
+            System.out.println("Nessuna visita trovata per l'utente.");
+        }
+    }
+
     private void confermaPrenotazione(JTable table, JComboBox<String> azioniComboBox) {
         String selectedValue = azioniComboBox.getSelectedItem().toString();
-        System.out.println("Conferma prenotazione per il valore: " + selectedValue);
+        hospitapp.confermaVisita();
         int selectedIndex = azioniComboBox.getSelectedIndex();
         String[] parts = selectedValue.split(",");
         String ora = getValueAfterEquals(parts[0]);
         String giorno = getValueAfterEquals(parts[1]);
         String nomePresidio = getValueAfterEquals(nomiPresidi[selectedIndex]);
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
-        new CreaTicket(utente, ora, giorno, nomePresidio, nomeReparto,hospitapp);
+        new CreaTicket(utente, ora, giorno, nomePresidio, nomeReparto, hospitapp);
         dispose();
     }
 
     private void rifiutaPrenotazione(JTable table, JComboBox<String> azioniComboBox) {
         String selectedValue = azioniComboBox.getSelectedItem().toString();
         int selectedIndex = azioniComboBox.getSelectedIndex();
-
         String codiceFisc = utente.getCodiceFiscale();
 
         String[] parts = selectedValue.split(",");
@@ -128,7 +135,7 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
         String nomeReparto = getValueAfterEquals(nomiReparti[selectedIndex]);
 
         Utils.rimuoviVisitaDalFile(codiceFisc, giorno, ora);
-        hospitapp.rimuoviVisitaAssociata(nomeReparto, nomePresidio, utente);
+        hospitapp.rimuoviVisita(nomeReparto, nomePresidio, utente);
 
         System.out.println("Rifiuto prenotazione per il valore: " + selectedValue);
         mostraMessaggio("Prenotazione cancellata con successo");
@@ -149,14 +156,11 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        // Implementa il comportamento di aggiornamento
         System.out.println("(observer-" + id + ") stato della visita: " + (boolean) arg);
 
-        if((boolean) arg && utente!=null) {
-            String state="VERO"+","+utente.getCodiceFiscale();
+        if ((boolean) arg && utente != null) {
+            String state = "VERO" + "," + utente.getCodiceFiscale();
             Utils.writeOnFile("StatoVisitaCambiato.txt", state);
         }
     }
-
-
 }

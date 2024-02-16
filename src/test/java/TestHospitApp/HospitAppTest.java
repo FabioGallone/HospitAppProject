@@ -88,7 +88,7 @@ public class HospitAppTest {
     @Test
     public void testRimuoviVisitaAssociata() {
         hospitApp.confermaPrenotazione(reparto, presidio, utente);
-        hospitApp.rimuoviVisitaAssociata("Cardiologia", "TestPresidio", utente);
+        hospitApp.rimuoviVisita("Cardiologia", "TestPresidio", utente);
         assertNull(hospitApp.trovaVisita("Cardiologia", "TestPresidio", "TestCodiceFiscale"));
     }
 

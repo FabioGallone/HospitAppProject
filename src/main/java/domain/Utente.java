@@ -196,7 +196,7 @@ public class Utente {
 
 
     //la mappa VisiRepartoPresidioutente contiene come key nomePresidio+nomeReparto e come value la visita.
-    public void rimuoviVisita(String nomeReparto, String nomePresidio) {
+    public void rimuoviVisitaUtente(String nomeReparto, String nomePresidio) {
         String key = nomePresidio + "_" + nomeReparto;
 
         if (VisitaRepartoPresidioUtente.containsKey(key)) {

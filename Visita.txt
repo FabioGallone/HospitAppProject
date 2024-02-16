@@ -1,5 +1,4 @@
 Garibaldi,Neurologia,GLLFBA00S27C351D,22/02/2024,16:59,true
 Cannizzaro,Ginecologia e Ostetricia,codfiscLello,null,null,false
 Cannizzaro,Neurologia,codfiscLello,null,null,false
-Garibaldi,Cardiologia,codfiscLello,09/02/2024,00:13,true
-Garibaldi,Ginecologia e Ostetricia,codfiscLello,null,null,false
+Garibaldi,Ginecologia e Ostetricia,codfiscLello,06/02/2024,00:47,true
