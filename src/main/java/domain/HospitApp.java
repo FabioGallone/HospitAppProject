@@ -2,7 +2,9 @@ package domain;
 
 import ui.Utils;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.HashMap;
@@ -16,7 +18,6 @@ public class HospitApp {
     private Map<String, Presidio> elencoPresidi;
     private Map<String, Reparto> reparti; //tutti i reparti
     private List<String> TuttiTicket = new ArrayList<>();
-    private List<String> TicketSpecifici = new ArrayList<>();
 
 
     public HospitApp() {
@@ -375,10 +376,8 @@ public class HospitApp {
             System.out.println("Ticket già esistente in lista");
     }
 
-
-
-
-    public DefaultTableModel visualizzaTicketUtente(Utente utente) {
+    public DefaultTableModel VisualizzaTicketSpecifico(Utente utente) {
+        //in questo caso "info" è il codiceFiscaleUtente
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
 
         tableModelPrenotata.addColumn("Utente");
@@ -386,6 +385,10 @@ public class HospitApp {
         tableModelPrenotata.addColumn("Presidio");
         tableModelPrenotata.addColumn("Reparto");
         tableModelPrenotata.addColumn("Costo");
+
+        //nel caso in cui esiste un file, altrimenti legge da memoria tranquillamente
+        //nel secondo caso(memoria) rimuovere questa riga.
+        TuttiTicket =Utils.VisualizzaTuttiTicket("Ticket.txt");
 
         if (TuttiTicket.isEmpty()) {
             System.out.println("Nessun Ticket trovato.");
@@ -394,28 +397,32 @@ public class HospitApp {
 
         for (String ticket : TuttiTicket) {
             String[] ticketData = ticket.split(",");
-            if (ticketData[2].equals(utente.getCodiceFiscale())) {
-                tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
+            if(!utente.isAdministrator()) {
+                if (ticketData[2].equals(utente.getCodiceFiscale())) {
+                    tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
+                }
+            }
+            else{
+                if (ticketData[2].equals(utente.getNome()) && utente.getNome().equals(ticketData[5])) {
+                    tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
+                }
             }
         }
 
         return tableModelPrenotata;
     }
 
-    public DefaultTableModel VisualizzaTuttiTicket(Utente utente) {
+    public DefaultTableModel VisualizzaTuttiTicketPresidio(String nomePresidio) {
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
-
         tableModelPrenotata.addColumn("Utente");
         tableModelPrenotata.addColumn("Visita");
         tableModelPrenotata.addColumn("Presidio");
         tableModelPrenotata.addColumn("Reparto");
         tableModelPrenotata.addColumn("Costo");
 
-
         //nel caso in cui esiste un file, altrimenti legge da memoria tranquillamente
         //nel secondo caso(memoria) rimuovere questa riga.
         TuttiTicket =Utils.VisualizzaTuttiTicket("Ticket.txt");
-
 
         if (TuttiTicket.isEmpty()) {
             System.out.println("Nessun Ticket trovato.");
@@ -427,17 +434,31 @@ public class HospitApp {
 
             String[] ticketData = ticket.split(",");
 
-                if(utente.getNome().equals(ticketData[5])) //verifico che il presidio sia quello in cui ho richiesto i ticket
+                if(nomePresidio.equals(ticketData[5])) //verifico che il presidio sia quello in cui ho richiesto i ticket
                     tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
-
-
         }
         return tableModelPrenotata;
     }
 
 
+    public DefaultTableModel VisualizzaTicketCercato(Utente utente) {
+
+          DefaultTableModel tableTicketUtenteSpecifico=  this.VisualizzaTicketSpecifico(utente);
+          return tableTicketUtenteSpecifico;
+    }
 
 
+
+    public void rimuoviTicket(String codiceFiscale, String giornoVisita) {
+
+        Utils.rimuoviPrenotazioneDalFile(codiceFiscale, giornoVisita);
+
+
+        String keyToRemove = codiceFiscale + "_" + giornoVisita;
+        TuttiTicket.removeIf(ticket -> ticket.contains(keyToRemove));
+        System.out.println("Ho rimosso correttamente il ticket di "+ codiceFiscale +"per il giorno "+ giornoVisita);
+
+    }
 
 
 

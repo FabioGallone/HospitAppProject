@@ -46,7 +46,8 @@ public class RimuoviTicket extends JFrame {
         add(searchPanel, BorderLayout.NORTH);
 
         // Inizializzazione della tabella
-        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTuttiTicket(utente);
+        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTuttiTicketPresidio(utente.getNome());
+
 
         if (tableModelTicket == null || tableModelTicket.getRowCount()==0) {
             messageLabel = new JLabel("Nessun Ticket disponibile");
@@ -98,24 +99,27 @@ public class RimuoviTicket extends JFrame {
         String codiceFiscaleCercato = searchField.getText().trim();
 
         if (!codiceFiscaleCercato.isEmpty()) {
-            // Ottieni l'utente dal codice fiscale, e controlla se è null
-            Utente utenteCercato = Utente.getUserFromCF(codiceFiscaleCercato);
+            Utente utenteCercato=Utente.getUserFromCF(codiceFiscaleCercato);
+
             if (utenteCercato != null) {
-                // Se l'utente non è null, procedi con la visualizzazione dei ticket
-                DefaultTableModel tableModelTicket = hospitapp.visualizzaTicketUtente(utenteCercato);
+                // Visualizza i ticket per l'utente trovato
+                DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketCercato(utenteCercato);
+
 
                 if (tableModelTicket != null && tableModelTicket.getRowCount() > 0) {
                     tableTicket.setModel(tableModelTicket);
                 } else {
                     mostraMessaggio("L'utente cercato non ha prenotato nessun Ticket");
                 }
+
+                // Restituisci l'utente trovato
             } else {
-                // Se l'utente è null, mostra un messaggio di errore
-                mostraMessaggio("Utente non registrato su HospitApp"); //QUESTO LO STAMPA SE IL CODFISCALE CHE VUOI CERCARE NON ESISTE COMPLETAMENTE (SE METTI ABC123 STAMPA "Nessun codice fiscale combacia con i ticket richiesti" PERCHE NON E' IN TABELLA)
+                mostraMessaggio("Utente non registrato su HospitApp");
             }
         } else {
             mostraMessaggio("Inserisci un codice fiscale da cercare.");
         }
+
     }
 
 
@@ -126,10 +130,7 @@ public class RimuoviTicket extends JFrame {
             String codiceFiscale = tableTicket.getValueAt(selectedRow, 0).toString().trim();
             String giornoVisita = tableTicket.getValueAt(selectedRow, 1).toString().trim();
 
-            // Rimuovi la riga dal file
-            Utils.rimuoviPrenotazioneDalFile(codiceFiscale, giornoVisita);
-
-            JOptionPane.showMessageDialog(this, "Ticket rimosso con successo.");
+            hospitapp.rimuoviTicket(codiceFiscale, giornoVisita);
 
             dispose();
         } else {
