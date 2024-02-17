@@ -29,7 +29,7 @@ public class VisualizzaTicket extends JFrame{
         setTitle("Riepilogo Ticket");
         setLayout(new BorderLayout());
 
-        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketSpecifico(utente);
+        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketSpecificoUtente(utente);
 
 
         if (tableModelTicket == null) {

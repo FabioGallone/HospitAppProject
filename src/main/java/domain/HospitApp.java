@@ -2,9 +2,7 @@ package domain;
 
 import ui.Utils;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.HashMap;
@@ -376,7 +374,7 @@ public class HospitApp {
             System.out.println("Ticket già esistente in lista");
     }
 
-    public DefaultTableModel VisualizzaTicketSpecifico(Utente utente) {
+    public DefaultTableModel VisualizzaTicketSpecificoUtente(Utente utente) {
         //in questo caso "info" è il codiceFiscaleUtente
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
 
@@ -397,15 +395,37 @@ public class HospitApp {
 
         for (String ticket : TuttiTicket) {
             String[] ticketData = ticket.split(",");
-            if(!utente.isAdministrator()) {
                 if (ticketData[2].equals(utente.getCodiceFiscale())) {
                     tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
                 }
             }
-            else{
-                if (ticketData[2].equals(utente.getNome()) && utente.getNome().equals(ticketData[5])) {
-                    tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
-                }
+
+        return tableModelPrenotata;
+    }
+
+    public DefaultTableModel VisualizzaTicketSpecificoAdmin(Utente utenteCercato, Utente isPresidio) {
+        //in questo caso "info" è il codiceFiscaleUtente
+        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
+
+        tableModelPrenotata.addColumn("Utente");
+        tableModelPrenotata.addColumn("Visita");
+        tableModelPrenotata.addColumn("Presidio");
+        tableModelPrenotata.addColumn("Reparto");
+        tableModelPrenotata.addColumn("Costo");
+
+        //nel caso in cui esiste un file, altrimenti legge da memoria tranquillamente
+        //nel secondo caso(memoria) rimuovere questa riga.
+        TuttiTicket =Utils.VisualizzaTuttiTicket("Ticket.txt");
+
+        if (TuttiTicket.isEmpty()) {
+            System.out.println("Nessun Ticket trovato.");
+            return tableModelPrenotata;
+        }
+
+        for (String ticket : TuttiTicket) {
+            String[] ticketData = ticket.split(",");
+            if (ticketData[2].equals(utenteCercato.getCodiceFiscale()) && ticketData[5].equals(isPresidio.getNome())) {
+                tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
             }
         }
 
@@ -438,13 +458,6 @@ public class HospitApp {
                     tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
         }
         return tableModelPrenotata;
-    }
-
-
-    public DefaultTableModel VisualizzaTicketCercato(Utente utente) {
-
-          DefaultTableModel tableTicketUtenteSpecifico=  this.VisualizzaTicketSpecifico(utente);
-          return tableTicketUtenteSpecifico;
     }
 
 

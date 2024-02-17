@@ -103,7 +103,7 @@ public class RimuoviTicket extends JFrame {
 
             if (utenteCercato != null) {
                 // Visualizza i ticket per l'utente trovato
-                DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketCercato(utenteCercato);
+                DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketSpecificoAdmin(utenteCercato,utente);
 
 
                 if (tableModelTicket != null && tableModelTicket.getRowCount() > 0) {
