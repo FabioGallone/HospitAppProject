@@ -153,21 +153,6 @@ public class Utente {
     }
 
 
-
-    public boolean isEmailAlreadyUsed(String email) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userDetails = line.split(",");
-                if (userDetails.length > 3 && userDetails[3].equals(email)) {
-                    return true; // Email trovata nel file
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false; // Email non trovata nel file
-    }
     public  boolean isAdministrator(String email){
         try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
             String line;

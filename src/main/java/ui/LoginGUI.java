@@ -217,7 +217,7 @@ public class LoginGUI implements ActionListener {
 
                 Utente utente=new Utente(name, surname, fiscalCode, email, hashedPassword, isAdministrator, isPresidio);
 
-                if (!utente.isEmailAlreadyUsed(email) && Utils.isValidEmail(email)) {
+                if (!Utils.isEmailAlreadyUsed(email) && Utils.isValidEmail(email)) {
                     Utils.writeOnFile("Users.txt", user);
                     registerMessageLabel.setForeground(Color.GREEN);
                     registerMessageLabel.setText("Utente registrato con successo!");

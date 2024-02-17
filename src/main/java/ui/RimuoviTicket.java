@@ -103,7 +103,7 @@ public class RimuoviTicket extends JFrame {
 
             if (utenteCercato != null) {
                 // Visualizza i ticket per l'utente trovato
-                DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketSpecificoAdmin(utenteCercato,utente);
+                DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketUtenteCercato(utenteCercato,utente.getNome());
 
 
                 if (tableModelTicket != null && tableModelTicket.getRowCount() > 0) {
@@ -130,7 +130,7 @@ public class RimuoviTicket extends JFrame {
             String codiceFiscale = tableTicket.getValueAt(selectedRow, 0).toString().trim();
             String giornoVisita = tableTicket.getValueAt(selectedRow, 1).toString().trim();
 
-            hospitapp.rimuoviTicket(codiceFiscale, giornoVisita);
+            hospitapp.rimuoviTicketSelezionato(codiceFiscale, giornoVisita);
 
             dispose();
         } else {

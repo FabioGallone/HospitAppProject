@@ -403,34 +403,6 @@ public class HospitApp {
         return tableModelPrenotata;
     }
 
-    public DefaultTableModel VisualizzaTicketSpecificoAdmin(Utente utenteCercato, Utente isPresidio) {
-        //in questo caso "info" è il codiceFiscaleUtente
-        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
-
-        tableModelPrenotata.addColumn("Utente");
-        tableModelPrenotata.addColumn("Visita");
-        tableModelPrenotata.addColumn("Presidio");
-        tableModelPrenotata.addColumn("Reparto");
-        tableModelPrenotata.addColumn("Costo");
-
-        //nel caso in cui esiste un file, altrimenti legge da memoria tranquillamente
-        //nel secondo caso(memoria) rimuovere questa riga.
-        TuttiTicket =Utils.VisualizzaTuttiTicket("Ticket.txt");
-
-        if (TuttiTicket.isEmpty()) {
-            System.out.println("Nessun Ticket trovato.");
-            return tableModelPrenotata;
-        }
-
-        for (String ticket : TuttiTicket) {
-            String[] ticketData = ticket.split(",");
-            if (ticketData[2].equals(utenteCercato.getCodiceFiscale()) && ticketData[5].equals(isPresidio.getNome())) {
-                tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
-            }
-        }
-
-        return tableModelPrenotata;
-    }
 
     public DefaultTableModel VisualizzaTuttiTicketPresidio(String nomePresidio) {
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
@@ -460,16 +432,44 @@ public class HospitApp {
         return tableModelPrenotata;
     }
 
+    public DefaultTableModel VisualizzaTicketUtenteCercato(Utente utenteCercato, String nomePresidio) {
+        //in questo caso "info" è il codiceFiscaleUtente
+        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
+
+        tableModelPrenotata.addColumn("Utente");
+        tableModelPrenotata.addColumn("Visita");
+        tableModelPrenotata.addColumn("Presidio");
+        tableModelPrenotata.addColumn("Reparto");
+        tableModelPrenotata.addColumn("Costo");
+
+        //nel caso in cui esiste un file, altrimenti legge da memoria tranquillamente
+        //nel secondo caso(memoria) rimuovere questa riga.
+        TuttiTicket =Utils.VisualizzaTuttiTicket("Ticket.txt");
+
+        if (TuttiTicket.isEmpty()) {
+            System.out.println("Nessun Ticket trovato.");
+            return tableModelPrenotata;
+        }
+
+        for (String ticket : TuttiTicket) {
+            String[] ticketData = ticket.split(",");
+            if (ticketData[2].equals(utenteCercato.getCodiceFiscale()) && ticketData[5].equals(nomePresidio)){
+                tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
+            }
+        }
+
+        return tableModelPrenotata;
+    }
 
 
-    public void rimuoviTicket(String codiceFiscale, String giornoVisita) {
 
-        Utils.rimuoviPrenotazioneDalFile(codiceFiscale, giornoVisita);
+    public void rimuoviTicketSelezionato(String codiceFiscale, String giornoVisita) {
 
 
-        String keyToRemove = codiceFiscale + "_" + giornoVisita;
-        TuttiTicket.removeIf(ticket -> ticket.contains(keyToRemove));
+        TuttiTicket.removeIf(ticket -> ticket.contains(codiceFiscale) && ticket.contains(giornoVisita));
+        Utils.rimuoviTicketDalFile(codiceFiscale, giornoVisita);
         System.out.println("Ho rimosso correttamente il ticket di "+ codiceFiscale +"per il giorno "+ giornoVisita);
+
 
     }
 

@@ -239,46 +239,38 @@ public class Utils {
         }
     }
 
-//    public static void rimuoviRigaDaFileStato(String filePath, String lineToRemove,Utente utente) {
-//        try {
-//
-//
-//            List<String> lines = Files.readAllLines(Paths.get(filePath));
-//
-//            lines.removeIf(line -> line.contains(lineToRemove) && line.contains(utente.getCodiceFiscale()));
-//
-//
-//            Files.write(Paths.get(filePath), lines);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 
     protected static void rimuoviVisitaDalFile(String codiceFiscale, String giornoVisita, String oraVisita) {
         try {
             //stringa della prenotazione da rimuovere
-            String prenotazioneToRemove = String.format("%s,%s,%s", codiceFiscale, giornoVisita, oraVisita);
+            List<String> lines = Files.readAllLines(Paths.get("Visita.txt"));
 
-            Utils.rimuoviRigaDaFile("visita.txt", prenotazioneToRemove);
+            lines.removeIf(line -> line.contains(codiceFiscale) && line.contains(giornoVisita) && line.contains(oraVisita));
+
+            Files.write(Paths.get("Visita.txt"), lines);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void rimuoviPrenotazioneDalFile(String codiceFiscale, String giornoVisita) {
+    public static void rimuoviTicketDalFile(String codiceFiscale, String giornoVisita) {
         try {
+            //stringa della prenotazione da rimuovere
+            List<String> lines = Files.readAllLines(Paths.get("Ticket.txt"));
+
+            lines.removeIf(line -> line.contains(codiceFiscale) && line.contains(giornoVisita));
+
+            Files.write(Paths.get("Ticket.txt"), lines);
 
 
-            String prenotazioneToRemove = String.format("%s,%s", codiceFiscale, giornoVisita);
-
-            Utils.rimuoviRigaDaFile("ticket.txt", prenotazioneToRemove);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 
     public static boolean leggiTicketdalFile(String filePath, String riepilogo) {

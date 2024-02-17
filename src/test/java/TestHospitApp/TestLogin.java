@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import domain.HospitApp;
 import ui.LoginGUI;
 import org.junit.jupiter.api.Test;
+import ui.Utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -45,6 +46,7 @@ class TestLogin {
         loginGUI.fiscalCodeField.setText(validFiscalCode);
         loginGUI.regEmailField.setText(validEmail);
         loginGUI.regPasswordField.setText(validPassword);
+        Utils.rimuoviRigaDaFile("Users.txt",validFiscalCode);
         loginGUI.actionPerformed(new ActionEvent(loginGUI.signUpButton, ActionEvent.ACTION_PERFORMED, null));
         assertEquals("Utente registrato con successo!", loginGUI.registerMessageLabel.getText());
     }
