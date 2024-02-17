@@ -111,17 +111,7 @@ public class CreaTicket implements ActionListener {
             }
 
             // Formattazione della data in dd/MM/yyyy
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String dataNascitaFormatted = dateFormat.format(dataNascita);
-            Visita visita= hospitapp.trovaVisita(nomeReparto,nomePresidio, utente.getCodiceFiscale());
-            int eta=Utils.calcolaEtaDaDataNascita(dataNascitaFormatted);
-            ScontoStrategyFactory fs = ScontoStrategyFactory.getInstance();
-            ScontoStrategyInterface st = fs.getScontoStrategy();
-            float costo = st.applicaSconto(visita.getCosto(), eta);
-
-            String informazioni = utente.getNome() + "," + utente.getCognome() + "," + utente.getCodiceFiscale() +
-                    "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
-                    nomeReparto + "," + nazionalità + "," + residenza +","+ dataNascitaFormatted + "," + costo;
+           String informazioni=hospitapp.creaInformazioniTicket(nomeReparto, nomePresidio,  utente,  dataNascita,  residenza,  giornoVisita,  oraVisita,  nazionalità);
 
             new GestionePagamento(informazioni, utente,hospitapp);
             frame.dispose();

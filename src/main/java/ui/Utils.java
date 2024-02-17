@@ -318,53 +318,6 @@ public class Utils {
 
     }
 
-    public static List<String> VisualizzaTicketSpecifico(String filePath, Utente utente) {
-        File file = new File(filePath);
-        List<String> elencoVisite=new ArrayList<>();
-        // Verifica se il file è vuoto
-        if (file.length() == 0) {
-            return elencoVisite;
-        }
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length > 1) {
-                    if(utente.getCodiceFiscale().equals(data[2].trim())) {
-                        String nome = data[0].trim();
-                        String cognome = data[1].trim();
-                        String codiceFiscale = data[2].trim();
-                        String giornoVisita = data[3].trim();
-                        String oraVisita = data[4].trim();
-                        String nomePresidio = data[5].trim();
-                        String nomeReparto = data[6].trim();
-                        String nazionalità=data[7].trim();
-                        String residenza = data[8].trim();
-                        String dataNascitaFormatted=data[9].trim();
-                        String costo=data[10].trim();
-
-
-                        String informazioni = nome + "," + cognome + "," + codiceFiscale + "," +
-                                giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
-                                nomeReparto + "," + nazionalità + "," + residenza+ "," + dataNascitaFormatted + "," + costo;
-
-                        System.out.println(informazioni);
-
-                        elencoVisite.add(informazioni);
-
-
-                    }
-                }
-            }
-            return elencoVisite;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-
-    }
 
     public static List<String> VisualizzaTuttiTicket(String filePath) {
         File file = new File(filePath);

@@ -3,6 +3,7 @@ package domain;
 import ui.Utils;
 
 import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.HashMap;
 
@@ -343,6 +344,39 @@ public class HospitApp {
     }
 
 
+    public String creaInformazioniTicket(String nomeReparto, String nomePresidio, Utente utente, Date dataNascita, String residenza, String giornoVisita, String oraVisita, String nazionalita) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+
+        String dataNascitaFormatted = dateFormat.format(dataNascita);
+
+        Visita visita= this.trovaVisita(nomeReparto,nomePresidio, utente.getCodiceFiscale());
+        // Calcolare l'età dell'utente
+        int eta = Utils.calcolaEtaDaDataNascita(dataNascitaFormatted);
+
+        ScontoStrategyFactory fs = ScontoStrategyFactory.getInstance();
+        ScontoStrategyInterface st = fs.getScontoStrategy();
+
+        float costo = st.applicaSconto(visita.getCosto(), eta);
+
+
+        String informazioni = utente.getNome() + "," + utente.getCognome() + "," + utente.getCodiceFiscale() +
+                "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
+                nomeReparto + "," + nazionalita + "," + residenza +","+ dataNascitaFormatted + "," + costo;
+
+
+        return informazioni;
+    }
+
+    public  void aggiungiTicket(String nuovoTicket) {
+        if(!TuttiTicket.contains(nuovoTicket))
+            TuttiTicket.add(nuovoTicket);
+        else
+            System.out.println("Ticket già esistente in lista");
+    }
+
+
+
 
     public DefaultTableModel visualizzaTicketUtente(Utente utente) {
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
@@ -353,21 +387,18 @@ public class HospitApp {
         tableModelPrenotata.addColumn("Reparto");
         tableModelPrenotata.addColumn("Costo");
 
-        TicketSpecifici =Utils.VisualizzaTicketSpecifico("ticket.txt", utente);
-        System.out.println("Ticket per l'utente  "+ utente.getCodiceFiscale()+ ": "+  TicketSpecifici);
-
-
-        if (TicketSpecifici.isEmpty()) {
+        if (TuttiTicket.isEmpty()) {
             System.out.println("Nessun Ticket trovato.");
-
+            return tableModelPrenotata;
         }
 
-        for (String ticket : TicketSpecifici) {
-
+        for (String ticket : TuttiTicket) {
             String[] ticketData = ticket.split(",");
-            tableModelPrenotata.addRow(new Object[]{ticketData[2],ticketData[3]+","+ticketData[4],ticketData[5],ticketData[6],ticketData[10]});
-
+            if (ticketData[2].equals(utente.getCodiceFiscale())) {
+                tableModelPrenotata.addRow(new Object[]{ticketData[2], ticketData[3] + "," + ticketData[4], ticketData[5], ticketData[6], ticketData[10]});
+            }
         }
+
         return tableModelPrenotata;
     }
 
@@ -403,14 +434,6 @@ public class HospitApp {
         }
         return tableModelPrenotata;
     }
-
-    public  void aggiungiTicket(String nuovoTicket) {
-        if(!TuttiTicket.contains(nuovoTicket))
-        TuttiTicket.add(nuovoTicket);
-        else
-            System.out.println("Ticket già esistente in lista");
-    }
-
 
 
 
