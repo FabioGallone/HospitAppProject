@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GestionePagamento {
+public class PrenotaTicket {
 
     private String informazioni;
     private Utente utente;
@@ -19,7 +19,7 @@ public class GestionePagamento {
     private ImageIcon logoIcon,resizedLogoIcon;
     private Image logoImage;
     private JButton prenotaButton,indietroButton;
-    public GestionePagamento(String informazioni, Utente utente,HospitApp h) {
+    public PrenotaTicket(String informazioni, Utente utente, HospitApp h) {
         this.informazioni = informazioni;
         this.hospitapp=h;
         this.utente = utente;
@@ -97,7 +97,7 @@ public class GestionePagamento {
                 //prenota ora
                 if (!Utils.leggiTicketdalFile("Ticket.txt", informazioni)) {
                     Utils.writeOnFile("Ticket.txt", informazioni);
-                    hospitapp.aggiungiTicket(informazioni);
+                    hospitapp.aggiungiTicket(informazioni); //per lavorare da memoria
                     Utils.rimuoviVisitaDalFile(utente.getCodiceFiscale(), dettagli[3].trim(), dettagli[4].trim());
                     hospitapp.rimuoviVisita(dettagli[6].trim(), dettagli[5].trim(), utente);
                     frame.dispose();

@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CreaTicket implements ActionListener {
@@ -116,7 +115,7 @@ public class CreaTicket implements ActionListener {
             // Formattazione della data in dd/MM/yyyy
            String informazioni=hospitapp.creaInformazioniTicket(nomeReparto, nomePresidio,  utente,  dataNascita,  residenza,  giornoVisita,  oraVisita,  nazionalità);
 
-            new GestionePagamento(informazioni, utente,hospitapp);
+            new PrenotaTicket(informazioni, utente,hospitapp);
             frame.dispose();
 
         }

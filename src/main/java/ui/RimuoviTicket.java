@@ -34,6 +34,7 @@ public class RimuoviTicket extends JFrame {
         removeButton.addActionListener(e -> rimuoviTicketSelezionato());
 
 
+
         searchField = new JTextField();
         searchField.setColumns(20);
         searchButton = new JButton("Cerca");
@@ -131,6 +132,7 @@ public class RimuoviTicket extends JFrame {
             String giornoVisita = tableTicket.getValueAt(selectedRow, 1).toString().trim();
 
             hospitapp.rimuoviTicketSelezionato(codiceFiscale, giornoVisita);
+            mostraMessaggio("Ticket rimosso con successo");
 
             dispose();
         } else {
