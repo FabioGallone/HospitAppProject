@@ -1,6 +1,8 @@
 package domain;
 
-public class Visita {
+import java.util.*;
+
+public class Visita extends Observable {
 
     private String ora;
     private String giorno;
@@ -63,5 +65,37 @@ public class Visita {
         float costoVisita = st.applicaSconto(this.costo, eta);
         return costoVisita;
     }
+
+    private List<Observer> ListaOsservatori = new ArrayList<>();
+
+
+    // Questo metodo serve ad aggiungere un observer. Observer è una interfaccia java già esistente.
+    public void addObserver(Observer observer) {
+
+            observer.update(this, this.isStato());
+
+        this.ListaOsservatori.add(observer);
+    }
+
+    //Rimuovo l'observer specifico.
+    public void removeObserver(Observer observer) {
+        this.ListaOsservatori.remove(observer);
+    }
+
+
+    //Mi setto lo stato della visita ad un nuovo stato newState, ad esempio true
+    public void setVisitaStato(boolean nuovoStato) {
+        this.setStato(nuovoStato);
+        for (Observer observer : this.ListaOsservatori) {
+            observer.update(this, this.isStato());
+
+        }
+    }
+
+    public int countMyObservers() {
+        return ListaOsservatori.size();
+    }
+
+
 
 }

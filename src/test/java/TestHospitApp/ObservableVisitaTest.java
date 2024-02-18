@@ -1,7 +1,6 @@
 package TestHospitApp;
-import domain.HospitApp;
-import domain.ObservableVisita;
-import domain.Visita;
+import domain.*;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,16 +10,17 @@ import java.util.Observer;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ObservableVisitaTest {
-
-    private ObservableVisita observableVisita;
+    private Utente utente;
+    private Presidio presidio;
+    private Reparto reparto;
+    private Visita observableVisita;
     private TestObserver testObserver;
-
+    private HospitApp hospitApp;
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         // Creiamo una nuova istanza di ObservableVisita per ogni test
-        Visita visita = new Visita("10:00", "2023-01-01", false, 100.0f);
-        observableVisita = new ObservableVisita(visita);
-
+        hospitApp = new HospitApp();
+        this.observableVisita = new Visita("10:00", "2023-01-01", false, 100.0f);
         // Creiamo un nuovo TestObserver per ogni test
         testObserver = new TestObserver();
     }
@@ -41,14 +41,17 @@ class ObservableVisitaTest {
     @Test
     void testSetVisitaStato() {
         observableVisita.addObserver(testObserver);
-        Visita visita=HospitApp.getInstance().trovaVisita("Neurologia","Garibaldi","codfiscLello");
-        // Chiamiamo il metodo setVisitaStato con newState = true
-        observableVisita.setVisitaStato(true, visita);
+
+        observableVisita.setVisitaStato(true);
 
         // Verifichiamo che l'Observer sia stato notificato con il nuovo stato true
         assertTrue(testObserver.isUpdated());
         assertEquals(true, testObserver.getStato());
     }
+
+
+
+
 
     // Un Observer di test per verificare le notifiche
     private static class TestObserver implements Observer {

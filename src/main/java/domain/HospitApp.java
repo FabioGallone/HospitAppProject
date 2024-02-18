@@ -195,7 +195,7 @@ public class HospitApp {
 
         visita.setGiorno(data);
         visita.setOra(orario);
-        visita.setStato(true);
+        visita.setVisitaStato(true);
     }
 
     public DefaultTableModel visualizzaVisitaPrenotataUtente(Utente utente) {
