@@ -9,7 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.List;
 
-public class VisualizzaPrenotazione extends JFrame implements Observer {
+public class VisualizzaPrenotazione extends JFrame {
 
     private Utente utente;
     private String[] nomiPresidi;
@@ -45,6 +45,7 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
             add(messageLabel, BorderLayout.CENTER);
 
         } else {
+
             if (Utils.LeggiFileStatoVisita("StatoVisitaCambiato.txt", utente).equals("VERO")) {
                 mostraMessaggio("Complimenti, una o più visite sono state aggiornate dall'amministratore!");
                 Utils.rimuoviRigaDaFile("StatoVisitaCambiato.txt", utente.getCodiceFiscale());
@@ -154,13 +155,4 @@ public class VisualizzaPrenotazione extends JFrame implements Observer {
         JOptionPane.showMessageDialog(this, messaggio, "Messaggio", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        System.out.println("(observer-" + id + ") stato della visita: " + (boolean) arg);
-
-        if ((boolean) arg && utente != null) {
-            String state = "VERO" + "," + utente.getCodiceFiscale();
-            Utils.writeOnFile("StatoVisitaCambiato.txt", state);
-        }
-    }
 }

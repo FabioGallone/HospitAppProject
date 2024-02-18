@@ -1,3 +1,5 @@
 Garibaldi,Neurologia,GLLFBA00S27C351D,22/02/2024,16:59,true
 Garibaldi,Ortopedia,codfiscLello,07/02/2024,17:17,true
-Garibaldi,Neurologia,codfiscLello,09/02/2024,17:44,true
+Garibaldi,Neurologia,codfiscLello,15/02/2024,18:52,true
+Garibaldi,Ginecologia e Ostetricia,codfiscLello,12/02/2024,18:43,true
+Garibaldi,Neurologia,codfiscLello,15/02/2024,18:52,true

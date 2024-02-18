@@ -1,5 +1,7 @@
 package domain;
 
+import ui.Utils;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,7 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Utente {
+public class Utente implements Observer {
     private String nome;
     private String cognome;
     private String codiceFiscale;
@@ -16,6 +18,8 @@ public class Utente {
     private boolean isAdministrator;
 
     private boolean isPresidio;
+    private String codiceFiscaleCercato;
+    String id;
 
     private Map<String, Visita> VisitaRepartoPresidioUtente;
 
@@ -97,12 +101,28 @@ public class Utente {
         this.hashedPassword = hashedPassword;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public boolean isAdministrator() {
         return isAdministrator;
     }
 
     public void setAdministrator(boolean administrator) {
         isAdministrator = administrator;
+    }
+
+    public String getCodiceFiscaleCercato() {
+        return codiceFiscaleCercato;
+    }
+
+    public void setCodiceFiscaleCercato(String codiceFiscaleCercato) {
+        this.codiceFiscaleCercato = codiceFiscaleCercato;
     }
 
     @Override
@@ -212,6 +232,16 @@ public class Utente {
         } catch (ParseException e) {
             e.printStackTrace();
             return -1; //in caso di errore.
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("(observer-" + id + ") stato della visita: " + (boolean) arg);
+
+        if ((boolean) arg ) {
+            String state = "VERO" + "," + codiceFiscaleCercato;
+            Utils.writeOnFile("StatoVisitaCambiato.txt", state);
         }
     }
 }

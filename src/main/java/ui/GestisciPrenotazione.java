@@ -212,22 +212,21 @@ public class GestisciPrenotazione implements ActionListener {
                                     System.out.println("Orario inserito: " + orarioInserito);
                                     System.out.println("Data selezionata: " + dataSelezionataFormattata);
 
+
+                                    //selectedValue conterrà il codiceFiscale dell'utente selezionato.
                                     String selectedValue = azioniComboBox.getSelectedItem().toString();
 
                                     Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), selectedValue);
 
-                                    // Creo un'istanza di ObservableVisita
-                                   // ObservableVisita visitaAggiornamento = new ObservableVisita(visita);
-
-                                   VisualizzaPrenotazione observer1 = new VisualizzaPrenotazione("0", Utente.getUserFromCF(selectedValue));
 
                                     //aggiungo un observer
-                                    visita.addObserver(observer1);
-
+                                    visita.addObserver(utente);
+                                    utente.setId("1");
+                                    //Alla classe utente(in questo caso il presidio) gli passo il codice fiscale che sto cercando.
+                                    utente.setCodiceFiscaleCercato(selectedValue);
 
                                     hospitapp.confermaGestione(visita, dataSelezionataFormattata, orarioInserito);
 
-                                    //L'observer setta la visita true.
                                     visita.setVisitaStato(true);
 
 
