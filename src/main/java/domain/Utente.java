@@ -18,7 +18,6 @@ public class Utente implements Observer {
     private boolean isAdministrator;
 
     private boolean isPresidio;
-    private String codiceFiscaleCercato;
     String id;
 
     private Map<String, Visita> VisitaRepartoPresidioUtente;
@@ -115,14 +114,6 @@ public class Utente implements Observer {
 
     public void setAdministrator(boolean administrator) {
         isAdministrator = administrator;
-    }
-
-    public String getCodiceFiscaleCercato() {
-        return codiceFiscaleCercato;
-    }
-
-    public void setCodiceFiscaleCercato(String codiceFiscaleCercato) {
-        this.codiceFiscaleCercato = codiceFiscaleCercato;
     }
 
     @Override
@@ -240,7 +231,7 @@ public class Utente implements Observer {
         System.out.println("(observer-" + id + ") stato della visita: " + (boolean) arg);
 
         if ((boolean) arg ) {
-            String state = "VERO" + "," + codiceFiscaleCercato;
+            String state = "VERO" + "," + codiceFiscale;
             Utils.writeOnFile("StatoVisitaCambiato.txt", state);
         }
     }

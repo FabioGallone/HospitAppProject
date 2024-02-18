@@ -218,12 +218,10 @@ public class GestisciPrenotazione implements ActionListener {
 
                                     Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), selectedValue);
 
+                                    Utente utenteCercato=Utente.getUserFromCF(selectedValue);
+                                    visita.addObserver(utenteCercato);
+                                    utenteCercato.setId("1");
 
-                                    //aggiungo un observer
-                                    visita.addObserver(utente);
-                                    utente.setId("1");
-                                    //Alla classe utente(in questo caso il presidio) gli passo il codice fiscale che sto cercando.
-                                    utente.setCodiceFiscaleCercato(selectedValue);
 
                                     hospitapp.confermaGestione(visita, dataSelezionataFormattata, orarioInserito);
 
