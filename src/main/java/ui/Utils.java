@@ -360,29 +360,6 @@ public class Utils {
     }
 
 
-    public static int calcolaEtaDaDataNascita(String dataNascitaFormatted) {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date dataNascita = dateFormat.parse(dataNascitaFormatted);
-            Calendar calNascita = Calendar.getInstance();
-            Calendar oggi = Calendar.getInstance();
-            calNascita.setTime(dataNascita);
-
-            int anni = oggi.get(Calendar.YEAR) - calNascita.get(Calendar.YEAR);
-            int meseOggi = oggi.get(Calendar.MONTH);
-            int meseNascita = calNascita.get(Calendar.MONTH);
-
-            // Se il mese di nascita è successivo al mese corrente, sottrai un anno
-            if (meseNascita > meseOggi || (meseNascita == meseOggi && oggi.get(Calendar.DAY_OF_MONTH) < calNascita.get(Calendar.DAY_OF_MONTH))) {
-                anni--;
-            }
-
-            return anni;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return -1; //in caso di errore.
-        }
-    }
 
     public static String LeggiFileStatoVisita(String fileName, Utente utente) {
         List<Utente> utentiList = new ArrayList<>();

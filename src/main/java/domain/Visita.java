@@ -1,9 +1,5 @@
 package domain;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Date;
-
 public class Visita {
 
     private String ora;
@@ -58,4 +54,14 @@ public class Visita {
     public String toString() {
         return   "ora=" + ora + ",giorno=" + giorno;
     }
+
+
+    public float calcolaCosto(int eta) {
+        ScontoStrategyFactory fs = ScontoStrategyFactory.getInstance();
+        ScontoStrategyInterface st = fs.getScontoStrategy();
+
+        float costoVisita = st.applicaSconto(this.costo, eta);
+        return costoVisita;
+    }
+
 }

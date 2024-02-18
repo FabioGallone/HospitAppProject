@@ -351,17 +351,13 @@ public class HospitApp {
 
         Visita visita= this.trovaVisita(nomeReparto,nomePresidio, utente.getCodiceFiscale());
         // Calcolare l'età dell'utente
-        int eta = Utils.calcolaEtaDaDataNascita(dataNascitaFormatted);
+        int eta = Utente.calcolaEtaDaDataNascita(dataNascitaFormatted);
 
-        ScontoStrategyFactory fs = ScontoStrategyFactory.getInstance();
-        ScontoStrategyInterface st = fs.getScontoStrategy();
-
-        float costo = st.applicaSconto(visita.getCosto(), eta);
-
+        float costoVisita= visita.calcolaCosto(eta);
 
         String informazioni = utente.getNome() + "," + utente.getCognome() + "," + utente.getCodiceFiscale() +
                 "," + giornoVisita + "," + oraVisita + "," + nomePresidio + "," +
-                nomeReparto + "," + nazionalita + "," + residenza +","+ dataNascitaFormatted + "," + costo;
+                nomeReparto + "," + nazionalita + "," + residenza +","+ dataNascitaFormatted + "," + costoVisita;
 
 
         return informazioni;

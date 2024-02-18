@@ -11,8 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CreaTicket implements ActionListener {
-    Utente utente;
-    String oraVisita, giornoVisita, nomePresidio, nomeReparto;
+    public Utente utente;
+    public String oraVisita;
+    public String giornoVisita;
+    public String nomePresidio;
+    public String nomeReparto;
 
     protected JFrame frame;
     private JPanel ticketPanel;

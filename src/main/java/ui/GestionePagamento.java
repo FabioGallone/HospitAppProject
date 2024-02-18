@@ -81,7 +81,7 @@ public class GestionePagamento {
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBackground(Color.WHITE);
 
-        int eta = Utils.calcolaEtaDaDataNascita(dettagli[9].trim());
+        int eta = Utente.calcolaEtaDaDataNascita(dettagli[9].trim());
 
         String importo = dettagli[10].trim();
 
