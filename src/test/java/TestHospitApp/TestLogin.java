@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class TestLogin {
-
     @Test
     void testRegistration() {
         LoginGUI loginGUI = new LoginGUI(HospitApp.getInstance());

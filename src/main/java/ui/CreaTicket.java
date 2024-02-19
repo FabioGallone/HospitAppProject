@@ -102,7 +102,7 @@ public class CreaTicket implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == confermaButton) {
+        if (e.getSource() == confermaButton) { //quello della comboBox
             dataNascita = dateChooser.getDate();
             residenza = residenzaField.getText();
             nazionalità = nazionalitaField.getText();

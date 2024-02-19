@@ -309,6 +309,35 @@ public class Utils {
         return false;
 
     }
+    public static boolean leggiPresidiodalFile(String filePath, String riepilogo) {
+        File file = new File(filePath);
+
+        // Verifica se il file è vuoto
+        if (file.length() == 0) {
+            return false;
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length > 1) {
+                    String nome = data[0].trim();
+                    String indirizzo = data[1].trim();
+
+                    if (riepilogo.contains(nome) && riepilogo.contains(indirizzo)){
+                        return true;
+                    }
+                }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
 
 
     public static List<String> VisualizzaTuttiTicket(String filePath) {

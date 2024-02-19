@@ -147,7 +147,15 @@ public class InserisciReparto implements ActionListener {
                         .map(reparto -> reparto.getNome())
                         .collect(Collectors.joining(","));
                 String contentToWrite = hospital + "," + repartiData;
+                if(!Utils.leggiPresidiodalFile("Presidio.txt",hospital))
                 Utils.writeOnFile("Presidio.txt", contentToWrite);
+
+                else{
+                    Utils.rimuoviRigaDaFile("Presidio.txt",nome);
+                    Utils.writeOnFile("Presidio.txt", contentToWrite);
+
+
+                }
 
 
 
@@ -168,5 +176,9 @@ public class InserisciReparto implements ActionListener {
         }
 
 
+    }
+
+    private void mostraMessaggio(String messaggio) {
+        JOptionPane.showMessageDialog(frame, messaggio, "Messaggio", JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -64,7 +64,6 @@ public class Presidio {
         elencoReparti.put(codiceReparto, r);
     }
 
-
     public Map<String, Reparto> getElencoReparti() {
         return elencoReparti;
     }
@@ -93,6 +92,8 @@ public class Presidio {
         String key = nomeReparto + "_" + nomeUtente;
         visiteperutenterepartopresidio.remove(key);
     }
+
+
 
 
 
