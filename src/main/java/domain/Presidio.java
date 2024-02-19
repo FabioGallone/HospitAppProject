@@ -59,9 +59,10 @@ public class Presidio {
                 '}';
     }
 
-    public void inserisciReparti(String nome, String codiceReparto, Presidio p) {
+    public Reparto inserisciReparti(String nome, String codiceReparto) {
         Reparto r = new Reparto(nome, codiceReparto);
         elencoReparti.put(codiceReparto, r);
+        return r;
     }
 
 

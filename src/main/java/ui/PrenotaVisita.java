@@ -55,7 +55,7 @@ public class PrenotaVisita implements ActionListener {
                         Reparto r = hospitapp.selezionaReparto(data[j].trim());
                         if (r != null) {
                             // Associa il reparto al presidio corrente
-                            presidio.inserisciReparti(r.getNome(), r.getCodice(), presidio);
+                            presidio.inserisciReparti(r.getNome(), r.getCodice());
                         }
                     }
 
