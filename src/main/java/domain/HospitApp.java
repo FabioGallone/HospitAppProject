@@ -42,7 +42,13 @@ public class HospitApp {
         return presidioCorrente;
     }
 
+    public Reparto inserisciNuovoReparto(String nome, String codiceReparto, Presidio p) {
 
+        System.out.println("Reparto inserito");
+        Reparto reparto = p.inserisciReparti(nome, codiceReparto);
+
+        return reparto;
+    }
 
     public void confermaInserimento() {
         if (presidioCorrente != null) {
@@ -53,15 +59,6 @@ public class HospitApp {
         }
 
     }
-
-    public List<Presidio> getElencoPresidi() {
-        List<Presidio> listPresidi = new ArrayList<>();
-        listPresidi.addAll(elencoPresidi.values());
-        return listPresidi;
-    }
-
-
-
 
     public void loadReparti(){
         Reparto r1 = new Reparto("Cardiologia", "1");
@@ -83,6 +80,14 @@ public class HospitApp {
 
     }
 
+    public List<Presidio> getElencoPresidi() {
+        List<Presidio> listPresidi = new ArrayList<>();
+        listPresidi.addAll(elencoPresidi.values());
+        return listPresidi;
+    }
+
+
+
     public String[] getNomiReparti() {
         List<String> nomiReparti = new ArrayList<>();
         for (Reparto reparto : reparti.values()) {
@@ -94,29 +99,6 @@ public class HospitApp {
         return nomiReparti.toArray(new String[0]);
     }
 
-
-    public Reparto inserisciNuovoReparto(String nome, String codiceReparto, Presidio p) {
-        Reparto reparto = new Reparto(nome, codiceReparto);
-        System.out.println("Reparto inserito");
-        p.inserisciReparti(nome, codiceReparto, p);
-
-        return reparto;
-    }
-
-
-
-    //prima chiamata getRepartoByNome
-    public Reparto selezionaReparto(String nomeReparto) {
-        for (Reparto reparto : reparti.values()) {
-
-
-            if (reparto.getNome().equals(nomeReparto)) {
-                return reparto;
-            }
-        }
-
-        return null;
-    }
 
     public Presidio selezionaPresidio(String nomePresidio) {
 
@@ -132,22 +114,17 @@ public class HospitApp {
     }
 
 
-    public void prenotaVisita(String nomePresidio) {
-        Presidio presidio = elencoPresidi.get(nomePresidio);
+    //prima chiamata getRepartoByNome
+    public Reparto selezionaReparto(String nomeReparto) {
+        for (Reparto reparto : reparti.values()) {
 
 
-        if (presidio != null) {
-            System.out.println("Prenotazione Visita - Presidio: " + presidio.getNome());
-        } else {
-            System.out.println("Presidio non trovato: " + nomePresidio);
+            if (reparto.getNome().equals(nomeReparto)) {
+                return reparto;
+            }
         }
-    }
 
-
-    //prima si chiamava getElencoRepartiDelPresidio
-    public List<Reparto> mostraReparti(Presidio presidio) {
-
-        return presidio.getElencoRepartidelPresidio();
+        return null;
     }
 
     public Visita confermaPrenotazione(Reparto reparto, Presidio presidio, Utente utente) {
@@ -170,6 +147,28 @@ public class HospitApp {
             return null;
         }
     }
+
+
+
+    public void prenotaVisita(String nomePresidio) {
+        Presidio presidio = elencoPresidi.get(nomePresidio);
+
+
+        if (presidio != null) {
+            System.out.println("Prenotazione Visita - Presidio: " + presidio.getNome());
+        } else {
+            System.out.println("Presidio non trovato: " + nomePresidio);
+        }
+    }
+
+
+    //prima si chiamava getElencoRepartiDelPresidio
+    public List<Reparto> mostraReparti(Presidio presidio) {
+
+        return presidio.getElencoRepartidelPresidio();
+    }
+
+
     public Visita trovaVisita(String nomeReparto, String nomePresidio, String codiceFiscale) {
         String key = nomeReparto + "_" + nomePresidio + "_" + codiceFiscale;
 

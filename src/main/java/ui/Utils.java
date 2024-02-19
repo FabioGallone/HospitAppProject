@@ -106,7 +106,7 @@ public class Utils {
                     for (int j = 3; j < data.length; j++) {
                         Reparto r = hospitapp.selezionaReparto(data[j].trim());
                         if (r != null) {
-                            presidio.inserisciReparti(r.getNome(), r.getCodice(), presidio);
+                            presidio.inserisciReparti(r.getNome(), r.getCodice());
                         }
                     }
 
