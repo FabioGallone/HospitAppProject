@@ -16,6 +16,9 @@ public class Utente implements Observer {
     private String email;
     private String hashedPassword;
     private boolean isAdministrator;
+    private String residenza;
+    private String nazionalita;
+    private int eta;
 
     private boolean isPresidio;
     String id;
@@ -40,6 +43,19 @@ public class Utente implements Observer {
         utentiList.add(this);
 
 
+    }
+
+    public Utente(String nome, String cognome, String codiceFiscale, String email, String hashedPassword, boolean isAdministrator, String residenza, String nazionalita, int eta, boolean isPresidio) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.codiceFiscale = codiceFiscale;
+        this.email = email;
+        this.hashedPassword = hashedPassword;
+        this.isAdministrator = isAdministrator;
+        this.residenza = residenza;
+        this.nazionalita = nazionalita;
+        this.eta = eta;
+        this.isPresidio = isPresidio;
     }
 
     public static List<Utente> getUtentiList() {
@@ -78,6 +94,30 @@ public class Utente implements Observer {
     public String getEmail() {
 
         return email;
+    }
+
+    public String getResidenza() {
+        return residenza;
+    }
+
+    public void setResidenza(String residenza) {
+        this.residenza = residenza;
+    }
+
+    public String getNazionalita() {
+        return nazionalita;
+    }
+
+    public void setNazionalita(String nazionalita) {
+        this.nazionalita = nazionalita;
+    }
+
+    public int getEta() {
+        return eta;
+    }
+
+    public void setEta(int eta) {
+        this.eta = eta;
     }
 
     public boolean isPresidio() {

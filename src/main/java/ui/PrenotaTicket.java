@@ -100,6 +100,9 @@ public class PrenotaTicket {
                     hospitapp.aggiungiTicket(informazioni); //per lavorare da memoria
                     Utils.rimuoviVisitaDalFile(utente.getCodiceFiscale(), dettagli[3].trim(), dettagli[4].trim());
                     hospitapp.rimuoviVisita(dettagli[6].trim(), dettagli[5].trim(), utente);
+                    utente.setEta(eta);
+                    utente.setNazionalita(dettagli[7].trim());
+                    utente.setResidenza(dettagli[8].trim());
                     frame.dispose();
                 }
                 else
