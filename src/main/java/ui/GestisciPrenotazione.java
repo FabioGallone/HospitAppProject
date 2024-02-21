@@ -77,7 +77,6 @@ public class GestisciPrenotazione implements ActionListener {
         Utils.leggiPresidiDaFile("Presidio.txt", hospitapp);
         utentiPerRepartoPresidio= Utils.leggiVisitedalFile("Visita.txt", hospitapp);
         ListaPresidi = hospitapp.getElencoPresidi();
-        System.out.println(ListaPresidi);
 
         int comboBoxXPosition = 100;
         int comboBoxYPosition = 250;
