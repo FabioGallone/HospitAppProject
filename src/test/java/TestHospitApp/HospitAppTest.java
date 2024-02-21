@@ -17,7 +17,7 @@ public class HospitAppTest {
     private HospitApp hospitApp;
     private Presidio presidio;
     private Reparto reparto;
-    private Utente utente;
+    private Paziente utente;
 
 
     private final PrintStream originalOut = System.out;
@@ -28,7 +28,7 @@ public class HospitAppTest {
         presidio = hospitApp.InserisciNuovoPresidio("Garibaldi", "TestIndirizzo", "TestOrario");
         hospitApp.confermaInserimento();
         reparto = hospitApp.inserisciNuovoReparto("Cardiologia", "1", presidio);
-        utente = new Utente("Fabio", "Gallone", "ABC", "ff@gg.com", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", false, false);
+        utente = new Paziente("Fabio", "Gallone", "ABC", "ff@gg.com", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3");
         // Assicurarsi che i reparti siano caricati prima di eseguire i test
         hospitApp.loadReparti();
     }

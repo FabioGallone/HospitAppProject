@@ -1,7 +1,7 @@
 package ui;
 
 import domain.HospitApp;
-import domain.Utente;
+import domain.Paziente;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,7 +12,7 @@ public class VisualizzaTicket extends JFrame{
 
     private HospitApp hospitapp;
 
-    private Utente utente;
+    private Paziente paziente;
 
     private JScrollPane scrollPanePrenotata;
     private JButton backButton;
@@ -20,8 +20,8 @@ public class VisualizzaTicket extends JFrame{
     private JTable tableTicket;
 
 
-    public VisualizzaTicket(Utente utente, HospitApp h) {
-        this.utente = utente;
+    public VisualizzaTicket(Paziente paziente, HospitApp h) {
+        this.paziente = paziente;
         this.hospitapp=h;
         initialize();
     }
@@ -29,7 +29,7 @@ public class VisualizzaTicket extends JFrame{
         setTitle("Riepilogo Ticket");
         setLayout(new BorderLayout());
 
-        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketSpecificoUtente(utente);
+        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketSpecificoUtente(paziente);
 
 
         if (tableModelTicket == null) {

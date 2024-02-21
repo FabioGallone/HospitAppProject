@@ -1,7 +1,7 @@
 package ui;
 
 import domain.HospitApp;
-import domain.Utente;
+import domain.Paziente;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class PrenotaTicket {
 
     private String informazioni;
-    private Utente utente;
+    private Paziente paziente;
     private JFrame frame;
     private JPanel titlePanel,upperPanel,infoPanel,bottomPanel,buttonsPanel,imagePanel;
     private JLabel titleLabel,logoLabel,importoLabel,valueLabel;
@@ -19,10 +19,10 @@ public class PrenotaTicket {
     private ImageIcon logoIcon,resizedLogoIcon;
     private Image logoImage;
     private JButton prenotaButton,indietroButton;
-    public PrenotaTicket(String informazioni, Utente utente, HospitApp h) {
+    public PrenotaTicket(String informazioni, Paziente paziente, HospitApp h) {
         this.informazioni = informazioni;
         this.hospitapp=h;
-        this.utente = utente;
+        this.paziente = paziente;
         initialize();
     }
 
@@ -81,7 +81,7 @@ public class PrenotaTicket {
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBackground(Color.WHITE);
 
-        int eta = Utente.calcolaEtaDaDataNascita(dettagli[9].trim());
+        int eta = Paziente.calcolaEtaDaDataNascita(dettagli[9].trim());
 
         String importo = dettagli[10].trim();
 
@@ -98,11 +98,11 @@ public class PrenotaTicket {
                 if (!Utils.leggiTicketdalFile("Ticket.txt", informazioni)) {
                     Utils.writeOnFile("Ticket.txt", informazioni);
                     hospitapp.aggiungiTicket(informazioni); //per lavorare da memoria
-                    Utils.rimuoviVisitaDalFile(utente.getCodiceFiscale(), dettagli[3].trim(), dettagli[4].trim());
-                    hospitapp.rimuoviVisita(dettagli[6].trim(), dettagli[5].trim(), utente);
-                    utente.setEta(eta);
-                    utente.setNazionalita(dettagli[7].trim());
-                    utente.setResidenza(dettagli[8].trim());
+                    Utils.rimuoviVisitaDalFile(paziente.getCodiceFiscale(), dettagli[3].trim(), dettagli[4].trim());
+                    hospitapp.rimuoviVisita(dettagli[6].trim(), dettagli[5].trim(), paziente);
+                    paziente.setEta(eta);
+                    paziente.setNazionalita(dettagli[7].trim());
+                    paziente.setResidenza(dettagli[8].trim());
                     frame.dispose();
                 }
                 else
@@ -116,7 +116,7 @@ public class PrenotaTicket {
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CreaTicket(utente,dettagli[4].trim(),dettagli[3].trim(),dettagli[5].trim(),dettagli[6].trim(),hospitapp);
+                new CreaTicket(paziente,dettagli[4].trim(),dettagli[3].trim(),dettagli[5].trim(),dettagli[6].trim(),hospitapp);
                 frame.dispose();
             }
         });

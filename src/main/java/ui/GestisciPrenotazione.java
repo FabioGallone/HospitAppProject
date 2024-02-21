@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
-import java.util.Observer;
 
 import com.toedter.calendar.JDateChooser;
 import domain.*;
@@ -18,7 +17,7 @@ public class GestisciPrenotazione implements ActionListener {
     String[] nomiReparti,nomiPresidi;
     private HospitApp hospitapp;
     private String nome;
-    private Utente utente;
+    private Presidio presidio;
     private Reparto reparto;
     private JLabel welcomeLabel,orarioLabel,dataLabel, messageLabel;
     private JFrame riepilogoFrame, nuovaFrame;
@@ -40,11 +39,12 @@ public class GestisciPrenotazione implements ActionListener {
 
     private Map<String, List<String>> utentiPerRepartoPresidio;
 
-    public GestisciPrenotazione(JFrame frame, Utente utente, HospitApp h) {
+    public GestisciPrenotazione(JFrame frame, Presidio presidio, HospitApp h) {
         this.frame = frame;
         this.hospitapp=h;
-        this.utente = utente;
-        this.nome = utente.getNome();
+        this.presidio = presidio;
+        this.nome = presidio.getNome();
+
         welcomeLabel = new JLabel();
 
         utentiPerRepartoPresidio = new HashMap<>();
@@ -68,7 +68,7 @@ public class GestisciPrenotazione implements ActionListener {
         RimuoviTicket.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              new RimuoviTicket(utente,hospitapp);
+              new RimuoviTicket(presidio,hospitapp);
             }
         });
 
@@ -84,7 +84,7 @@ public class GestisciPrenotazione implements ActionListener {
 
         for (Presidio presidio : ListaPresidi) {
 
-            if (this.nome.equals(presidio.getNome())) {
+            if (nome.equals(presidio.getNome())) {
                 String nomeStruttura = presidio.getNome();
 
               repartoComboBox = new JComboBox<>();
@@ -118,7 +118,7 @@ public class GestisciPrenotazione implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         comboBox = (JComboBox<?>) e.getSource();
-        Presidio presidio = hospitapp.selezionaPresidio(utente.getNome());
+
 
         if (comboBox.getSelectedItem() != null) {
             String nomeRepartoSelezionato = comboBox.getSelectedItem().toString();
@@ -218,7 +218,7 @@ public class GestisciPrenotazione implements ActionListener {
 
                                     Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), selectedValue);
 
-                                    Utente utenteCercato=Utente.getUserFromCF(selectedValue);
+                                    Paziente utenteCercato= Paziente.getUserFromCF(selectedValue);
                                     visita.addObserver(utenteCercato);
                                     utenteCercato.setId("1");
 

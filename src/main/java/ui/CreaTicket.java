@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 
 public class CreaTicket implements ActionListener {
-    public Utente utente;
+    public Paziente paziente;
     public String oraVisita;
     public String giornoVisita;
     public String nomePresidio;
@@ -26,8 +26,8 @@ public class CreaTicket implements ActionListener {
     private JTextField residenzaField, nazionalitaField;
     private JButton confermaButton, backButton;
 
-    public CreaTicket(Utente utente, String oraVisita, String giornoVisita, String nomePresidio, String nomeReparto, HospitApp h) {
-        this.utente = utente;
+    public CreaTicket(Paziente paziente, String oraVisita, String giornoVisita, String nomePresidio, String nomeReparto, HospitApp h) {
+        this.paziente = paziente;
         this.hospitapp=h;
         this.oraVisita = oraVisita;
         this.giornoVisita = giornoVisita;
@@ -113,14 +113,14 @@ public class CreaTicket implements ActionListener {
             }
 
             // Formattazione della data in dd/MM/yyyy
-           String informazioni=hospitapp.creaInformazioniTicket(nomeReparto, nomePresidio,  utente,  dataNascita,  residenza,  giornoVisita,  oraVisita,  nazionalità);
+           String informazioni=hospitapp.creaInformazioniTicket(nomeReparto, nomePresidio, paziente,  dataNascita,  residenza,  giornoVisita,  oraVisita,  nazionalità);
 
-            new PrenotaTicket(informazioni, utente,hospitapp);
+            new PrenotaTicket(informazioni, paziente,hospitapp);
             frame.dispose();
 
         }
         else {
-            new VisualizzaPrenotazione(utente,hospitapp);
+            new VisualizzaPrenotazione(paziente,hospitapp);
             frame.dispose();
 
         }

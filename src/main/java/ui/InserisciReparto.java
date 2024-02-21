@@ -1,9 +1,6 @@
 package ui;
 
-import domain.HospitApp;
-import domain.Presidio;
-import domain.Reparto;
-import domain.Utente;
+import domain.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class InserisciReparto implements ActionListener {
     public JFrame frame;
-    private Utente utente;
+    private Amministratore amministratore;
     public JPanel addPanel;
     private JLabel nomeLabel;
     private JLabel indirizzoLabel;
@@ -34,8 +31,8 @@ public class InserisciReparto implements ActionListener {
 
 
 
-    public InserisciReparto(Utente utente, HospitApp h) {
-        this.utente=utente;
+    public InserisciReparto(Amministratore amministratore, HospitApp h) {
+        this.amministratore=amministratore;
         this.hospitapp=h;
         initialize();
     }
@@ -163,7 +160,7 @@ public class InserisciReparto implements ActionListener {
                 addMessageLabel.setText("Presidio registrato con successo!");
                 frame.dispose();
 
-                InserisciPresidio inseriscipresidio = new InserisciPresidio(utente,hospitapp);
+                InserisciPresidio inseriscipresidio = new InserisciPresidio(amministratore,hospitapp);
                 inseriscipresidio.frame.setVisible(true);
 
 
@@ -171,7 +168,7 @@ public class InserisciReparto implements ActionListener {
         } else if (e.getSource() == backtoInserisciPresidio) {
             frame.dispose();
 
-            InserisciPresidio inseriscipresidio = new InserisciPresidio(utente,hospitapp);
+            InserisciPresidio inseriscipresidio = new InserisciPresidio(amministratore,hospitapp);
             inseriscipresidio.frame.setVisible(true);
         }
 

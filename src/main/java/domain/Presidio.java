@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Presidio {
+public class Presidio extends Utente{
 
-    private String nome;
+
     private String indirizzo;
     private String orario;
 
@@ -17,24 +17,37 @@ public class Presidio {
     private Map<String, Visita> visiteperutenterepartopresidio;
 
     public Presidio(String nome, String indirizzo, String orario) {
-        this.nome = nome;
+        super(nome);
         this.indirizzo = indirizzo;
         this.orario = orario;
         this.elencoReparti = new HashMap<>();
         this.visiteperutenterepartopresidio=new HashMap<>();
     }
 
-
-    public String getNome() {
-        return nome;
+    public Presidio(String nome, String cognome, String codiceFiscale, String email, String hashedPassword, String indirizzo, String orario) {
+        super(nome, cognome, codiceFiscale, email, hashedPassword);
+        this.indirizzo = indirizzo;
+        this.orario = orario;
+        this.elencoReparti = new HashMap<>();
+        this.visiteperutenterepartopresidio=new HashMap<>();
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public Presidio(String nome, String cognome, String codiceFiscale, String email, String hashedPassword) {
+        super(nome, cognome, codiceFiscale, email, hashedPassword);
     }
 
     public String getIndirizzo() {
         return indirizzo;
+    }
+
+    @Override
+    public String getNome() {
+        return super.getNome();
+    }
+
+    @Override
+    public void setNome(String nome) {
+        super.setNome(nome);
     }
 
     public void setIndirizzo(String indirizzo) {
@@ -53,7 +66,7 @@ public class Presidio {
     @Override
     public String toString() {
         return "Presidio{" +
-                "nome='" + nome + "" +
+                "nome='" + this.getNome() + "" +
                 ", indirizzo='" + indirizzo + "" +
                 ", orario=" + orario +
                 '}';

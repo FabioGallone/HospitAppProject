@@ -1,6 +1,5 @@
-Garibaldi,Neurologia,GLLFBA00S27C351D,22/02/2024,16:59,true
-Garibaldi,Ortopedia,codfiscLello,09/02/2024,19:48,true
-Garibaldi,Neurologia,codfiscLello,15/02/2024,18:52,true
-Garibaldi,Ginecologia e Ostetricia,codfiscLello,12/02/2024,18:43,true
-Garibaldi,Neurologia,codfiscLello,15/02/2024,18:52,true
-Garibaldi,Ortopedia,codfiscLello,09/02/2024,19:48,true
+Garibaldi,Cardiologia,GLLFBA00S27C351D,08/02/2024,15:37,true
+
+La madonnina,Oncologia,codfiscLello,null,null,false
+Cannizzaro,Neurologia,codfiscLello,null,null,false
+Cannizzaro,Ginecologia e Ostetricia,codfiscLello,null,null,false

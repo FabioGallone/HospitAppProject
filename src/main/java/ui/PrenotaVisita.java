@@ -16,7 +16,7 @@ public class PrenotaVisita implements ActionListener {
     private String nome, email;
     private Reparto reparto;
     private List<Presidio> ListaPresidi;
-    private Utente utente;
+    private Paziente paziente;
     private JLabel welcomeLabel, titoloLabel;
     private JComboBox<String> presidioComboBox;
     private JComboBox<String> repartoComboBox;
@@ -25,12 +25,12 @@ public class PrenotaVisita implements ActionListener {
     private String nomepresidioSelezionato, nomeRepartoSelezionato;
     private HospitApp hospitapp;
 
-    public PrenotaVisita(JFrame frame, Utente utente,HospitApp h) {
+    public PrenotaVisita(JFrame frame, Paziente paziente, HospitApp h) {
         this.frame = frame;
         this.hospitapp=h;
-        this.utente = utente;
-        this.nome = utente.getNome();
-        this.email = utente.getEmail();
+        this.paziente = paziente;
+        this.nome = paziente.getNome();
+        this.email = paziente.getEmail();
         welcomeLabel = new JLabel();
         titoloLabel = new JLabel();
         presidioComboBox = new JComboBox<>();
@@ -91,7 +91,7 @@ public class PrenotaVisita implements ActionListener {
         visualizzaPrenotazione.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VisualizzaPrenotazione visualizzaPrenotazione= new VisualizzaPrenotazione(utente, hospitapp);
+                VisualizzaPrenotazione visualizzaPrenotazione= new VisualizzaPrenotazione(paziente, hospitapp);
             }
         });
 
@@ -101,7 +101,7 @@ public class PrenotaVisita implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                new VisualizzaTicket(utente,hospitapp);
+                new VisualizzaTicket(paziente,hospitapp);
 
             }
         });
@@ -200,10 +200,10 @@ public class PrenotaVisita implements ActionListener {
         bookVisitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Visita visita = hospitapp.confermaPrenotazione(reparto, presidioCorrente, utente);
-                Utils.ScrivisuFileVisita(reparto, presidioCorrente, utente, visita);
+                Visita visita = hospitapp.confermaPrenotazione(reparto, presidioCorrente, paziente);
+                Utils.ScrivisuFileVisita(reparto, presidioCorrente, paziente, visita);
                 mostraMessaggio("Visita prenotata con successo!");
-                InserisciPresidio inserisciPresidio = new InserisciPresidio(utente, hospitapp);
+                InserisciPresidio inserisciPresidio = new InserisciPresidio(paziente, hospitapp);
                 frame.dispose();
             }
         });
@@ -215,7 +215,7 @@ public class PrenotaVisita implements ActionListener {
         backtoInserisciPresidio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new InserisciPresidio(utente,hospitapp);
+                new InserisciPresidio(paziente,hospitapp);
                 frame.dispose();
             }
         });

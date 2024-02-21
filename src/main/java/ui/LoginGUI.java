@@ -3,12 +3,13 @@ package ui;
 
 
 import domain.HospitApp;
-import domain.Utente;
+import domain.Paziente;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class LoginGUI implements ActionListener {
 
@@ -186,12 +187,12 @@ public class LoginGUI implements ActionListener {
             String email = emailField.getText();
             String password = String.valueOf(userPasswordField.getPassword());
 
-            if (Utente.findUser(email, Utils.hashPassword(password))) {
+            if (Paziente.findUser(email, Utils.hashPassword(password))) {
                 loginMessageLabel.setForeground(Color.GREEN);
                 loginMessageLabel.setText("Login avvenuto con successo!");
 
                 frame.dispose();
-                new InserisciPresidio(Utente.getUserFromEmail(email),hospitapp);
+                new InserisciPresidio(Paziente.getUserFromEmail(email),hospitapp);
             } else {
                 loginMessageLabel.setForeground(Color.RED);
                 loginMessageLabel.setText("Password o email non corrispondono");
@@ -215,7 +216,7 @@ public class LoginGUI implements ActionListener {
 
                 String user = name + "," + surname + "," + fiscalCode + "," + email + "," + hashedPassword + "," + isAdministrator +","+ isPresidio;
 
-                Utente utente=new Utente(name, surname, fiscalCode, email, hashedPassword, isAdministrator, isPresidio);
+                Paziente utente=new Paziente(name, surname, fiscalCode, email, hashedPassword);
 
                 if (!Utils.isEmailAlreadyUsed(email) && Utils.isValidEmail(email)) {
                     Utils.writeOnFile("Users.txt", user);

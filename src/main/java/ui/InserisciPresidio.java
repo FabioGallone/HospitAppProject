@@ -1,17 +1,11 @@
 package ui;
 
-import domain.HospitApp;
-import domain.Presidio;
-import domain.Reparto;
-import domain.Utente;
+import domain.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +18,9 @@ public class InserisciPresidio implements ActionListener {
     private JButton addButton;
     private String nome;
     private String email;
-    private boolean isAdministrator, isPresidio;
+    private Presidio presidio;
+
+    private Amministratore amministratore;
     private List<Presidio> ListaPresidi;
     private HospitApp hospitapp;
 
@@ -32,10 +28,16 @@ public class InserisciPresidio implements ActionListener {
         this.utente = utente;
         this.nome = utente.getNome();
         this.email = utente.getEmail();
-        this.hospitapp=h;
+        this.hospitapp = h;
 
-        this.isAdministrator = utente.isAdministrator(email);
-        this.isPresidio= utente.isPresidio();
+
+        if (utente.isAdministrator(email)) {
+            amministratore=new Amministratore(utente.getNome(), utente.getCognome(), utente.getCodiceFiscale(), email, utente.getHashedPassword());
+        }
+        else if (utente.isPresidio(email)){
+            presidio= new Presidio(utente.getNome(), utente.getCognome(), utente.getCodiceFiscale(), email, utente.getHashedPassword());
+        }
+
 
         frame = new JFrame();
         welcomeLabel = new JLabel();
@@ -55,7 +57,8 @@ public class InserisciPresidio implements ActionListener {
         welcomeLabel.setBounds(30, 0, 400, 200);
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
 
-        if (this.isAdministrator) {
+        if (amministratore!=null) {
+            System.out.println("Amministratore");
             welcomeLabel.setText("Ciao amministratore " + nome);
             Utils.leggiPresidiDaFile("presidio.txt",hospitapp);
             ListaPresidi = hospitapp.getElencoPresidi();
@@ -84,12 +87,15 @@ public class InserisciPresidio implements ActionListener {
             addButton.addActionListener(this);
             frame.add(addButton);
 
-        } else if(!this.isAdministrator && !this.isPresidio) {
-          new PrenotaVisita(frame, utente,hospitapp);
+        } else if(presidio!=null) {
+            System.out.println("Presidio");
+
+            new GestisciPrenotazione(frame, presidio, hospitapp);
+
 
         }else{
-
-           new GestisciPrenotazione(frame, utente, hospitapp);
+            System.out.println("Utente");
+            new PrenotaVisita(frame, (Paziente)utente ,hospitapp);
         }
 
         quitButton.setBounds(125, 165, 100, 25);
@@ -115,9 +121,9 @@ public class InserisciPresidio implements ActionListener {
             login.frame.setVisible(true);
         } else if (e.getSource() == addButton) {
             frame.dispose();
-            InserisciReparto inseriscireparto = new InserisciReparto(utente,hospitapp);
+            InserisciReparto inseriscireparto = new InserisciReparto(amministratore,hospitapp);
             inseriscireparto.frame.setVisible(true);
-        } else if(this.isAdministrator) {
+        } else if(amministratore!=null) {
             for (Presidio presidio : ListaPresidi) {
                 if (e.getActionCommand().equals(presidio.getNome())) {
                     mostraReparti(presidio);
@@ -130,7 +136,7 @@ public class InserisciPresidio implements ActionListener {
 
     private void mostraReparti(Presidio presidio) {
         List<Reparto> reparti = hospitapp.mostraReparti(presidio);
-
+        System.out.println("Reparti del presidio " +presidio.getNome()+":"+reparti);
         StringBuilder repartiText = new StringBuilder("Reparti del presidio " + presidio.getNome() + ":\n");
         for (Reparto reparto : reparti) {
             repartiText.append(reparto.getNome()).append("\n");

@@ -1,7 +1,8 @@
 package ui;
 
 import domain.HospitApp;
-import domain.Utente;
+import domain.Paziente;
+import domain.Presidio;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,7 +10,7 @@ import java.awt.*;
 
 public class RimuoviTicket extends JFrame {
 
-    private Utente utente;
+    private Presidio presidio;
     private JScrollPane scrollPanePrenotata;
     private JButton backButton,searchButton, removeButton;
     private JLabel  messageLabel;
@@ -17,8 +18,8 @@ public class RimuoviTicket extends JFrame {
     private JTextField searchField;
     private HospitApp hospitapp;
 
-    public RimuoviTicket(Utente utente, HospitApp h) {
-        this.utente = utente;
+    public RimuoviTicket(Presidio presidio, HospitApp h) {
+        this.presidio = presidio;
         this.hospitapp=h;
         initialize();
     }
@@ -47,7 +48,7 @@ public class RimuoviTicket extends JFrame {
         add(searchPanel, BorderLayout.NORTH);
 
         // Inizializzazione della tabella
-        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTuttiTicketPresidio(utente.getNome());
+        DefaultTableModel tableModelTicket = hospitapp.VisualizzaTuttiTicketPresidio(presidio.getNome());
 
 
         if (tableModelTicket == null || tableModelTicket.getRowCount()==0) {
@@ -100,11 +101,11 @@ public class RimuoviTicket extends JFrame {
         String codiceFiscaleCercato = searchField.getText().trim();
 
         if (!codiceFiscaleCercato.isEmpty()) {
-            Utente utenteCercato=Utente.getUserFromCF(codiceFiscaleCercato);
+            Paziente utenteCercato= Paziente.getUserFromCF(codiceFiscaleCercato);
 
             if (utenteCercato != null) {
                 // Visualizza i ticket per l'utente trovato
-                DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketUtenteCercato(utenteCercato,utente.getNome());
+                DefaultTableModel tableModelTicket = hospitapp.VisualizzaTicketUtenteCercato(utenteCercato,presidio.getNome());
 
 
                 if (tableModelTicket != null && tableModelTicket.getRowCount() > 0) {

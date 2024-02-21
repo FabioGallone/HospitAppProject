@@ -7,8 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,8 +46,8 @@ public class Utils {
         }
     }
 
-    public static List<Utente> populateUtentiListFromFile(String fileName) {
-        List<Utente> utentiList = new ArrayList<>();
+    public static List<Paziente> populateUtentiListFromFile(String fileName) {
+        List<Paziente> utentiList = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -64,7 +62,7 @@ public class Utils {
                     boolean isAdministrator = Boolean.parseBoolean(userDetails[5]);
                     boolean isPresidio = Boolean.parseBoolean(userDetails[6]);
 
-                    Utente utente = new Utente(nome, cognome, codiceFiscale, email, hashedPassword, isAdministrator, isPresidio);
+                    Paziente utente = new Paziente(nome, cognome, codiceFiscale, email, hashedPassword);
 
                 }
             }
@@ -118,7 +116,7 @@ public class Utils {
         }
     }
 
-    public static void ScrivisuFileVisita(Reparto reparto, Presidio presidio, Utente utente, Visita visita){
+    public static void ScrivisuFileVisita(Reparto reparto, Presidio presidio, Paziente utente, Visita visita){
 
         String contentToWrite = presidio.getNome() + "," + reparto.getNome() +","+ utente.getCodiceFiscale() +"," + visita.getGiorno()+ "," + visita.getOra()+ "," + visita.isStato();
         Utils.writeOnFile("Visita.txt", contentToWrite);
@@ -148,7 +146,7 @@ public class Utils {
                     Presidio presidio = hospitapp.selezionaPresidio(nomePresidio);
 
                     if (reparto != null && presidio != null) {
-                    Utente utente= Utente.getUserFromCF(codiceFiscale);
+                    Paziente utente= Paziente.getUserFromCF(codiceFiscale);
 
                         Visita visita  = hospitapp.confermaPrenotazione(reparto, presidio, utente);
                         visita.setStato(isStato);
@@ -390,8 +388,8 @@ public class Utils {
 
 
 
-    public static String LeggiFileStatoVisita(String fileName, Utente utente) {
-        List<Utente> utentiList = new ArrayList<>();
+    public static String LeggiFileStatoVisita(String fileName, Paziente utente) {
+        List<Paziente> utentiList = new ArrayList<>();
         String state="FALSE";
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;

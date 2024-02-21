@@ -9,4 +9,5 @@ Cannizzaro,Cannizzaro,123dd,c@d.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1f
 Alessia,Fichera,FCHLSS02L54C351E,patata@gmail.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
 Luca,Di Franco,LDDFRCN1123ddq,luca@gmail.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
 claudio,gallone,claudiogallone1,sonoio@g.com,a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3,false,false
+
 Giorgio,Di Bartolo,ABC123,giorgio@gmail.com,fd5cb51bafd60f6fdbedde6e62c473da6f247db271633e15919bab78a02ee9eb,false,false

@@ -1,6 +1,5 @@
 package TestHospitApp;
 import domain.*;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +9,7 @@ import java.util.Observer;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ObservableVisitaTest {
-    private Utente utente;
+    private Paziente utente;
     private Presidio presidio;
     private Reparto reparto;
     private Visita observableVisita;
