@@ -36,7 +36,7 @@ public class HospitApp {
 
         return hospitapp;
     }
-
+//UC1-InserisciPresidio
     public Presidio InserisciNuovoPresidio(String nome, String indirizzo, String orario){
         this.presidioCorrente=new Presidio(nome, indirizzo, orario);
         return presidioCorrente;
@@ -60,7 +60,7 @@ public class HospitApp {
         }
 
     }
-
+//UC1-Caso d'uso avviamento
     public void loadReparti(){
         Reparto r1 = new Reparto("Cardiologia", "1");
         Reparto r2 = new Reparto("Ortopedia", "2");
@@ -100,7 +100,7 @@ public class HospitApp {
         return nomiReparti.toArray(new String[0]);
     }
 
-
+//UC2-RichiediPrenotazione
     public Presidio selezionaPresidio(String nomePresidio) {
 
 
@@ -126,6 +126,12 @@ public class HospitApp {
         }
 
         return null;
+    }
+
+    //prima si chiamava getElencoRepartiDelPresidio
+    public List<Reparto> mostraReparti(Presidio presidio) {
+
+        return presidio.getElencoRepartidelPresidio();
     }
 
     public Visita confermaPrenotazione(Reparto reparto, Presidio presidio, Paziente paziente) {
@@ -163,12 +169,15 @@ public class HospitApp {
     }
 
 
-    //prima si chiamava getElencoRepartiDelPresidio
-    public List<Reparto> mostraReparti(Presidio presidio) {
 
-        return presidio.getElencoRepartidelPresidio();
+//UC3-GestisciPrenotazione
+
+    public List<String> visualizzaPrenotazioni(Reparto reparto, Presidio presidio, Map<String, List<String>> utentiPerRepartoPresidio) {
+        String chiaveMappa = presidio.getNome() + "_" + reparto.getNome();
+        List<String> utentiAssociati = utentiPerRepartoPresidio.get(chiaveMappa);
+        System.out.println("Utenti associati a " + chiaveMappa + ": " + utentiAssociati);
+        return utentiAssociati; //contiene tutti gli utenti del reparto di un presidio
     }
-
 
     public Visita trovaVisita(String nomeReparto, String nomePresidio, String codiceFiscale) {
         String key = nomeReparto + "_" + nomePresidio + "_" + codiceFiscale;
@@ -181,13 +190,47 @@ public class HospitApp {
         }
     }
 
+    public DefaultTableModel visualizzaVisitaPrenotataAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
+        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
 
-    public List<String> visualizzaPrenotazioni(Reparto reparto, Presidio presidio, Map<String, List<String>> utentiPerRepartoPresidio) {
-        String chiaveMappa = presidio.getNome() + "_" + reparto.getNome();
-        List<String> utentiAssociati = utentiPerRepartoPresidio.get(chiaveMappa);
-        System.out.println("Utenti associati a " + chiaveMappa + ": " + utentiAssociati);
-        return utentiAssociati; //contiene tutti gli utenti del reparto di un presidio
+        tableModelPrenotata.addColumn("Prenotata");
+        tableModelPrenotata.addColumn("Presidio");
+        tableModelPrenotata.addColumn("Reparto");
+
+        for (String codiceFiscale: codFisc) {
+
+            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
+
+            // Aggiungo una riga al modello di tabella
+            if(visita.isStato() == true)
+                tableModelPrenotata.addRow(new Object[]{codiceFiscale +":" + "Giorno:" + visita.getGiorno() + "-Ora:" + visita.getOra(), presidio.getNome(), reparto.getNome()});
+
+        }
+
+        return tableModelPrenotata;
     }
+
+
+    public DefaultTableModel visualizzaVisitaDaPrenotareAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
+        DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
+
+        tableModeldaPrenotare.addColumn("Da Prenotare");
+        tableModeldaPrenotare.addColumn("Presidio");
+        tableModeldaPrenotare.addColumn("Reparto");
+
+        for (String codiceFiscale: codFisc) {
+
+            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
+
+            // Aggiungo una riga al modello di tabella
+            if(!visita.isStato())
+                tableModeldaPrenotare.addRow(new Object[]{codiceFiscale, presidio.getNome(), reparto.getNome()});
+
+        }
+
+        return tableModeldaPrenotare;
+    }
+
 
 
     public void confermaGestione(Visita visita, String data, String orario) {
@@ -196,6 +239,10 @@ public class HospitApp {
         visita.setOra(orario);
         visita.setVisitaStato(true);
     }
+
+
+
+    //UC4-VisualizzaPrenotazione
 
     public DefaultTableModel visualizzaVisitaPrenotataUtente(Paziente paziente) {
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
@@ -260,53 +307,10 @@ public class HospitApp {
 
         return tableModeldaPrenotare;
     }
-    public DefaultTableModel visualizzaVisitaPrenotataAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
-        DefaultTableModel tableModelPrenotata = new DefaultTableModel();
-
-        tableModelPrenotata.addColumn("Prenotata");
-        tableModelPrenotata.addColumn("Presidio");
-        tableModelPrenotata.addColumn("Reparto");
-
-        List<String> codFiscUtente=codFisc;
-
-        for (String codiceFiscale: codFiscUtente) {
-
-            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
-
-            // Aggiungo una riga al modello di tabella
-            if(visita.isStato() == true)
-                tableModelPrenotata.addRow(new Object[]{codiceFiscale +":" + "Giorno:" + visita.getGiorno() + "-Ora:" + visita.getOra(), presidio.getNome(), reparto.getNome()});
-
-        }
-
-        return tableModelPrenotata;
-    }
-
-
-    public DefaultTableModel visualizzaVisitaDaPrenotareAdmin(List<String> codFisc, Reparto reparto, Presidio presidio) {
-        DefaultTableModel tableModeldaPrenotare = new DefaultTableModel();
-
-        tableModeldaPrenotare.addColumn("Da Prenotare");
-        tableModeldaPrenotare.addColumn("Presidio");
-        tableModeldaPrenotare.addColumn("Reparto");
-
-        List<String> codFiscUtente=codFisc;
 
 
 
-        for (String codiceFiscale: codFiscUtente) {
-
-            Visita visita = hospitapp.trovaVisita(reparto.getNome(), presidio.getNome(), codiceFiscale);
-
-            // Aggiungo una riga al modello di tabella
-            if(!visita.isStato())
-                tableModeldaPrenotare.addRow(new Object[]{codiceFiscale, presidio.getNome(), reparto.getNome()});
-
-        }
-
-        return tableModeldaPrenotare;
-    }
-
+    //UC5-ModificaPrenotazione
     public List<String> visualizzaVisiteUtente(Paziente paziente) {
         List<String> tutteLeVisite = new ArrayList<>();
 
@@ -343,7 +347,7 @@ public class HospitApp {
         System.out.println("Ho prenotato la visita");
     }
 
-
+//UC6-CreazioneTicket
     public String creaInformazioniTicket(String nomeReparto, String nomePresidio, Paziente paziente, Date dataNascita, String residenza, String giornoVisita, String oraVisita, String nazionalita) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -363,7 +367,7 @@ public class HospitApp {
 
         return informazioni;
     }
-
+//UC7-PrenotaTicket
     public  void aggiungiTicket(String nuovoTicket) {
         if(!TuttiTicket.contains(nuovoTicket))
             TuttiTicket.add(nuovoTicket);
@@ -371,7 +375,7 @@ public class HospitApp {
             System.out.println("Ticket già esistente in lista");
     }
 
-    public DefaultTableModel VisualizzaTicketSpecificoUtente(Paziente paziente) {
+    public DefaultTableModel visualizzaTicketUtente(Paziente paziente) { //dell'utente specifico
         //in questo caso "info" è il codiceFiscaleUtente
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
 
@@ -400,7 +404,7 @@ public class HospitApp {
         return tableModelPrenotata;
     }
 
-
+//UC8-RimuoviTicket
     public DefaultTableModel VisualizzaTuttiTicketPresidio(String nomePresidio) {
         DefaultTableModel tableModelPrenotata = new DefaultTableModel();
         tableModelPrenotata.addColumn("Utente");

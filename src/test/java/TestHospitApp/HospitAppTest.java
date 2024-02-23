@@ -135,7 +135,7 @@ public class HospitAppTest {
         hospitApp.rimuoviTicketSelezionato(codiceFiscale, giornoVisita);
 
         // Verifica che il ticket sia stato rimosso controllando il modello della tabella
-        DefaultTableModel model = hospitApp.VisualizzaTicketSpecificoUtente(utente);
+        DefaultTableModel model = hospitApp.visualizzaTicketUtente(utente);
         assertEquals(0, model.getRowCount());
     }
 
@@ -200,7 +200,7 @@ public class HospitAppTest {
         Utils.writeOnFile("Ticket.txt",ticketInfo);
         hospitApp.aggiungiTicket(ticketInfo);
         // Ora visualizza i ticket per l'utente
-        DefaultTableModel model = hospitApp.VisualizzaTicketSpecificoUtente(utente);
+        DefaultTableModel model = hospitApp.visualizzaTicketUtente(utente);
         Utils.rimuoviRigaDaFile("Ticket.txt",ticketInfo);
         assertNotNull(model);
         assertEquals(1, model.getRowCount()); // Verifica che il modello di tabella contenga esattamente un ticket
@@ -227,7 +227,7 @@ public class HospitAppTest {
         hospitApp.rimuoviTicketSelezionato("DEF", "01/01/1991");
 
         // Verifica che il ticket sia stato rimosso verificando il numero di ticket rimasti
-        DefaultTableModel model = hospitApp.VisualizzaTicketSpecificoUtente(utente);
+        DefaultTableModel model = hospitApp.visualizzaTicketUtente(utente);
         // La riga seguente dipende da quanti ticket sono stati aggiunti e rimossi nei test precedenti
         assertTrue(model.getRowCount() == 0); // Assicurati che questo numero corrisponda al numero atteso di ticket rimasti
     }

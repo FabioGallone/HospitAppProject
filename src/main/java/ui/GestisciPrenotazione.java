@@ -224,8 +224,6 @@ public class GestisciPrenotazione implements ActionListener {
 
                                     hospitapp.confermaGestione(visita, dataSelezionataFormattata, orarioInserito);
 
-                                    visita.setVisitaStato(true);
-
 
                                     Utils.aggiornaFileVisita("visita.txt", presidio.getNome(), reparto.getNome(), selectedValue, dataSelezionataFormattata, orarioInserito, utentiPerRepartoPresidio, visita.isStato());
 

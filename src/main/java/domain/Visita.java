@@ -72,7 +72,7 @@ public class Visita extends Observable {
     // Questo metodo serve ad aggiungere un observer. Observer è una interfaccia java già esistente.
     public void addObserver(Observer observer) {
 
-            observer.update(this, this.isStato());
+        observer.update(this, this.isStato());
 
         this.ListaOsservatori.add(observer);
     }
@@ -93,6 +93,7 @@ public class Visita extends Observable {
     }
 
     public int countMyObservers() {
+
         return ListaOsservatori.size();
     }
 
