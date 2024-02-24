@@ -59,6 +59,26 @@ public class HospitAppTest {
     }
 
     @Test
+    public void testLoadReparti() {
+        hospitApp.loadReparti(); // Assumendo che questo metodo sia accessibile o chiamato implicitamente
+        assertFalse(hospitApp.getNomiReparti()==null); // Verifica che la lista dei nomi dei reparti non sia vuota
+        assertNotNull(hospitApp.selezionaReparto("Cardiologia")); // Verifica l'esistenza di un reparto specifico
+    }
+    @Test
+    public void testSelezionaReparto() {
+        Reparto repartoSelezionato = hospitApp.selezionaReparto("Cardiologia");
+        assertNotNull(repartoSelezionato);
+        assertEquals("Cardiologia", repartoSelezionato.getNome());
+    }
+
+    @Test
+    public void testMostraReparti() {
+        List<Reparto> repartiDelPresidio = hospitApp.mostraReparti(presidio);
+        assertNotNull(repartiDelPresidio);
+    }
+
+
+    @Test
     public void testPrenotaVisita() {
 
         //ByteArrayOutputStream serve per catturare l'output che viene normalmente stampato su System.out
@@ -88,18 +108,25 @@ public class HospitAppTest {
         Visita foundVisita = hospitApp.trovaVisita("Cardiologia", "Garibaldi", "ABC");
         assertNotNull(foundVisita);
     }
+    @Test
+    public void testVisualizzaVisitaDaPrenotareUtente() {
+        hospitApp.confermaPrenotazione(reparto,presidio,utente);
+        DefaultTableModel model = hospitApp.visualizzaVisitaDaPrenotareUtente(utente);
+        assertNotNull(model);
+        assertEquals(1, model.getRowCount());
+    }
+
 
     @Test
     public void testRimuoviVisitaAssociata() {
         hospitApp.confermaPrenotazione(reparto, presidio, utente);
         hospitApp.rimuoviVisita("Cardiologia", "Garibaldi", utente);
-        assertNull(hospitApp.trovaVisita("Cardiologia", "Garibaldi", "TestCodiceFiscale"));
+        assertNull(hospitApp.trovaVisita("Cardiologia", "Garibaldi", "ABC"));
     }
 
     @Test
     public void testVisualizzaPrenotazioni() {
-        // Assumendo che l'implementazione di visualizzaPrenotazioni ritorni una lista di stringhe
-        // che rappresentano le prenotazioni per un dato reparto e presidio.
+
         Map<String, List<String>> utentiPerRepartoPresidio = new HashMap<>();
         utentiPerRepartoPresidio.put(presidio.getNome() + "_" + reparto.getNome(), Arrays.asList("Utente1", "Utente2"));
         List<String> prenotazioni = hospitApp.visualizzaPrenotazioni(reparto, presidio, utentiPerRepartoPresidio);
@@ -123,47 +150,12 @@ public class HospitAppTest {
         assertTrue(visita.isStato());
     }
 
-    @Test
-    public void testRimuoviTicketSelezionato() {
-        // Prima, aggiungi un ticket
-        String codiceFiscale = "ABC123";
-        String giornoVisita = "10/10/2024";
-        String ticketInfo = "Nome,Cognome," + codiceFiscale + ",Data," + giornoVisita + ",Presidio,Reparto,Nazionalita,Residenza,DataNascita,Costo";
-        hospitApp.aggiungiTicket(ticketInfo);
-
-        // Poi, rimuovi il ticket
-        hospitApp.rimuoviTicketSelezionato(codiceFiscale, giornoVisita);
-
-        // Verifica che il ticket sia stato rimosso controllando il modello della tabella
-        DefaultTableModel model = hospitApp.visualizzaTicketUtente(utente);
-        assertEquals(0, model.getRowCount());
-    }
-
-    @Test
-    public void testLoadReparti() {
-        hospitApp.loadReparti(); // Assumendo che questo metodo sia accessibile o chiamato implicitamente
-        assertFalse(hospitApp.getNomiReparti()==null); // Verifica che la lista dei nomi dei reparti non sia vuota
-        assertNotNull(hospitApp.selezionaReparto("Cardiologia")); // Verifica l'esistenza di un reparto specifico
-    }
-    @Test
-    public void testSelezionaReparto() {
-        Reparto repartoSelezionato = hospitApp.selezionaReparto("Cardiologia");
-        assertNotNull(repartoSelezionato);
-        assertEquals("Cardiologia", repartoSelezionato.getNome());
-    }
-
-    @Test
-    public void testMostraReparti() {
-        List<Reparto> repartiDelPresidio = hospitApp.mostraReparti(presidio);
-        assertNotNull(repartiDelPresidio);
-        // Assicurarsi che i reparti attesi siano presenti, ad esempio verificare dimensioni o elementi specifici
-    }
 
     @Test
     public void testVisualizzaTuttiTicketPresidio() {
-        // Aggiungi almeno un ticket per il presidio di test per rendere il test significativo
-        hospitApp.aggiungiTicket("InfoTicket1");
-        // Ora visualizza tutti i ticket per il presidio
+
+        hospitApp.aggiungiTicket("Lello,Pello,codfiscLello,02/02/2024,15:49,Garibaldi,Cardiologia,dsadas,dsadsa,10/02/2024,0.0");
+
         DefaultTableModel model = hospitApp.VisualizzaTuttiTicketPresidio("Garibaldi");
         assertNotNull(model);
         // Verifica che il modello di tabella contenga almeno un ticket
@@ -173,7 +165,7 @@ public class HospitAppTest {
 
     @Test
     public void testCreaInformazioniTicket() {
-        // Assicurarsi che la visita sia prenotata prima di creare il ticket
+
         hospitApp.confermaPrenotazione(reparto, presidio, utente);
 
         Date dataNascita = new GregorianCalendar(1990, Calendar.JANUARY, 1).getTime();
@@ -184,13 +176,7 @@ public class HospitAppTest {
         assertTrue(infoTicket.contains("10/10/2024"));
     }
 
-    @Test
-    public void testVisualizzaVisitaDaPrenotareUtente() {
-        hospitApp.confermaPrenotazione(reparto,presidio,utente);
-        DefaultTableModel model = hospitApp.visualizzaVisitaDaPrenotareUtente(utente);
-        assertNotNull(model);
-        assertEquals(1, model.getRowCount());
-    }
+
 
     @Test
     public void testVisualizzaTicketSpecificoUtente() {
@@ -199,7 +185,7 @@ public class HospitAppTest {
         String ticketInfo = "Fabio,Gallone,ABC,10/10/2024,12:30,Garibaldi,Cardiologia,Italiana,Catania,01/01/1990,50.0";
         Utils.writeOnFile("Ticket.txt",ticketInfo);
         hospitApp.aggiungiTicket(ticketInfo);
-        // Ora visualizza i ticket per l'utente
+        // Ora visualizzo i ticket per l'utente
         DefaultTableModel model = hospitApp.visualizzaTicketUtente(utente);
         Utils.rimuoviRigaDaFile("Ticket.txt",ticketInfo);
         assertNotNull(model);
@@ -207,36 +193,21 @@ public class HospitAppTest {
 
 
     }
-
     @Test
-    public void testVisualizzaTuttiTicketPresidioAggiunto() {
-        // Questo test assume che almeno un ticket sia stato aggiunto in un test precedente
-        DefaultTableModel model = hospitApp.VisualizzaTuttiTicketPresidio("Garibaldi");
-        assertNotNull(model);
-        assertTrue(model.getRowCount() > 0); // Verifica che ci siano ticket per il presidio "Garibaldi"
-    }
+    public void testRimuoviTicketSelezionato() {
+        // Prima, aggiungi un ticket
+        String codiceFiscale = "ABC123";
+        String giornoVisita = "10/10/2024";
+        String ticketInfo = "Matteo,Galizia,DEF,11/11/2024,12:00,Garibaldi,Ortopedia,Italiana,Roma,01/01/1991,30";
+        hospitApp.aggiungiTicket(ticketInfo);
 
-    @Test
-    public void testRimuoviTicketDopoAggiunta() {
-        // Aggiungi un altro ticket per poterlo rimuovere
-        String nuovoTicketInfo = "Matteo,Galizia,DEF,11/11/2024,12:00,Garibaldi,Ortopedia,Italiana,Roma,01/01/1991,30";
-        Utils.writeOnFile("Ticket.txt",nuovoTicketInfo);
-        hospitApp.aggiungiTicket(nuovoTicketInfo);
+        // Poi, rimuovi il ticket
+        hospitApp.rimuoviTicketSelezionato(codiceFiscale, giornoVisita);
 
-        // Rimuovi il ticket appena aggiunto
-        hospitApp.rimuoviTicketSelezionato("DEF", "01/01/1991");
-
-        // Verifica che il ticket sia stato rimosso verificando il numero di ticket rimasti
+        // Verifica che il ticket sia stato rimosso controllando il modello della tabella
         DefaultTableModel model = hospitApp.visualizzaTicketUtente(utente);
-        // La riga seguente dipende da quanti ticket sono stati aggiunti e rimossi nei test precedenti
-        assertTrue(model.getRowCount() == 0); // Assicurati che questo numero corrisponda al numero atteso di ticket rimasti
+        assertEquals(0, model.getRowCount());
     }
-
-
-
-
-
-
 
 
 }

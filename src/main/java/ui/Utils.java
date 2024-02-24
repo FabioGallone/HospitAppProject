@@ -147,12 +147,10 @@ public class Utils {
 
                     if (reparto != null && presidio != null) {
                     Paziente utente= Paziente.getUserFromCF(codiceFiscale);
-
                         Visita visita  = hospitapp.confermaPrenotazione(reparto, presidio, utente);
                         visita.setStato(isStato);
                         visita.setOra(ora);
                         visita.setGiorno(date);
-                        visita.setCosto(50);
                         String chiave = nomePresidio + "_" + nomeReparto;
                         utentiPerRepartoPresidio.computeIfAbsent(chiave, k -> new ArrayList<>()).add(codiceFiscale);
                     } else {

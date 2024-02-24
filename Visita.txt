@@ -1,6 +1,5 @@
 Garibaldi,Cardiologia,GLLFBA00S27C351D,08/02/2024,15:37,true
-
 La madonnina,Oncologia,codfiscLello,null,null,false
 Cannizzaro,Neurologia,codfiscLello,null,null,false
 Cannizzaro,Ginecologia e Ostetricia,codfiscLello,null,null,false
-Garibaldi,Oncologia,codfiscLello,16/02/2024,11:25,true
+Garibaldi,Oncologia,codfiscLello,08/02/2024,19:10,true
